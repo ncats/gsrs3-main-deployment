@@ -1,0 +1,242 @@
+{
+    "Active Moiety":{
+        "lucenePath":"root_productIngredientAllList_activeMoietyName",
+        "description":"Active Moiety",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Active_Moiety"
+    },
+    "Application Type Number":{
+        "lucenePath":"root_appTypeNumber",
+        "description":"Application Type Number",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Application_Type_Number"
+    },
+    "Company Country":{
+        "lucenePath":"root_productCompanyAllList_countryWithoutCode",
+        "description":"Company Country",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Company_Country"
+    },
+    "Dosage Form Name":{
+        "lucenePath":"root_productIngredientAllList_dosageFormName",
+        "description":"Dosage Form Name",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Dosage_Form_Name"
+    },
+    "FEI Number":{
+        "lucenePath":"root_productCompanyAllList_feiNumber",
+        "description":"FEI Number",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "From Table":{
+        "lucenePath":"root_fromTable",
+        "description":"From Table",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Ingredient Approval ID":{
+        "lucenePath":"root_productIngredientAllList_substanceApprovalId",
+        "description":"Ingredient Approval ID",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Ingredient Name":{
+        "lucenePath":"Ingredient Name",
+        "description":"Ingredient Name",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Ingredient_Name"
+    },
+    "Ingredient Type":{
+        "lucenePath":"root_productIngredientAllList_ingredientType",
+        "description":"Ingredient Type",
+        "type":"string",
+        "cvDomain":"INGREDIENT_TYPE",
+        "priority":"x",
+        "suggest":null
+    },
+    "Is Listed":{
+        "lucenePath":"root_isListed",
+        "description":"Is Listed",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Labeler City":{
+        "lucenePath":"root_productCompanyAllList_city",
+        "description":"City",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Labeler DUNS Number":{
+        "lucenePath":"root_productCompanyAllList_labelerDuns",
+        "description":"Labeler DUNS Number",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Labeler Name":{
+        "lucenePath":"root_productCompanyAllList_labelerName",
+        "description":"Labeler Name",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Labeler_Name"
+    },
+    "Labeler State":{
+        "lucenePath":"root_productCompanyAllList_state",
+        "description":"State",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Marketing Category Name":{
+        "lucenePath":"root_marketingCategoryName",
+        "description":"Marketing Category Name",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Marketing_Category_Name"
+    },
+    "Nonproprietary Name":{
+        "lucenePath":"root_nonProprietaryName",
+        "description":"Nonproprietary Name",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Nonproprietary_Name"
+    },
+    "Product Application Number":{
+        "lucenePath":"root_appNumber",
+        "description":"Product Application Number",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Product Application Type":{
+        "lucenePath":"root_appType",
+        "description":"Product Application Type",
+        "type":"string",
+        "cvDomain":"APPLICATION_TYPE",
+        "priority":"x",
+        "suggest":null
+    },
+    "Product Deprecated":{
+        "lucenePath":"root_deprecated",
+        "description":"Product Deprecated",
+        "type":"string",
+        "cvDomain":null,
+        "priority":null,
+        "suggest":null
+    },
+    "Product Entity Link Substances":{
+        "lucenePath":"root_entity_link_substances",
+        "description":"Entity Link Substances related to Substance Module",
+        "type":"string",
+        "cvDomain":null,
+        "priority":null,
+        "suggest":null
+    },
+    "Product ID":{
+        "lucenePath":"root_productNDC",
+        "description":"Product ID",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Product_ID"
+    },
+    "Product Name":{
+        "lucenePath":"root_productNameAllList_productName",
+        "description":"Product Name",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Product_Name"
+    },
+    "Product Source":{
+        "lucenePath":"root_source",
+        "description":"Product Source",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Product Status":{
+        "lucenePath":"root_status",
+        "description":"Status",
+        "type":"string",
+        "cvDomain":"PROD_STATUS",
+        "priority":"x",
+        "suggest":null
+    },
+    "Product Type":{
+        "lucenePath":"root_productType",
+        "description":"Product Type",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Product_Type"
+    },
+    "Provenance":{
+        "lucenePath":"root_provenance",
+        "description":"Provenance",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Provenance"
+    },
+    "Route of Admin":{
+        "lucenePath":"root_routeName",
+        "description":"Route of Admin",
+        "type":"string",
+        "cvDomain":"PROD_ROUTE_OF_ADMIN",
+        "priority":"x",
+        "suggest":null
+    },
+    "Source Type":{
+        "lucenePath":"root_sourceType",
+        "description":"Source Type",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Substance Key":{
+        "lucenePath":"root_productIngredientAllList_substanceKey",
+        "description":"Substance Key",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    },
+    "Unit Presentation":{
+        "lucenePath":"root_unitPresentation",
+        "description":"Unit Presentation",
+        "type":"string",
+        "cvDomain":"PROD_UNIT_PRESENTATION",
+        "priority":"x",
+        "suggest":null
+    }
+}

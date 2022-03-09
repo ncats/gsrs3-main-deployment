@@ -1,0 +1,66 @@
+{
+    "Adverse Event":{
+        "lucenePath":"root_adverseEvent",
+        "description":"PT Term",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Adverse_Event"
+    },
+    "PT Term":{
+        "lucenePath":"root_ptTerm",
+        "description":"PT Term",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"PT_Term"
+    },
+    "Prim SOC":{
+        "lucenePath":"root_primSoc",
+        "description":"Prim SOC",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Prim_SOC"
+    },
+    "DME Reactions":{
+        "lucenePath":"root_dmeReactions",
+        "description":"DME Reactions",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"DME_Reactions"
+    },
+    "PT Term DME Meddra":{
+        "lucenePath":"root_ptTermMeddra",
+        "description":"PT Term DME Meddra",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"PTTerm_Meddra"
+    },
+    "Species":{
+        "lucenePath":"root_species",
+        "description":"Species",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Species"
+    },
+    "Ingredient Name":{
+        "lucenePath":"root_name",
+        "description":"Ingredient Name",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":"Ingredient_Name"
+    },
+    "Substance Key":{
+        "lucenePath":"root_substanceKey",
+        "description":"Substance Key",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x",
+        "suggest":null
+    }     
+}

@@ -1,0 +1,11 @@
+{
+  "defaultStyles": {
+    "node": {
+      "size": 10,
+      "shp": "Sphere"
+    },
+    "link": {
+      "w": 2
+    }
+  }
+}

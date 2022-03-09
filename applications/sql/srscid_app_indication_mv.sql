@@ -1,0 +1,10 @@
+
+CREATE OR REPLACE VIEW SRSCID_APP_INDICATION_MV
+AS 
+SELECT 
+       NULL       AS APP_TYPE,
+       NULL       AS APP_NUMBER,
+       NULL       AS INDICATION,
+       NULL       AS INDICATION_ESSENTIAL,
+       NULL       AS INDICATION_PK
+       from dual;

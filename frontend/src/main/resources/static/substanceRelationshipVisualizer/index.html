@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en-us" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>GSRS 3D demo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link href="styles.css" rel="stylesheet"></head>
+<body>
+<div id="adpd-wrapper">
+    <div id="adpd-content">
+        <div id="fg3d-container">
+            <div id="fg3d-box"><div class="adp-loading-text">Loading...</div></div>
+            <div id="fg3d-left-panel" class="fg3d-left-panel">
+                <div class="fg3d-left-panel-block fg3d-config ">
+                    <div id="fg3d-config-box" class="fg3d-panel-box">
+                        <div id="fg3d-config-form">
+                            <div>
+                                <div class="fg3d-fieldset">
+                                    <div class="fg3d-fieldset-label">Filter</div>
+                                    <div class="form-row">Entities
+                                        <span><input id="fg3d-nodeFilter" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Relationships
+                                        <span><input id="fg3d-linkFilter" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Tags
+                                        <span><div class="fg3d-tags-container same-width"></div></span>
+                                    </div>
+                                    <label class="form-row">
+                                        Select adjacent
+                                        <span><input type="checkbox" id="fg3d-highlightAdjacent"/></span>
+                                    </label>
+                                </div>
+                                <div class="fg3d-fieldset">
+                                    <div class="fg3d-fieldset-label">Show labels for</div>
+                                    <label class="form-row">
+                                        Highlighted entities
+                                        <span><input type="checkbox" id="fg3d-hlLabelNodes"/></span>
+                                    </label>
+                                    <label class="form-row">
+                                        Highlighted relationships
+                                        <span><input type="checkbox" id="fg3d-hlLabelLinks"/></span>
+                                    </label>
+                                    <label class="form-row">
+                                        All entities [E]
+                                        <span><input type="checkbox" id="fg3d-labelNodes"/></span>
+                                    </label>
+                                    <label class="form-row">
+                                        All relationships [R]
+                                        <span><input type="checkbox" id="fg3d-labelLinks"/></span>
+                                    </label>
+                                </div>
+                                <div class="fg3d-fieldset">
+                                    <div class="fg3d-fieldset-label">Selection</div>
+                                    <div class="form-row">Colorize
+                                        <span>%<input type="number" id="fg3d-hlColorize" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Highlight
+                                        <span>%<input type="number" id="fg3d-hlBrightness" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Glow bloom
+                                        <span>%<input type="number" id="fg3d-hlGlow" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Dim not selected
+                                        <span>%<input type="number" id="fg3d-hlDim" class="same-width"/></span>
+                                    </div>
+                                </div>
+                                <div class="fg3d-fieldset">
+                                    <div class="fg3d-fieldset-label">Relationships</div>
+                                    <label class="form-row">
+                                        Show arrows
+                                        <span><input type="checkbox" id="fg3d-showArrows"/></span>
+                                    </label>
+                                    <label class="form-row">
+                                        Show particles
+                                        <span><input type="checkbox" id="fg3d-showParticles"/></span>
+                                    </label>
+                                    <div class="form-row">Arrows size
+                                        <span>x<input type="number" id="fg3d-arrowSize" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Particles size
+                                        <span>x<input type="number" id="fg3d-particleSize" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Curvature
+                                        <span>%<input type="number" id="fg3d-linkCurvature" class="same-width"/></span>
+                                    </div>
+                                    <div class="form-row">Length [+/-]
+                                        <span>%<input type="number" id="fg3d-linkDistance" class="same-width"/></span>
+                                    </div>
+                                </div>
+                                <div class="fg3d-fieldset">
+                                    <div class="fg3d-fieldset-label">Other</div>
+                                    <label class="form-row">
+                                        Fix dragged entities [X]
+                                        <span><input type="checkbox" id="fg3d-fixDragged"/></span>
+                                    </label>
+                                    <label class="form-row">
+                                        Camera orbiting [O]
+                                        <span><input type="checkbox" id="fg3d-animCamera"/></span>
+                                    </label>
+                                    
+                                    <label class="form-row">
+                                        Show performance monitor
+                                        <span><input type='checkbox' id="fg3d-perfMonitor"/></span>
+                                    </label>
+                                    
+                                </div>
+                                <div class="justify-between">
+                                    <button id="fg3d-export-png" class="btn btn-primary">Export as PNG</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="fg3d-config-icon" class="fa fa-bars fg3d-panel-icon"></div>
+                    <div class="fg3d-close">x close</div>
+                </div>
+                <div class="fg3d-left-panel-block fg3d-legend ">
+                    <div id="fg3d-legend-box" class="fg3d-panel-box">
+                        <div class="legend-body"></div>
+                    </div>
+                    <div id="fg3d-legend-icon" class="fg3d-panel-icon" title="Show legend">Legend</div>
+                    <div class="fg3d-close">x close</div>
+                </div>
+            </div>
+            <div id="fg3d-info-box"><div id="fg3d-info-box-content-container"></div></div>
+            <div id="fg3d-nav-controls">
+                <button id="fg3d-zoomin-nav" class="btn btn-primary">+</button>
+                <button id="fg3d-zoomout-nav" class="btn btn-primary">-</button>
+                <button id="fg3d-zoomcenter-nav" class="btn btn-primary"><i class="fa fa-dot-circle-o"></i></button>
+                
+                <div id="fg3d-performance-monitor" style="display:none"></div>
+                
+            </div>
+        </div>
+    </div>
+    <div id="adpd-footer">
+        &copy; Conceptant 2020
+    </div>
+</div>
+<script type="text/javascript" src="app.js"></script></body>
+</html>

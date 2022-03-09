@@ -1,0 +1,29 @@
+{
+  "initialConfig": {
+    "showOptions": false,
+    "showLegend": true,
+    "hlLabelNodes": false,
+    "hlLabelLinks": false,
+    "hlColorize": 20,
+    "hlBrightness": 60,
+    "hlGlow": 15,
+    "hlDim": 70,
+    "labelLinks": false,
+    "labelNodes": true,
+    "showArrows": true,
+    "arrowSize": 2,
+    "showParticles": true,
+    "particleSize": 1,
+    "animCamera": false,
+    "fixDragged": false,
+    "linkCurvature": 50,
+    "linkDistance": 100,
+    "nodeFilter": "",
+    "linkFilter": "",
+    "tagsFilter": []
+  },
+  "initialSetup": {
+    "supportParticles": false,
+    "nodeSearchBy": "n,Acronym,obj.UNII,obj.UUID"
+  }
+}

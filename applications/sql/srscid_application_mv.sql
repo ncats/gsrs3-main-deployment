@@ -1,0 +1,19 @@
+
+CREATE OR REPLACE VIEW SRSCID_APPLICATION_MV
+AS 
+SELECT DISTINCT
+       NULL       AS APP_TYPE,
+       NULL       AS APP_NUMBER,
+       NULL       AS APP_SUB_TYPE,
+       NULL       AS APP_SUB_TYPE_DESC,
+       NULL       AS PRODUCT_NAME,
+       NULL       AS INDICATIONS,
+       NULL       AS PRIMARY_INDICATION,
+       NULL       AS DOSAGE_FORM_DESC,
+       NULL       AS ROUTE_OF_ADMIN,
+       NULL       AS SPONSOR_NAME,
+       NULL       AS DIVISION_CLASS,
+       NULL       AS DIVISION_CLASS_DESC,
+       NULL       AS APP_STATUS,
+       NULL       AS APP_STATUS_DATE
+       from dual;

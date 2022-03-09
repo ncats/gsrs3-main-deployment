@@ -1,0 +1,102 @@
+eureka:
+  client:
+    registerWithEureka: true 
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: ${EUREKA_SERVER:http://localhost:8761}
+
+spring:
+  application:
+    name: gateway
+
+debug: true
+
+zuul:
+  #this sets sensitiveHeaders to empty list so cookies and auth headers are passed through both ways
+  sensitiveHeaders:
+  routes:
+    ui:
+      path: /ginas/app/beta/**
+      url: http://localhost:8082
+      serviceId: frontend
+      stripPrefix: false
+
+    #############################
+    #START applications section
+    #############################
+    applications_core:
+      path: /api/v1/applications/**
+      url: http://localhost:8083/applications/api/v1/applications
+      serviceId: applications_core
+    applications_core_alt:
+      path: /api/v1/applications(**)/**
+      url: http://localhost:8083/applications/api/v1/applications
+      serviceId: applications_core_alt
+    applications_all:
+      path: /api/v1/applicationsall/**
+      url: http://localhost:8083/applications/api/v1/applicationsall
+      serviceId: applications_all
+    applications_all_alt:
+      path: /api/v1/applicationsall(**)/**
+      url: http://localhost:8083/applications/api/v1/applicationsall
+      serviceId: applications_all_alt
+    applications_darrts:
+      path: /api/v1/applicationsdarrts/**
+      url: http://localhost:8083/applications/api/v1/applicationsdarrts
+      serviceId: applications_darrts
+    applications_darrts_alt:
+      path: /api/v1/applicationsdarrts(**)/**
+      url: http://localhost:8083/applications/api/v1/applicationsdarrts
+      serviceId: applications_darrts_alt
+    applications_searchcount:
+      path: /api/v1/searchcounts/**
+      url: http://localhost:8083/applications/api/v1/searchcounts
+      serviceId: applications_searchcount
+    applications_searchcount_alt:
+      path: /api/v1/searchcounts(**)/**
+      url: http://localhost:8083/applications/api/v1/searchcounts
+      serviceId: applications_searchcount
+
+    #############################
+    #END applications section
+    #############################
+
+
+    #fallback anything else goes to substances
+    legacy:
+      path: /**
+      url: http://localhost:8080
+      serviceId: substances
+  ignored-patterns:
+      - "/actuator/health"
+
+ribbon:
+  eureka:
+    enabled: false
+
+server.port: 8081
+#management.endpoints.web.exposure.include: *
+management.endpoints.web.exposure.include: 'routes,filters'
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
+
+spring.servlet.multipart.max-file-size:    100MB
+spring.servlet.multipart.max-request-size: 100MB
+
+eureka.client.enabled: false
+#Adding high timeout so that GSRS won't time out waiting for response from server.
+
+ix:
+  authentication:
+    allownonauthenticated: true
+    #set the administrator email here to include their contact info in the error message
+    #sysadmin-email: admin@example.com
+    trustheader: true
+    usernameheader: test-username
+
+
+#Keeps + encoded characters encoded as +
+zuul.forceOriginalQueryStringEncoding: true

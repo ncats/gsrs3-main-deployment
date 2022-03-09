@@ -1,0 +1,71 @@
+DROP MATERIALIZED VIEW SRSCID_PRODUCT_NAME_SRS_ALL_MV;
+
+CREATE MATERIALIZED VIEW SRSCID_PRODUCT_NAME_SRS_ALL_MV 
+    (ID,PRODUCT_ID,PRODUCT_NAME,FROMTABLE)
+TABLESPACE SRSCID
+PCTUSED    0
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           )
+NOCACHE
+NOLOGGING
+NOCOMPRESS
+BUILD IMMEDIATE
+REFRESH FORCE
+START WITH SYSDATE
+NEXT TRUNC(SYSDATE+1) + 4/24         
+WITH PRIMARY KEY
+AS
+SELECT DISTINCT a.app_type || a.app_number AS ID,
+                a.app_type || a.app_number AS product_id,
+                a.product_name,
+                'DARRTS'                   AS FROMTABLE
+  FROM SRSCID_APPLICATION_MV a
+UNION
+SELECT DISTINCT TO_CHAR (a.id),
+                TO_CHAR (a.product_id),
+                a.product_name,
+                'SRS' AS FROMTABLE
+  FROM SRSCID_PRODUCT_NAME_SRS a;
+
+
+CREATE INDEX PRODNAMESRS_ALL_ID_INDX ON SRSCID_PRODUCT_NAME_SRS_ALL_MV
+(ID)
+LOGGING
+TABLESPACE SRSCID
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           );
+
+CREATE INDEX PRODNAMESRS_ALL_MV_PRODID_INDX ON SRSCID_PRODUCT_NAME_SRS_ALL_MV
+(PRODUCT_ID)
+LOGGING
+TABLESPACE SRSCID
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            NEXT             1M
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            BUFFER_POOL      DEFAULT
+           );
+

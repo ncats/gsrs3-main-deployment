@@ -1,0 +1,73 @@
+{
+  "unused_legend": {
+    "nodes": [
+      {
+        "text": "Chemical",
+        "col": "red",
+        "shp": "sphere"
+      }
+    ],
+    "links": [
+      {
+        "text": "Relation",
+        "col": "lime",
+        "w": 1
+      }
+    ]
+  },
+  "tags": [
+  ],
+  "styles": {
+    "chemical": {
+      "col": "red",
+      "shp": "Sphere"
+    },
+    "Relationship": {
+      "w": 1,
+      "col": "lime",
+      "trf": 1,
+      "pw": 2
+    },
+
+"ACTIVE MOIETY": { "col": "#e6194B"},
+"PART/FRACTION->PARENT ORGANISM": { "col": "#3cb44b"},
+"PARENT ORGANISM->PART/FRACTION": { "col": "#3cb44b"},
+"PARENT->SALT/SOLVATE": { "col": "#ffe119"},
+"SALT/SOLVATE->PARENT": { "col": "#ffe119"},
+"IMPURITY->PARENT": { "col": "#4363d8"},
+"PARENT->IMPURITY": { "col": "#4363d8"},
+"SUB_CONCEPT->SUBSTANCE": { "col": "#f58231"},
+"SUBSTANCE->SUB_CONCEPT": { "col": "#f58231"},
+"TARGET->INHIBITOR": { "col": "#911eb4"},
+"INHIBITOR->TARGET": { "col": "#911eb4"},
+"ENANTIOMER->RACEMATE": { "col": "#42d4f4"},
+"RACEMATE->ENANTIOMER": { "col": "#42d4f4"},
+"METABOLITE->PARENT": { "col": "#f032e6"},
+"PARENT->METABOLITE": { "col": "#f032e6"},
+"PARENT->CONSTITUENT ALWAYS PRESENT": { "col": "#bfef45"},
+"CONSTITUENT ALWAYS PRESENT->PARENT": { "col": "#bfef45"},
+"METABOLIC ENZYME->SUBSTRATE": { "col": "#fabed4"},
+"SUBSTRATE->METABOLIC ENZYME": { "col": "#fabed4"},
+"AGONIST->TARGET": { "col": "#469990"},
+"TARGET->AGONIST": { "col": "#469990"},
+"TRANSPORTER->INHIBITOR": { "col": "#dcbeff"},
+"INHIBITOR->TRANSPORTER": { "col": "#dcbeff"},
+"SUB_ALTERNATE->SUBSTANCE": { "col": "#9A6324"},
+"SUBSTANCE->SUB_ALTERNATE": { "col": "#9A6324"},
+"BINDER->LIGAND": { "col": "#fffac8"},
+"LIGAND->BINDER": { "col": "#fffac8"},
+"BASIS OF STRENGTH->SUBSTANCE": { "col": "#800000"},
+"SUBSTANCE->BASIS OF STRENGTH": { "col": "#800000"},
+"TRANSPORTER->SUBSTRATE": { "col": "#aaffc3"},
+"SUBSTRATE->TRANSPORTER": { "col": "#aaffc3"},
+"METABOLITE INACTIVE->PARENT": { "col": "#808000"},
+"PARENT->METABOLITE INACTIVE": { "col": "#808000"},
+"METABOLITE ACTIVE->PARENT": { "col": "#ffd8b1"},
+"PARENT->METABOLITE ACTIVE": { "col": "#ffd8b1"},
+"METABOLIC ENZYME->INHIBITOR": { "col": "#000075"},
+"INHIBITOR->METABOLIC ENZYME": { "col": "#000075"}
+
+  },
+  "nodeStyleAttribute": "nodeType",
+  "linkStyleAttribute": "linkType"
+}
