@@ -6,9 +6,9 @@ This demonstrates how to login via curl by creating a session, getting a session
 
 We assume you're working on local host without SSL.
 
-if you are on SSL you'll want to add `-k` switch to your curl commands to prevent it from checking the validity of SSL certificates. However, please be warned that the `-k` switch should only be used in a testing or an otherwise LOCKED DOWN or secure scenario.  
+if you are on SSL you'll want to add `-k` switch to your curl commands to prevent it from checking the validity of SSL certificates. However, please be warned that the `-k` switch should only be used in a testing or an otherwise secure/safe scenario.  
 
-The command-line scripting strategy below requires that you use Bash, a bit of Perl, and Curl.  On windows Git-Bash will work.    
+The command-line scripting strategy below requires that you use Bash, a bit of Perl, and Curl. On windows Git-Bash will work.    
 
 
 ### Authenticating 
@@ -19,9 +19,9 @@ Unless there is some security layer preventing it, you can generally hit GSRS re
 curl -X GET -H 'auth-password: admin' -H 'auth-username: admin' http://localhost:8081/api/v1/substances  
 ```
 
-To make that authentication more durable, you could use authentication and ALSO get a session key.
+To make that authentication more lasting, you could use authentication and ALSO get a session key.
 
-Then, you would not need to pass credentials with each request. You could instead pass a session id. 
+Then, you would not need to pass credentials with each request. You could instead pass a session id in a cookie header. 
 
 Create this file: 
 ```
@@ -31,7 +31,7 @@ curl -s --head -X GET -H 'auth-password: admin' -H 'auth-username: admin' -i htt
 
 This gets the response headers from the `api/v1/whoami` endpoint and it extracts the a cookie `ix.session` key value.    
 
-In your terminal, use the above script to set a GSRS session key.  
+In your terminal, use the above script to temporarily set a GSRS session key.  
 ```
 export SESSION_KEY=$(bash extract_session_key.sh)
 
@@ -96,7 +96,7 @@ curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KE
 This gets the `api/v1/whoami` endpoint and it extracts the `computedToken` value from the response JSON.
 
 
-Run this command to set the token value in your terminal.
+Run this command to temporarily set the token value in your terminal.
 ```
 export COMPUTED_TOKEN=$(bash extract_session_key.sh)
 
@@ -107,12 +107,12 @@ echo $COMPUTED_TOKEN # optional
 You can now interact with the GRSR REST API via curl and a token (needs to be verified). 
 
 ```
-curl -s -X POST 'http://localhost:8081/api/v1/substances' -H 'auth-user: admin' -H "auth-key: $COMPUTED_TOKEN"  
+curl -s -X GET 'http://localhost:8081/api/v1/substances' -H 'auth-user: admin' -H "auth-key: $COMPUTED_TOKEN"  
 ```
 
 ### List/Clear H2 Sessions 
 
-If you are debugging locally and your app is using an H2 database. You can use this script to clear sessions as needed. 
+If you are debugging locally and your app is using an H2 database. You can use these scripts to list/clear sessions as needed. 
 
 
 Create these files:
