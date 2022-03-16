@@ -85,7 +85,7 @@ curl -s -X GET 'http://localhost:8081/api/v1/substances' -H "Cookie: ix.session=
 
 
 
-### Session Configuration Details. 
+### Session Configuration Details
 
 The application.conf of the the microservice handling authentication (currently substances) has a property gsrs.sessionExpirationMS. 
 
