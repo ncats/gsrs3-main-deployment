@@ -2,11 +2,11 @@
 
 Here are some tips on the GSRS backend login process that will be helpful for debugging, testing and automation. 
 
-This demonstrates how to login via curl by creating a session, getting a session key, and possibly getting and using an authentication token.  
+This demonstrates how to login via curl by creating a session, getting a session key, and possibly getting and using a token.  
 
 We assume you're working on local host without SSL.
 
-if you are on SSL you'll want to add `-k` switch to your curl commands to prevent it from checking the validity of SSL certificates. However, please be warned that the `-k` switch should only be used in a testing or an otherwise LOCKED DOWN/secure scenario).  
+if you are on SSL you'll want to add `-k` switch to your curl commands to prevent it from checking the validity of SSL certificates. However, please be warned that the `-k` switch should only be used in a testing or an otherwise LOCKED DOWN or secure scenario.  
 
 The command-line scripting strategy below requires that you use Bash, a bit of Perl, and Curl.  On windows Git-Bash will work.    
 
@@ -34,9 +34,12 @@ This gets the response headers from the `api/v1/whoami` endpoint and it extracts
 In your terminal, use the above script to set a GSRS session key.  
 ```
 export SESSION_KEY=$(bash extract_session_key.sh)
+
+echo $SESSION_KEY # optional
+
 ```
 
-**Now, you can see if you're logged in using a cookie header** 
+**Now, you can see if you're logged in and have a session using a cookie header** 
 ```
 curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KEY"
 ```
@@ -83,15 +86,34 @@ You may be able to use a token for REST API requests instead of the session id o
 curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KEY" | perl  -MJSON -n0777 -E '$r = decode_json($_); say $r->{computedToken}'
 ```
 
-This gets the `api/v1/whoami` endpoint and it extracts the `computedToken` value from the response JSON.     
+This gets the `api/v1/whoami` endpoint and it extracts the `computedToken` value from the response JSON.
 
 
 **Run this command to set the token value in your terminal**
 ```
 export COMPUTED_TOKEN=$(bash extract_session_key.sh)
+
+echo $COMPUTED_TOKEN # optional
+
 ````
 
 You can now interact with the GRSR REST API via curl and a token (needs to be verified). 
+
 ```
 curl -s -X POST 'http://localhost:8081/api/v1/substances' -H 'auth-user: admin' -H "auth-key: $COMPUTED_TOKEN"  
 ```
+
+### List/Clear H2 Sessions 
+
+If you are debugging locally with and your app is using an H2 database. You can use this script to clear sessions as needed. 
+
+
+**Create this file:**
+```
+# clear_sessions.sh
+echo "delete from ix_core_session;" > clear_sessions.sql 
+java -cp ~/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.RunScript -url 'jdbc:h2:./ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE' -script 'clear_sessions.sql'  -user '' -password '' -showResults
+rm clear_sessions.sql 
+```
+
+
