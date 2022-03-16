@@ -1,4 +1,4 @@
-## Backend Login Process, Command line Demo
+## Backend Login Process, Command Line Demo
 
 Here are some tips on the GSRS backend login process that will be helpful for debugging, testing and automation. 
 
