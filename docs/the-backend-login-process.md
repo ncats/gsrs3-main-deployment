@@ -108,8 +108,16 @@ curl -s -X POST 'http://localhost:8081/api/v1/substances' -H 'auth-user: admin' 
 If you are debugging locally with and your app is using an H2 database. You can use this script to clear sessions as needed. 
 
 
-**Create this file:**
+**Create these files:**
+
+
 ```
+# list_sessions.sh
+echo "select * from ix_core_session;" > list_sessions.sql 
+java -cp ~/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.RunScript -url 'jdbc:h2:./ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE' -script 'list_sessions.sql'  -user '' -password '' -showResults
+rm list_sessions.sql 
+```
+
 # clear_sessions.sh
 echo "delete from ix_core_session;" > clear_sessions.sql 
 java -cp ~/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.RunScript -url 'jdbc:h2:./ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE' -script 'clear_sessions.sql'  -user '' -password '' -showResults
