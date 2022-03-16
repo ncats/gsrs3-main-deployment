@@ -31,7 +31,7 @@ Create this file:
 curl -s --head -X GET -H 'auth-password: admin' -H 'auth-username: admin' -i http://localhost:8081/api/v1/whoami | grep 'Set-Cookie: ix.session=' | perl -lne  'chomp; if(/Set-Cookie: ix.session=(.*?);/) {  print $1; }'
 ````
 
-This gets the response headers from the `api/v1/whoami` endpoint and it extracts the a cookie `ix.session` key value.    
+This gets the response headers from the `api/v1/whoami` endpoint, and it extracts the a cookie `ix.session` key value.    
 
 In your terminal, use the above script to temporarily set a GSRS session key.  
 ```
@@ -95,7 +95,7 @@ Create this file:
 curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KEY" | perl  -MJSON -n0777 -E '$r = decode_json($_); say $r->{computedToken}'
 ```
 
-This gets the `api/v1/whoami` endpoint and it extracts the `computedToken` value from the response JSON.
+This gets the `api/v1/whoami` endpoint, and it extracts the `computedToken` value from the response JSON.
 
 
 Run this command to temporarily set the token value in your terminal.
@@ -119,10 +119,10 @@ Session records are stored in the `ix_core_session` table.
 If you are debugging locally and your app is using an H2 database. You can use these scripts to list/clear sessions as needed. 
 
 
-Create these files:
-
+First `cd ./gsrs-main-deployment/substances`, then Create these files:
 
 ```
+
 # list_sessions.sh
 echo "select * from ix_core_session;" > list_sessions.sql 
 java -cp ~/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.RunScript -url 'jdbc:h2:./ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE' -script 'list_sessions.sql'  -user '' -password '' -showResults
