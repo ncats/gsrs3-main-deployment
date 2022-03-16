@@ -119,7 +119,7 @@ Session records are stored in the `ix_core_session` table.
 If you are debugging locally and your app is using an H2 database. You can use these scripts to list/clear sessions as needed. 
 
 
-First `cd ./gsrs-main-deployment/substances`, then Create these files:
+First `cd ./gsrs-main-deployment/substances`, then create these files:
 
 ```
 
