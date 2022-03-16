@@ -85,6 +85,19 @@ curl -s -X GET 'http://localhost:8081/api/v1/substances' -H "Cookie: ix.session=
 
 
 
+### Session Configuration Details. 
+
+The application.conf of the the microservice handling authentication (currently substances) has a property gsrs.sessionExpirationMS. 
+
+You can set this to 60000 milliseconds. To test whether sessions are expired as expected. 
+
+These files may be of interest to those wanting to dig deeper.
+
+- GsrsLogoutHandler.java
+- LoginController.java
+- LoginAndLogoutEventListener.java
+- LegacyGsrsAuthenticationSuccessHandler.java 
+
 ### Token (this section needs to be verified)  
 
 You may be able to use a token for REST API requests instead of the session id or credentials.    
