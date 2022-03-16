@@ -91,7 +91,7 @@ The application.conf of the the microservice handling authentication (currently 
 
 You can set this to 60000 milliseconds. To test whether sessions are expired as expected. 
 
-These files may be of interest to those wanting to dig deeper.
+These files in the `gsrs-spring-starter` repo may be of interest to those wanting to dig deeper.
 
 - GsrsLogoutHandler.java
 - LoginController.java
