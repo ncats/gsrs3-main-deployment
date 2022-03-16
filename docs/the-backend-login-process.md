@@ -23,7 +23,7 @@ To make that authentication more durable, you could use authentication and ALSO 
 
 Then, you would not need to pass credentials with each request. You could instead pass a session id. 
 
-**Create this file**: 
+Create this file: 
 ```
 # extract_session_key.sh 
 curl -s --head -X GET -H 'auth-password: admin' -H 'auth-username: admin' -i http://localhost:8081/api/v1/whoami | grep 'Set-Cookie: ix.session=' | perl -lne  'chomp; if(/Set-Cookie: ix.session=(.*?);/) {  print $1; }'
@@ -39,12 +39,12 @@ echo $SESSION_KEY # optional
 
 ```
 
-**Now, you can see if you're logged in and have a session using a cookie header** 
+Now, you can see if you're logged in and have a session using a cookie header. 
 ```
 curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KEY"
 ```
 
-You should get back JSON that looks like this. 
+You should get back JSON that looks like this: 
 
 ```
 {
@@ -75,12 +75,19 @@ You should get back JSON that looks like this.
 }
 ```
 
+You can use the session id in requests to the REST API, assuming authentication is required. 
+
+```
+curl -s -X GET 'http://localhost:8081/api/v1/substances' -H "Cookie: ix.session=$SESSION_KEY"
+```
+
+
 
 ### Using a Token (this section needs to be verified)  
 
 You may be able to use a token for REST API requests instead of the session id or credentials.    
 
-**Create this file:**
+Create this file:
 ```
 # extract_computed_token.sh
 curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KEY" | perl  -MJSON -n0777 -E '$r = decode_json($_); say $r->{computedToken}'
@@ -89,7 +96,7 @@ curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KE
 This gets the `api/v1/whoami` endpoint and it extracts the `computedToken` value from the response JSON.
 
 
-**Run this command to set the token value in your terminal**
+Run this command to set the token value in your terminal.
 ```
 export COMPUTED_TOKEN=$(bash extract_session_key.sh)
 
@@ -105,10 +112,10 @@ curl -s -X POST 'http://localhost:8081/api/v1/substances' -H 'auth-user: admin' 
 
 ### List/Clear H2 Sessions 
 
-If you are debugging locally with and your app is using an H2 database. You can use this script to clear sessions as needed. 
+If you are debugging locally and your app is using an H2 database. You can use this script to clear sessions as needed. 
 
 
-**Create these files:**
+Create these files:
 
 
 ```
@@ -116,12 +123,9 @@ If you are debugging locally with and your app is using an H2 database. You can 
 echo "select * from ix_core_session;" > list_sessions.sql 
 java -cp ~/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.RunScript -url 'jdbc:h2:./ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE' -script 'list_sessions.sql'  -user '' -password '' -showResults
 rm list_sessions.sql 
-```
 
 # clear_sessions.sh
 echo "delete from ix_core_session;" > clear_sessions.sql 
 java -cp ~/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.RunScript -url 'jdbc:h2:./ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE' -script 'clear_sessions.sql'  -user '' -password '' -showResults
 rm clear_sessions.sql 
 ```
-
-
