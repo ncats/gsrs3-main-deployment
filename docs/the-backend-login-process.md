@@ -19,7 +19,7 @@ Unless there is some security layer preventing it, you can generally hit GSRS re
 curl -X GET -H 'auth-password: admin' -H 'auth-username: admin' http://localhost:8081/api/v1/substances  
 ```
 
-### SESSION 
+### Session 
 
 To make that authentication more lasting, you could use authentication and ALSO get a session key.
 
@@ -85,7 +85,7 @@ curl -s -X GET 'http://localhost:8081/api/v1/substances' -H "Cookie: ix.session=
 
 
 
-### Using a Token (this section needs to be verified)  
+### Token (this section needs to be verified)  
 
 You may be able to use a token for REST API requests instead of the session id or credentials.    
 
@@ -112,7 +112,9 @@ You can now interact with the GRSR REST API via curl and a token (needs to be ve
 curl -s -X GET 'http://localhost:8081/api/v1/substances' -H 'auth-user: admin' -H "auth-key: $COMPUTED_TOKEN"  
 ```
 
-### List/Clear H2 Sessions 
+### H2 Sessions Table 
+
+Session records are stored in the `ix_core_session` table. 
 
 If you are debugging locally and your app is using an H2 database. You can use these scripts to list/clear sessions as needed. 
 
