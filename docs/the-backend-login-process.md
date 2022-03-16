@@ -19,6 +19,8 @@ Unless there is some security layer preventing it, you can generally hit GSRS re
 curl -X GET -H 'auth-password: admin' -H 'auth-username: admin' http://localhost:8081/api/v1/substances  
 ```
 
+### SESSION 
+
 To make that authentication more lasting, you could use authentication and ALSO get a session key.
 
 Then, you would not need to pass credentials with each request. You could instead pass a session id in a cookie header. 
