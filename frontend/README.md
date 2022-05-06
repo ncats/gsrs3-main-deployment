@@ -37,6 +37,10 @@ The most important configuration file is located `src/main/resources/static/asse
 ```
 * to change the route prefix (by default 'ginas/app/beta/'), change the `route.prefix` value in the `resources/application.conf` file and the `base href` value in the `resources/static/index.html` file
 
+The default approval code displayed can be changed from the default 'UNII' by setting the `approvalCodeName` value in the front-end config file. The same can be done with the default 'BDNUM` primary code by setting the `primaryCode` config value.
+
+and primary code can now be changed in the front-end config by setting the `approvalCodeName` and `primaryCode`
+
 Please see GSRS Frontend documentation for more information.
 
 ## Configure the Gateway
@@ -70,5 +74,13 @@ $ npm run build:fda:prod
 $ rm -rf /path/to/fronted/src/main/resources/static/*
 $ cp -rf dist/browser/* /path/to/fronted/src/main/resources/static/.
 ```
+
+## Compile Requirements
+
+Starting with GSRS 3.0.1, the Angular version is 13.  
+
+For GSRS 3.0.1 or higher: we recommend a recent Node JS Version, such as version 17 or higher to compile.  
+
+GSRS 3.0 used Angular 8. Compile with Node JS 13.
 
 

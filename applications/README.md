@@ -206,3 +206,19 @@ application.jpa.hibernate.ddl-auto=none
 Then, use the GSRS user interface to create some data. (From the hamburger menu, select 'Register|Product')  
   
 Note: 'Hibernate' is part of the Spring Boot technology stack used by GSRS.
+
+
+
+## Indexing
+
+In GSRS 3.0.1, added two facets for Clinical Trials in Application Module.
+
+In applications/src/main/resources/application.conf add the following:
+
+```
+gsrs.indexers.list += {
+  "indexer" = "gov.hhs.gsrs.application.application.indexers.ApplicationClinicalTrialIndexValueMaker"
+}
+```
+
+

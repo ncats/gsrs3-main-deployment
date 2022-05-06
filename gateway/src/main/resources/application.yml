@@ -97,6 +97,8 @@ ix:
     trustheader: true
     usernameheader: test-username
 
+# Make sure microservices are given enoough time to perform tasks. 
+zuul.host.socket-timeout-millis: 300000 
 
 #Keeps + encoded characters encoded as +
 zuul.forceOriginalQueryStringEncoding: true

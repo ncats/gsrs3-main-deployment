@@ -1,6 +1,6 @@
 ## How To Access an H2 Database in Console
 
-While debugging locally and using H2, you may wish to view an H2 database.
+While debugging GSRS locally and using H2, you may wish to view an H2 database.
 
 You should make sure that all your H2 databases in GSRS application.conf files are configured with the key, value pair
 
@@ -63,6 +63,20 @@ To view another H2 database for another service do the following.
 cd ../other-service
 # Get the configurtion details src/main/resources/application.conf 
 # and do the similar to the above 
+```
+
+## Notes for Windows Terminal
+
+If you're using the Windows CMD terminal, you'll need to make a few ajustments. 
+
+The command would be: 
+```
+substances> java -cp C:/Users/YOURUSERNAME/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.Shell
+```
+
+Also, the path to the database within the JDBC URL must be absolute. For example: 
+```
+URL       jdbc:h2:file:C:\path\to\gsrs3-main-deployment\substances\ginas.ix\h2\sprinxight;AUTO_SERVER=TRUE
 ```
 
 

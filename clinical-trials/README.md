@@ -1,6 +1,6 @@
 # GSRS 3 Clinical Trials Microservice
 
-This microservice is an entity service for storing, retrieving, searching and indexing US and European clinical trials. It especially focuses on mapping those trials to substances within a GSRS system.
+This microservice is an entity service for storing, retrieving, searching and indexing US and European clinical trials. It especially focuses on mapping those trialtos to substances within a GSRS system.
 
 ## Core Dependency Repos
 
@@ -173,5 +173,90 @@ zuul:
       serviceId: clinical_trials_europe
 
 ```
+
+
+## Indexing
+
+To index clinical trials during development, do the following via curl:
+```
+curl -X POST -H "auth-username: admin" -H "auth-password: admin"  http://localhost:8081/api/v1/clinicaltrialsus/@reindex&wipe=1  
+curl -X POST -H "auth-username: admin" -H "auth-password: admin" http://localhost:8081/api/v1/clinicaltrialseurope/@reindex&wipe=0
+```
+In GSRS, the entities within one microservice are considered an indexing group. Including the query key value parameter, `wipe=1`, will cause all indexes within the microservice to be erased. Therefore only use `wipe=1` on the first entity you reindex. On the following entities use `wipe=0`.
+
+## Cross Indexing 
+
+*Advanced Topic* Starting in GSRS 3.0.1, cross indexing between the substances microservice and the clinical trials microservice is possible.  That is, when browsing substances, there are some clinical trials facets that may be useful.  To include this functionality, one must add some entries to the gsrs substance microservice configuration and to the clinical trials microservice configuration. This feature depends on the `gsrs-fda-substance-extension` found in the `gsrs-spring-module-substances` repository.   
+
+In substances/src/main/resources/application.conf add the following: 
+
+```
+# You many need this depending on your authentication scheme. 
+# gsrs.microservice.clinicaltrialsus.api.headers= {
+#                        "auth-username" ="YOURAPIQUERYUSER",
+#                        "auth-key"="YOURAPIQUERYUSER's key"
+# }
+# gsrs.microservice.clinicaltrialseurope.api.headers= {
+#                        "auth-username" ="YOURAPIQUERYUSER",
+#                        "auth-key"="YOURAPIQUERYUSER's key"
+# }
+
+gsrs.microservice.clinicaltrialsus.api.baseURL="http://localhost:8081/"
+gsrs.microservice.clinicaltrialseurope.api.baseURL="http://localhost:8081/"
+
+gsrs.indexers.list += {
+  "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalUSTrialIndexValueMaker"
+}
+gsrs.indexers.list += {
+  "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalEuropeTrialIndexValueMaker"
+}
+
+```
+
+In clinical-trials/src/main/resources/application.conf add the following: 
+```
+gsrs.indexers.list += {
+  "indexer" = "gov.hhs.gsrs.clinicaltrial.us.indexers.ClinicalTrialUSEntityLinkIndexValueMaker"
+}
+
+gsrs.indexers.list += {
+  "indexer" = "gov.hhs.gsrs.clinicaltrial.europe.indexers.ClinicalTrialEuropeEntityLinkIndexValueMaker"
+}
+``` 
+
+For the above API resources to work, you may need to run the `installExtraJars.sh` file found in the root folder of the `gsrs-spring-module-substances` repository. This will install several jar files including API configurations for specific microservices.  This is not necessary if you have installed  the `gsrs-spring-module-clinical-trials` repository.  
+
+
+## Exports
+
+*Advanced Topic* Starting in GSRS 3.0.1, US Clinical Trial exports are  available when browsing substances or viewing an individual substance detail. To include this functionality, one must add some entries to the gsrs substance microservice configuration and to the clinical trials microservice configuration. This feature depends on the `gsrs-fda-substance-extension` found in the `gsrs-spring-module-substances` repository.   
+
+The following item is already included in `gsrs-main-deployment` substances/src/main/resources/fda-extension.conf. Therefore, this setting should be active when running an Embedded Tomcat instance. In other cases, you may need to add it to your substances application.conf file.
+     
+```
+ix.ginas.export.factories.substances = ${ix.ginas.export.factories.substances}[
+    # add this to bottom of list in addition to those there
+   "fda.gsrs.substance.exporters.ExcelSubstanceRelatedClinicalTrialsUSExporterFactory"
+]
+```
+
+
+In clinical-trials/src/main/resources/application.conf add the following: 
+
+```
+
+# This is needed for RestTemplate/Export things to work well
+gsrs.loopback.port=${server.port}
+
+# Should be same folder as substances' exports
+ix.ginas.export.path="../substances/exports"
+
+
+ix.ginas.export.factories.clinicaltrialsus = [
+	"gov.hhs.gsrs.clinicaltrial.us.exporters.ClinicalTrialUSExporterFactory"
+]
+```
+
+  
 
 

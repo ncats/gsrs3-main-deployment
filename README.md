@@ -171,7 +171,7 @@ You can run the frontend in **development mode**. Do that if you want to make ch
   environment.apiBaseUrl = 'http://localhost:8081/';
   ```
 
-Finally, recompile the angular code, as usual with the `npm` command. (As of March 2, 2022 and GSRS version 3.0, you should use Node JS version 13 to compile; this will change after GSRS 3.0)
+Finally, recompile the angular code, as usual with the `npm` command. See [Compile Requirements](frontend/README.md#compile-requirements) in the frontend README. 
 
 Now, hitting in your browser, `http://localhost:8081/ginas/app/beta/home` will run **your own** development Angular code, rather than the **compiled** version in the `gsrs3-main-deployment` repository.  Please make sure not to commit the above changes if making a pull request to this repository.
 

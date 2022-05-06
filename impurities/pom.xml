@@ -10,18 +10,18 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>impurities</artifactId>
-    <version>0.1.2-SNAPSHOT</version>
+    <version>0.1.3-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>impurities</name>
     <description>GSRS Impurities Microservies Spring Boot</description>
     <properties>
         <java.version>8</java.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.impurities.version>0.1.2-SNAPSHOT</gsrs.impurities.version>
-        <gsrs.starter.version>3.0-SNAPSHOT</gsrs.starter.version>
+        <gsrs.impurities.version>0.1.3-SNAPSHOT</gsrs.impurities.version>
+        <gsrs.starter.version>3.0.1-SNAPSHOT</gsrs.starter.version>
         <log4j2.version>2.17.1</log4j2.version>
         <!-- TO BE REMOVED -->
-        <gsrs.substance.version>3.0-SNAPSHOT</gsrs.substance.version>
+        <gsrs.substance.version>3.0.1-SNAPSHOT</gsrs.substance.version>
     </properties>
 
     <distributionManagement>
@@ -47,7 +47,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- NCATS PRODUCT DEPENDENICES -->
+        <!-- NCATS IMPURITIES DEPENDENICES -->
         <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-module-impurities-spring-boot-starter</artifactId>
