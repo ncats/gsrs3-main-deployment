@@ -1,0 +1,3 @@
+<Context path="/applications" docBase="applications">
+    <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="${gateway.allow.pattern:-127\.\d+\.\d+\.\d+}"/>
+</Context>
