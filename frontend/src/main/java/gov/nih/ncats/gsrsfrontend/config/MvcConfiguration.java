@@ -1,5 +1,6 @@
 package gov.nih.ncats.gsrsfrontend.config;
 
+import java.io.IOException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -10,8 +11,6 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.io.IOException;
 
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer {
