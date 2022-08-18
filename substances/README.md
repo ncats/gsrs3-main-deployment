@@ -3,6 +3,9 @@
 This is the central GSRS microservice.  It contains the facilities that manage information about substances 
 and contains the most critical and complicated functionality of the whole project.
 
+## Note for the new release 3.0.2
+The validator for Controlled Vocabulary is turned on in the new release.
+
 ## Requirements
 ### Java 
   We are targeting the Java 11 runtime for this project although the code can be built using java 8
