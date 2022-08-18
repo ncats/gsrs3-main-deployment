@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import gov.hhs.gsrs.products.product.EnableProduct;
 import gov.hhs.gsrs.products.productall.EnableProductAll;
@@ -29,7 +28,7 @@ import gsrs.*;
 @SpringBootApplication
 @EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats", "gov.hhs.gsrs"} )
 @EnableGsrsApi(indexValueMakerDetector = EnableGsrsApi.IndexValueMakerDetector.CONF,
-		additionalDatabaseSourceConfigs= {ProductDataSourceConfig.class}
+                additionalDatabaseSourceConfigs= {ProductDataSourceConfig.class}
 )
 @EnableGsrsJpaEntities
 @EnableGsrsLegacyAuthentication
@@ -41,23 +40,23 @@ import gsrs.*;
 
 public class ProductApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProductApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProductApplication.class, args);
+    }
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurerAdapter() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-                      //  .allowedOrigins("http://localhost:4200")
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        // .allowedOrigins("http://localhost:4200")
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS")
                         .allowedHeaders("origin", "Content-Type", "Authorization", "Accept", "Accept-Language", "X-Authorization", "X-Requested-With", "auth-username", "auth-password", "auth-token", "auth-key", "auth-token")
                         .allowCredentials(false).maxAge(300);
-
-			}
-		};
-	}
+            }
+        };
+    }
 }
 

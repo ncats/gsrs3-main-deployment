@@ -17,8 +17,8 @@
     <properties>
         <java.version>8</java.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.substance.version>3.0.1-SNAPSHOT</gsrs.substance.version>
-        <gsrs.starter.version>3.0.1-SNAPSHOT</gsrs.starter.version>
+        <gsrs.substance.version>3.0.2-SNAPSHOT</gsrs.substance.version>
+        <gsrs.starter.version>3.0.2-SNAPSHOT</gsrs.starter.version>
         <log4j2.version>2.17.1</log4j2.version>
     </properties>
 
@@ -199,7 +199,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
