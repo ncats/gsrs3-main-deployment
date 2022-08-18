@@ -1,6 +1,16 @@
+<style>
+code {
+  white-space : pre-wrap !important;
+}
+</style>
 # GSRS 3 Main Deployment
 
-GSRS 3.0 is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case.
+GSRS 3.0.2 is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. 
+
+# Note: as of 17 August 2022, an Oracle database instantiated by GSRS 3.x requires an extra script before data is stored.
+If you are creating a new database in Oracle using GSRS 3.x, please contact the GSRS team for a script file.
+
+Please feel free to run using one of the other support RDBMSs (PostGreSQL, MariaDB or MySQL)
 
 Before running this application locally, it would be good to note that it only works with Java 8 to Java 11 so any versions outside of these would create build errors. A quick way to check what version is installed on your system is 
 

@@ -9,9 +9,6 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
 @EnableEurekaClient
@@ -22,18 +19,6 @@ public class GatewayApplication {
         SpringApplication.run(GatewayApplication.class, args);
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("GET", "PUT", "POST", "PATCH", "DELETE", "OPTIONS");
-
-            }
-        };
-    }
     @Bean
     public SimpleFilter simpleFilter(){
         return new SimpleFilter();
@@ -50,8 +35,8 @@ public class GatewayApplication {
         @Override
         public void customize(TomcatServletWebServerFactory factory) {
             factory.addConnectorCustomizers((TomcatConnectorCustomizer) connector -> {
-                connector.setAttribute("relaxedPathChars", "<>[\\]^`{|}");
-                connector.setAttribute("relaxedQueryChars", "<>[\\]^`{|}");
+                connector.setProperty("relaxedPathChars", "<>[\\]^`{|}");
+                connector.setProperty("relaxedQueryChars", "<>[\\]^`{|}");
             });
         }
     }

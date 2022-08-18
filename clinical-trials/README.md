@@ -201,8 +201,8 @@ In substances/src/main/resources/application.conf add the following:
 #                        "auth-key"="YOURAPIQUERYUSER's key"
 # }
 
-gsrs.microservice.clinicaltrialsus.api.baseURL="http://localhost:8081/"
-gsrs.microservice.clinicaltrialseurope.api.baseURL="http://localhost:8081/"
+gsrs.microservice.clinicaltrialsus.api.baseURL="http://localhost:8081"
+gsrs.microservice.clinicaltrialseurope.api.baseURL="http://localhost:8081"
 
 gsrs.indexers.list += {
   "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalUSTrialIndexValueMaker"
@@ -236,8 +236,10 @@ The following item is already included in `gsrs-main-deployment` substances/src/
 ```
 ix.ginas.export.factories.substances = ${ix.ginas.export.factories.substances}[
     # add this to bottom of list in addition to those there
-   "fda.gsrs.substance.exporters.ExcelSubstanceRelatedClinicalTrialsUSExporterFactory"
+   "fda.gsrs.substance.exporters.ExcelSubstanceRelatedClinicalTrialsUSExporterFactory",
+   "fda.gsrs.substance.exporters.ExcelSubstanceRelatedClinicalTrialsEuropeExporterFactory"
 ]
+
 ```
 
 
@@ -255,8 +257,7 @@ ix.ginas.export.path="../substances/exports"
 ix.ginas.export.factories.clinicaltrialsus = [
 	"gov.hhs.gsrs.clinicaltrial.us.exporters.ClinicalTrialUSExporterFactory"
 ]
+ix.ginas.export.factories.clinicaltrialseurope=[
+	"gov.hhs.gsrs.clinicaltrial.europe.exporters.ClinicalTrialEuropeExporterFactory"
+]
 ```
-
-  
-
-
