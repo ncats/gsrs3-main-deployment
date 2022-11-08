@@ -1,46 +1,101 @@
 {
-  "apiBaseUrl" : "http://localhost:8081/",
-  "version": "3.0.2",
+  "apiBaseUrl" : "/",
+  "version": "3.0",
   "contactEmail": "admin@admin.com",
-  "displayMatchApplication": "false",
+  "displayMatchApplication": "true",
   "adverseEventShinyHomepageDisplay": "true",
   "adverseEventShinySubstanceNameDisplay": "true",
   "adverseEventShinyAdverseEventDisplay": "true",
   "bannerMessage": null,
   "showNameStandardizeButton": true,
   "advancedSearchFacetDisplay": false,
-  "approvalCodeName":"UNII",
+  "approvalCodeName": "UNII",
   "primaryCode": "BDNUM",
-  "filteredDuplicationCodes": [ "BDNUM", "FDA UNII" ],
-  "typeaheadFields": ["Standardized_Name", "Display_Name", "CAS", "Name", "Approval_ID" ],
+  "useDataUrl": false,
+  "authenticateAs": {
+    "apiUsername": null,
+    "apiPassword": null,
+    "apiKey": null,
+    "apiToken": null
+  },
+"userRegistration": {
+    "configurations": {
+      "emailForm": {
+        "active": false,
+        "userAdminRecipientEmails": ["email1@domain.com", "email1@domain.com"],
+        "instanceApplicationName": "GSRS",
+        "instanceApplicationSubjectTag": "GSRS",
+        "registrationAccessEmailSubjectTemplate": "[%s] User registration/access issue",
+        "registrationAccessEmailBodyTemplate": "Please register this new user OR resolve login access issue in %s\n\nUsername: %s\nUser email: %s\n\nTo the USER making the request, please provide below any details that will help the Admin facilitate your request:\n\n"
+      }
+    }
+  },
+  "elementLabelDisplay": {
+    "labels": {
+      "substance_names_name": {
+          "displayNameTitle": "Display Name",
+          "displayNameShortTitle":"DN",
+          "preferredTitle": "Additional Listing Name",
+          "preferredShortTitle": "AL"
+      }
+    }
+  },
+  "bulkSearch": {
+    "entities": [
+      {
+        "name":"substances",
+        "title": "Substances"
+      }
+    ]
+  },
+  "filteredDuplicationCodes": [
+    "BDNUM",
+    "FDA UNII"
+  ],
+  "typeaheadFields": [
+    "Standardized_Name",
+    "Display_Name",
+    "CAS",
+    "Name",
+    "Approval_ID"
+  ],
   "loadedComponents": {
     "applications": true,
     "products": true,
     "clinicaltrials": true,
     "adverseevents": true,
-    "impurities": true
-    },
+    "impurities": true,
+    "ssg2": true,
+    "ssg4m": true,
+    "userRegistration": false
+  },
   "usefulLinks": [
-    {"title": "GSRSFind Excel tools",
-    "description": "GSRSFind is an add-in for Microsoft Excel that gives a user access to data in GSRS for both search/browse and creation/modification purposes. (Note: write access requires valid credentials!)<br/>GSRSFind can augment an existing spreadsheet with data from GSRS. For example, you can add chemical structures to a column of names or identifiers.",
-    "href": "https://gsrs.ncats.nih.gov/downloads/GinasExcelTools.zip",
-    "imageFile": "xlsx.png",
-  "templateDescription": "Click to download GSRSFind Excel tools.zip"},
-  {"title": "GSRS User Guide",
-    "description": "The GSRS user guide is comprehensive set of instructions for searching and registering new substances of all types in GSRS.",
-    "href": "https://gsrs.ncats.nih.gov/downloads/Substance%20Registration%20-%20October%202019.docx",
-    "imageFile": "guide.png",
-  "templateDescription": "Click to download GSRS User Guide.docx"},
-  {"title": "GSRS Data Dictionary",
-    "description": " The GSRS Data Dictionary is a comprehensive spreadsheet of all properties of the substance object used by GSRS. You will find descriptions,  relative paths, data types, and more for every property present in the GSRS substance model.",
-    "href": "https://gsrs.ncats.nih.gov/downloads/GSRS_data_dictionary_11-20-19.xlsx",
-    "imageFile": "dictionary.png",
-  "templateDescription": "Click to download GSRS Data Dictionary.xlsx"}
-],
+    {
+      "title": "GSRSFind Excel tools",
+      "description": "GSRSFind is an add-in for Microsoft Excel that gives a user access to data in GSRS for both search/browse and creation/modification purposes. (Note: write access requires valid credentials!)<br/>GSRSFind can augment an existing spreadsheet with data from GSRS. For example, you can add chemical structures to a column of names or identifiers.",
+      "href": "https://gsrs.ncats.nih.gov/downloads/GinasExcelTools.zip",
+      "imageFile": "xlsx.png",
+      "templateDescription": "Click to download GSRSFind Excel tools.zip"
+    },
+    {
+      "title": "GSRS User Guide",
+      "description": "The GSRS user guide is comprehensive set of instructions for searching and registering new substances of all types in GSRS.",
+      "href": "https://gsrs.ncats.nih.gov/downloads/Substance%20Registration%20-%20October%202019.docx",
+      "imageFile": "guide.png",
+      "templateDescription": "Click to download GSRS User Guide.docx"
+    },
+    {
+      "title": "GSRS Data Dictionary",
+      "description": " The GSRS Data Dictionary is a comprehensive spreadsheet of all properties of the substance object used by GSRS. You will find descriptions,  relative paths, data types, and more for every property present in the GSRS substance model.",
+      "href": "https://gsrs.ncats.nih.gov/downloads/GSRS_data_dictionary_11-20-19.xlsx",
+      "imageFile": "dictionary.png",
+      "templateDescription": "Click to download GSRS Data Dictionary.xlsx"
+    }
+  ],
   "substanceDetailsCards": [
     {
       "card": "substance-overview",
-      "title": "overview"
+      "title": "Overview"
     },
     {
       "card": "fda-substance-product",
@@ -121,7 +176,8 @@
         }
       ]
     },
-    {      "card": "substance-hierarchy",
+    {
+      "card": "substance-hierarchy",
       "title": "Substance Hierarchy"
     },
     {
@@ -589,7 +645,10 @@
         "Product Type",
         "Product Dosage Form",
         "Definition Level",
-        "Clinical Trial Count"
+        "Clinical Trial US Count",
+        "Clinical Trial US Status",
+        "Clinical Trial Europe Count",
+        "Clinical Trial Europe Status"
       ],
       "admin": [
         "Record Created By",
@@ -605,39 +664,285 @@
       "facetView": [
         {
           "category": "Default",
-          "facets": ["Deprecated", "Record Status", "Substance Class", "GInAS Tag", "GInAS Domain", "Code System", "ATC Level 1", "ATC Level 2", "ATC Level 3", "ATC Level 4", "WHO-SDG Level 1", "WHO-SDG Level 2", "DME Reactions", "Application Center", "Application Type", "Application Status", "Material Type", "Family", "Parts", "Moiety Type", "Molecular Weight", "SubstanceStereochemistry", "root_approved", "Approved By", "root_created", "Record Created By", "root_lastEdited", "root_lastEditedBy", "Record Level Access", "Display Name Level Access", "Definition Level Access", "Protein Type", "Product Ingredient Type", "Product Type", "Product Dosage Form", "Definition Level", "Clinical Trial Count", "Relationships"]
+          "facets": [
+            "Deprecated",
+            "Record Status",
+            "Substance Class",
+            "GInAS Tag",
+            "GInAS Domain",
+            "Code System",
+            "ATC Level 1",
+            "ATC Level 2",
+            "ATC Level 3",
+            "ATC Level 4",
+            "WHO-SDG Level 1",
+            "WHO-SDG Level 2",
+            "DME Reactions",
+            "Application Center",
+            "Application Type",
+            "Application Status",
+            "Material Type",
+            "Family",
+            "Parts",
+            "Moiety Type",
+            "Molecular Weight",
+            "SubstanceStereochemistry",
+            "root_approved",
+            "Approved By",
+            "root_created",
+            "Record Created By",
+            "root_lastEdited",
+            "root_lastEditedBy",
+            "Record Level Access",
+            "Display Name Level Access",
+            "Definition Level Access",
+            "Protein Type",
+            "Product Ingredient Type",
+            "Product Type",
+            "Product Dosage Form",
+            "Definition Level",
+            "Relationships",
+            "Clinical Trial US Count",
+            "Clinical Trial US Status",
+            "Clinical Trial Europe Count",
+            "Clinical Trial Europe Status"
+          ]
         },
         {
           "category": "Record Data",
-          "facets": ["Deprecated", "Record Status", "Substance Class", "Definition Type", "Definition Level", "GInAS Tag", "GInAS Domain", "GInAS Language", "GInAS Name Jurisdiction", "Code System", "root_approved", "Approved By", "root_created", "Record Created By", "root_lastEdited", "root_lastEditedBy", "Record Level Access", "Display Name Level Access", "Definition Level Access", "Validation", "Reference Type", "GInAS Document Tag", "Relationships"]
+          "facets": [
+            "Deprecated",
+            "Record Status",
+            "Substance Class",
+            "Definition Type",
+            "Definition Level",
+            "GInAS Tag",
+            "GInAS Domain",
+            "GInAS Language",
+            "GInAS Name Jurisdiction",
+            "Code System",
+            "root_approved",
+            "Approved By",
+            "root_created",
+            "Record Created By",
+            "root_lastEdited",
+            "root_lastEditedBy",
+            "Record Level Access",
+            "Display Name Level Access",
+            "Definition Level Access",
+            "Validation",
+            "Reference Type",
+            "GInAS Document Tag",
+            "Relationships"
+          ]
         },
         {
           "category": "User Data",
-          "facets": ["Record Created By", "Approved By", "root_lastEditedBy"]
+          "facets": [
+            "Record Created By",
+            "Approved By",
+            "root_lastEditedBy"
+          ]
         },
         {
           "category": "CMC Data",
-          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Moiety Type", "Application Center", "Application Type", "Application Status", "Product Ingredient Type", "Product Type", "Product Dosage Form", "Clinical Trial Count", "CFR", "Qualification", "Interaction Type"]
+          "facets": [
+            "Record Status",
+            "Substance Class",
+            "Code System",
+            "GInAS Tag",
+            "Moiety Type",
+            "Application Center",
+            "Application Type",
+            "Application Status",
+            "Product Ingredient Type",
+            "Product Type",
+            "Product Dosage Form",
+            "Clinical Trial US Count",
+            "Clinical Trial US Status",
+            "Clinical Trial Europe Count",
+            "Clinical Trial Europe Status",
+            "CFR",
+            "Qualification",
+            "Interaction Type"
+          ]
         },
         {
           "category": "Medical Data",
-          "facets": ["Record Status", "Substance Class", "ATC Level 1", "ATC Level 2", "ATC Level 3", "ATC Level 4", "WHO-SDG Level 1", "WHO-SDG Level 2", "DME Reactions", "Code System", "GInAS Tag", "Product Ingredient Type", "Product Type", "Product Dosage Form", "Clinical Trial Count", "CFR"]
+          "facets": [
+            "Record Status",
+            "Substance Class",
+            "ATC Level 1",
+            "ATC Level 2",
+            "ATC Level 3",
+            "ATC Level 4",
+            "WHO-SDG Level 1",
+            "WHO-SDG Level 2",
+            "DME Reactions",
+            "Code System",
+            "GInAS Tag",
+            "Product Ingredient Type",
+            "Product Type",
+            "Product Dosage Form",
+            "Clinical Trial US Count",
+            "Clinical Trial US Status",
+            "Clinical Trial Europe Count",
+            "Clinical Trial Europe Status",
+            "CFR"
+          ]
         },
         {
           "category": "Chemistry",
-          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Moiety Type", "Molecular Weight", "SubstanceStereochemistry", "Molecular Formula", "Polymer Class", "GInAS Subclass", "Polymer Geometry"]
+          "facets": [
+            "Record Status",
+            "Substance Class",
+            "Code System",
+            "GInAS Tag",
+            "Moiety Type",
+            "Molecular Weight",
+            "SubstanceStereochemistry",
+            "Molecular Formula",
+            "Polymer Class",
+            "GInAS Subclass",
+            "Polymer Geometry"
+          ]
         },
         {
           "category": "Proteins, DNA and RNA",
-          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Protein Type", "Modifications", "Glycosylation Type", "Protein Subtype", "Linkage Type", "Nucleic Acid Subtype", "Sequence Origin", "Sequence Type", "Molecular Weight"]
+          "facets": [
+            "Record Status",
+            "Substance Class",
+            "Code System",
+            "GInAS Tag",
+            "Protein Type",
+            "Modifications",
+            "Glycosylation Type",
+            "Protein Subtype",
+            "Linkage Type",
+            "Nucleic Acid Subtype",
+            "Sequence Origin",
+            "Sequence Type",
+            "Molecular Weight"
+          ]
         },
         {
           "category": "Organisms",
-          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Material Class", "Material Type", "Modifications", "Parts", "Family", "Genus", "Species", "Author"]
+          "facets": [
+            "Record Status",
+            "Substance Class",
+            "Code System",
+            "GInAS Tag",
+            "Material Class",
+            "Material Type",
+            "Modifications",
+            "Parts",
+            "Family",
+            "Genus",
+            "Species",
+            "Author"
+          ]
         },
         {
           "category": "Codes",
-          "facets": ["ATCC", "BDNUM", "BIOLOGIC SUBSTANCE CLASSIFICATION CODE", "CAS", "CAYMAN", "CERES", "CFR", "CFSAN PSEUDO CAS", "ChEMBL", "CLINICAL_TRIALS.GOV", "Code System", "CODEX ALIMENTARIUS (GSFA)", "COSMETIC INGREDIENT REVIEW (CIR)", "DASH INDICATION", "DEA NO.", "DME Reactions", "DRUG BANK", "DRUG CENTRAL", "DSLD", "EC (ENZYME CLASS)", "EC SCIENTIFIC COMMITTEE ON CONSUMER SAFETY OPINION", "ECHA (EC/EINECS)", "EMA ASSESSMENT REPORTS", "EMA VETERINARY ASSESSMENT REPORTS", "EPA CompTox", "EPA PESTICIDE CODE", "EU CLINICAL TRIALS REGISTER", "EU FOOD ADDITIVES", "EU-Orphan Drug", "EVMPD", "FARM SUBSTANCE ID", "FDA ORPHAN DRUG", "FDA UNII", "Food Contact Sustance Notif, (FCN No.)", "GENE", "GRIN", "HEALTH -CANADA NHP INGREDIENT MONOGRAPH", "HEALTH-CANADA NHP INGREDIENT RECORD", "HSDB", "IARC", "INCB IDS CODE", "INN", "INS", "ITIS", "IUPHAR", "JAPANESE REVIEW", "JECFA EVALUATION", "JECFA MONOGRAPH", "JMPR-PESTICIDE RESIDUE", "KEGG", "LactMed", "LIVERTOX", "LOINC", "MANUFACTURER PRODUCT INFORMATION", "MERCK INDEX", "MESH", "MIRBASE", "MPNS", "NCBI TAXONOMY", "NCI_THESAURUS", "NDF-RT", "NSC", "Other", "PFAF", "PHAROS", "PROTEIN ID", "PUBCHEM", "RXCUI", "STARI", "SUPERSEDED_BD_NUM", "SWGDRUG", "UCSF-FDA TRANSPORTAL", "UNII", "UNIPROT", "USDA PLANTS", "USP_CATALOG", "USP-HMC", "WEB RESOURCE", "WHO INTERNATIONAL PHARMACOPEIA", "WHO INTERNATIONAL PHARMACPOEIA", "WHO-ATC", "WHO-ESSENTIAL MEDICINES LIST", "WHO-SDG", "WHO-SDG Level 1", "WHO-SDG Level 2", "WHO-VATC", "WIKIPEDIA", "YELLOW LIST"]
+          "facets": [
+            "ATCC",
+            "BDNUM",
+            "BIOLOGIC SUBSTANCE CLASSIFICATION CODE",
+            "CAS",
+            "CAYMAN",
+            "CERES",
+            "CFR",
+            "CFSAN PSEUDO CAS",
+            "ChEMBL",
+            "CLINICAL_TRIALS.GOV",
+            "Code System",
+            "CODEX ALIMENTARIUS (GSFA)",
+            "COSMETIC INGREDIENT REVIEW (CIR)",
+            "DASH INDICATION",
+            "DEA NO.",
+            "DME Reactions",
+            "DRUG BANK",
+            "DRUG CENTRAL",
+            "DSLD",
+            "EC (ENZYME CLASS)",
+            "EC SCIENTIFIC COMMITTEE ON CONSUMER SAFETY OPINION",
+            "ECHA (EC/EINECS)",
+            "EMA ASSESSMENT REPORTS",
+            "EMA VETERINARY ASSESSMENT REPORTS",
+            "EPA CompTox",
+            "EPA PESTICIDE CODE",
+            "EU CLINICAL TRIALS REGISTER",
+            "EU FOOD ADDITIVES",
+            "EU-Orphan Drug",
+            "EVMPD",
+            "FARM SUBSTANCE ID",
+            "FDA ORPHAN DRUG",
+            "FDA UNII",
+            "Food Contact Sustance Notif, (FCN No.)",
+            "GENE",
+            "GRIN",
+            "HEALTH -CANADA NHP INGREDIENT MONOGRAPH",
+            "HEALTH-CANADA NHP INGREDIENT RECORD",
+            "HSDB",
+            "IARC",
+            "INCB IDS CODE",
+            "INN",
+            "INS",
+            "ITIS",
+            "IUPHAR",
+            "JAPANESE REVIEW",
+            "JECFA EVALUATION",
+            "JECFA MONOGRAPH",
+            "JMPR-PESTICIDE RESIDUE",
+            "KEGG",
+            "LactMed",
+            "LIVERTOX",
+            "LOINC",
+            "MANUFACTURER PRODUCT INFORMATION",
+            "MERCK INDEX",
+            "MESH",
+            "MIRBASE",
+            "MPNS",
+            "NCBI TAXONOMY",
+            "NCI_THESAURUS",
+            "NDF-RT",
+            "NSC",
+            "Other",
+            "PFAF",
+            "PHAROS",
+            "PROTEIN ID",
+            "PUBCHEM",
+            "RXCUI",
+            "STARI",
+            "SUPERSEDED_BD_NUM",
+            "SWGDRUG",
+            "UCSF-FDA TRANSPORTAL",
+            "UNII",
+            "UNIPROT",
+            "USDA PLANTS",
+            "USP_CATALOG",
+            "USP-HMC",
+            "WEB RESOURCE",
+            "WHO INTERNATIONAL PHARMACOPEIA",
+            "WHO INTERNATIONAL PHARMACPOEIA",
+            "WHO-ATC",
+            "WHO-ESSENTIAL MEDICINES LIST",
+            "WHO-SDG",
+            "WHO-SDG Level 1",
+            "WHO-SDG Level 2",
+            "WHO-VATC",
+            "WIKIPEDIA",
+            "YELLOW LIST"
+          ]
+        },
+        {
+          "category": "Clinical Trials",
+          "facets": [
+            "Clinical Trial US Count",
+            "Clinical Trial US Status",
+            "Clinical Trial Europe Count",
+            "Clinical Trial Europe Status"
+          ]
         }
       ]
     },
@@ -654,6 +959,7 @@
         "Submit Date Year",
         "Application Number",
         "Ingredient Name",
+        "Ingredient Name (Preferred)",
         "Provenance (GSRS)",
         "Public Domain",
         "Product Name",
@@ -666,7 +972,9 @@
         "Dosage Form",
         "Division Class Description",
         "Source",
-        "Product Name Deprecated"
+        "Product Name Deprecated",
+        "NCT Number",
+        "Has Clinical Trials"
       ],
       "admin": [
         "Record Created By",
@@ -718,6 +1026,7 @@
         "Last Updated Year",
         "Primary Completion Year",
         "First Posted Year",
+        "Trial Status",
         "Study Types",
         "Gender",
         "Age Groups",
@@ -733,6 +1042,7 @@
         "Last Updated Year",
         "Primary Completion Year",
         "First Posted Year",
+        "Trial Status",
         "Study Types",
         "Gender",
         "Age Groups",
@@ -743,10 +1053,13 @@
     },
     "adverseeventpt": {
       "default": [
-        "Adverse Event",
+        "PT Term",
         "Prim SOC",
         "Ingredient Name",
+        "Ingredient Name (Case Count)",
         "Substance Key",
+        "Case Count",
+        "PRR",
         "ATC Level 1",
         "ATC Level 2",
         "ATC Level 3",
@@ -786,8 +1099,7 @@
     "EVMPD",
     "NCI"
   ],
-
-  "homeContents": "The main goal of ginas is the production of software, called GSRS, to assist agencies in registering and documenting information about substances found in medicines. The Global Ingredient Archival System provides a common identifier for all of the substances used in medicinal products, utilizing a consistent definition of substances globally, including active substances under clinical investigation, consistent with the ISO 11238 standard.",
+  "homeContents": "The main goal of ginas is the production of software, called G-SRS, to assist agencies in registering and documenting information about substances found in medicines. The Global Ingredient Archival System provides a common identifier for all of the substances used in medicinal products, utilizing a consistent definition of substances globally, including active substances under clinical investigation, consistent with the ISO 11238 standard.",
   "relationshipsVisualizationUri": "/ginas/app/beta/substanceRelationshipVisualizer/index.html?uuid=",
   "navItems": [
     {
@@ -818,7 +1130,19 @@
       "display": "Register",
       "children": [
         {
-           "component": "applications",
+          "component": "ssg2",
+          "display": "G2 Specified Substance",
+          "path": "substances-ssg2/register",
+          "order": 180
+        },
+        {
+          "component": "ssg4m",
+          "display": "G4 Specified Substance Manufacturing",
+          "path": "substances-ssg4m/register",
+          "order": 190
+        },
+        {
+          "component": "applications",
           "display": "Application",
           "path": "application/register",
           "order": 200
@@ -829,9 +1153,8 @@
           "path": "product/register",
           "order": 210
         },
-       {
-
-       "component": "impurities",
+        {
+          "component": "impurities",
           "display": "Impurities",
           "path": "impurities/register",
           "order": 220
@@ -844,8 +1167,13 @@
       "children": [
         {
           "display": "User Manual",
-          "href": "https://gsrs.ncats.nih.gov/downloads/Substance%20Registration%20-%20October%202019.docx",
+          "path": "user-manual",
           "order": 10
+        },
+        {
+          "display": "Submit a Helpdesk Ticket (JIRA)",
+          "path": "jira-submit",
+          "order": 20
         },
         {
           "display": "Email GSRS Support",
@@ -857,6 +1185,7 @@
   ],
   "substanceSelectorProperties": [
     "root_names_name",
+    "root_names_stdName",
     "root_approvalID",
     "root_codes_BDNUM",
     "root_codes_CAS",
@@ -866,166 +1195,263 @@
     {
       "display": "Chemicals",
       "facetName": "Substance Class",
-      "facetValue":"chemical"
+      "facetValue": "chemical"
     },
     {
       "display": "Polymers",
       "facetName": "Substance Class",
-      "facetValue":"polymer"
+      "facetValue": "polymer"
     },
     {
       "display": "Structurally Diverse",
       "facetName": "Substance Class",
-      "facetValue":"structurallyDiverse"
+      "facetValue": "structurallyDiverse"
     },
     {
       "display": "Proteins",
       "facetName": "Substance Class",
-      "facetValue":"protein"
+      "facetValue": "protein"
     },
     {
       "display": "Nucleic Acids",
       "facetName": "Substance Class",
-      "facetValue":"nucleicAcid"
+      "facetValue": "nucleicAcid"
     },
     {
       "display": "Concepts",
       "facetName": "Substance Class",
-      "facetValue":"concept"
+      "facetValue": "concept"
     }
   ],
   "registrarDynamicLinks": [
     {
       "display": "Chemicals",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"chemical"
-      }]
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "chemical"
+        }
+      ]
     },
     {
       "display": "Polymers",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"polymer"
-      }]
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "polymer"
+        }
+      ]
     },
     {
       "display": "Structurally Diverse",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"structurallyDiverse"
-      }]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "structurallyDiverse"
+        }
+      ]
     },
     {
       "display": "Proteins",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"protein"
-      }]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "protein"
+        }
+      ]
     },
     {
       "display": "Nucleic Acids",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"nucleicAcid"
-      }]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "nucleicAcid"
+        }
+      ]
     },
     {
       "display": "Concepts",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"concept"
-      }]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "concept"
+        }
+      ]
     },
     {
       "display": "SSG1",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"specifiedSubstanceG1"
-      }]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "specifiedSubstanceG1"
+        }
+      ]
     }
   ],
   "registrarDynamicLinks2": [
     {
       "display": "Pending Chemicals",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"chemical"
-      },
-    {"facetName": "Record Status",
-      "facetValue":"pending"}
-    ]
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "chemical"
+        },
+        {
+          "facetName": "Record Status",
+          "facetValue": "pending"
+        }
+      ]
     },
     {
       "display": "Pending Polymers",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"polymer"
-      },
-      {"facetName": "Record Status",
-        "facetValue":"pending"}]
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "polymer"
+        },
+        {
+          "facetName": "Record Status",
+          "facetValue": "pending"
+        }
+      ]
     },
     {
       "display": "Pending Structurally Diverse",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"structurallyDiverse"
-      },
-      {"facetName": "Record Status",
-        "facetValue":"pending"}]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "structurallyDiverse"
+        },
+        {
+          "facetName": "Record Status",
+          "facetValue": "pending"
+        }
+      ]
     },
     {
       "display": "Pending Proteins",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"protein"
-      },
-      {"facetName": "Record Status",
-        "facetValue":"pending"}]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "protein"
+        },
+        {
+          "facetName": "Record Status",
+          "facetValue": "pending"
+        }
+      ]
     },
     {
       "display": "Pending Nucleic Acids",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"nucleicAcid"
-      },
-      {"facetName": "Record Status",
-        "facetValue":"pending"}]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "nucleicAcid"
+        },
+        {
+          "facetName": "Record Status",
+          "facetValue": "pending"
+        }
+      ]
     },
     {
       "display": "Pending Concepts",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"concept"
-      },
-      {"facetName": "Record Status",
-        "facetValue":"pending"}]
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "concept"
+        },
+        {
+          "facetName": "Record Status",
+          "facetValue": "pending"
+        }
+      ]
     },
-   {
+    {
       "display": "Pending SSG1",
-      "facets":[{
-        "facetName": "Substance Class",
-        "facetValue":"specifiedSubstanceG1"
-      },
-      {"facetName": "Record Status",
-        "facetValue":"pending"}]
-
+      "facets": [
+        {
+          "facetName": "Substance Class",
+          "facetValue": "specifiedSubstanceG1"
+        },
+        {
+          "facetName": "Record Status",
+          "facetValue": "pending"
+        }
+      ]
     }
   ],
-  "substance":{
-    "linking":{
-      "keyType":{
-        "default":"BDNUM",
-        "orgDisplayKeyType":"BDNUM",
-        "clinicalTrialKeyType":"UUID"
+  "substance": {
+    "linking": {
+      "keyType": {
+        "default": "BDNUM",
+        "orgDisplayKeyType": "BDNUM",
+        "clinicalTrialKeyType": "UUID"
+      }
+    }
+  },
+  "ssg4Form": {
+    "showRegisterEditTitle": "true",
+    "titles": {
+      "parentSubstance": "Search or Register a New Substance",
+      "stage": "Step",
+      "processingMaterials": "Solvents and Catalysts"
+    },
+    "settingsDisplay": {
+      "process": {
+        "processName": "simple",
+        "processRole": "advanced",
+        "processType": "advanced",
+        "processDescription": "advanced",
+        "processComments": "advanced"
+      },
+      "site": {
+        "siteName": "advanced",
+        "siteIdType": "advanced",
+        "siteId": "advanced",
+        "siteAddress": "advanced",
+        "gpsSiteLocation": "advanced",
+        "siteClearance": "advanced",
+        "siteComments": "advanced"
+      },
+      "stage": {
+        "stageNumber": "simple",
+        "stageType": "advanced",
+        "stageRole": "advanced",
+        "stageEquipment": "advanced",
+        "stageComments": "advanced"
+      },
+      "criteriaParameter": {
+        "propertyName": "simple",
+        "average": "simple",
+        "lowLimit": "simple",
+        "highLimit": "simple",
+        "units": "simple",
+        "propertyType": "advanced",
+        "referencedSubstance": "advanced",
+        "amountType": "advanced",
+        "low": "advanced",
+        "high": "advanced",
+        "nonNumericValue": "advanced",
+        "parameters": "removed"
+      },
+      "startingMaterial": {
+        "substanceName": "simple",
+        "verbatimName": "simple",
+        "substanceRole": "simple",
+        "comments": "advanced"
+      },
+      "processingMaterial": {
+        "substanceName": "simple",
+        "verbatimName": "simple",
+        "substanceRole": "simple",
+        "comments": "advanced"
+      },
+      "resultingMaterial": {
+        "substanceName": "simple",
+        "verbatimName": "simple",
+        "substanceRole": "simple",
+        "comments": "advanced"
       }
     }
   }
