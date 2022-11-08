@@ -26,9 +26,9 @@
     "Application Record Create Date":{
         "lucenePath":"root_creationDate",
         "description":"Record Create Date",
-        "type":"string",
+        "type":"timestamp",
         "cvDomain":null,
-        "priority":null,
+        "priority":"x",
         "suggest":null
     },
     "Application Record Created By":{
@@ -42,9 +42,9 @@
     "Application Record Last Edited":{
         "lucenePath":"root_lastModifiedDate",
         "description":"Record Last Edited",
-        "type":"string",
+        "type":"timestamp",
         "cvDomain":null,
-        "priority":null,
+        "priority":"x",
         "suggest":null
     },
     "Application Record Last Edited By":{
