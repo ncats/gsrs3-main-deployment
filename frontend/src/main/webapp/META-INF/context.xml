@@ -1,0 +1,4 @@
+<Context path="/frontend" docBase="frontend">
+    <Resources cacheMaxSize="40960"/>
+    <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="${gateway.allow.pattern:-\d+\.\d+\.\d+\.\d+}"/>
+</Context>
