@@ -1,11 +1,11 @@
 {
-  "version": "3.0",
-  "contactEmail": "GSRSSupport@fda.hhs.gov",
+  "apiBaseUrl": "/",
+  "version": "3.0.3",
+  "contactEmail": "admin@admin.com",
   "displayMatchApplication": "true",
   "adverseEventShinyHomepageDisplay": "true",
   "adverseEventShinySubstanceNameDisplay": "true",
   "adverseEventShinyAdverseEventDisplay": "true",
-  "FAERSDashboardAdverseEventUrl": "https://fis.fda.gov/sense/app/95239e26-e0be-42d9-a960-9a5f7f1c25ee/sheet/45beeb74-30ab-46be-8267-5756582633b4/state/analysis",
   "bannerMessage": null,
   "showNameStandardizeButton": true,
   "advancedSearchFacetDisplay": false,
@@ -1099,6 +1099,7 @@
     "EVMPD",
     "NCI"
   ],
+  "homeHeader": "Global Substance Registration System - GSRS",
   "homeContents": "The main goal of ginas is the production of software, called G-SRS, to assist agencies in registering and documenting information about substances found in medicines. The Global Ingredient Archival System provides a common identifier for all of the substances used in medicinal products, utilizing a consistent definition of substances globally, including active substances under clinical investigation, consistent with the ISO 11238 standard.",
   "relationshipsVisualizationUri": "/ginas/app/beta/substanceRelationshipVisualizer/index.html?uuid=",
   "navItems": [
