@@ -10,7 +10,7 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>substances</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>3.0.3-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>substances</name>
     <description>Demo project for Spring Boot</description>

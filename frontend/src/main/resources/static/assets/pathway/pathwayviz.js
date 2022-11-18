@@ -12,6 +12,38 @@ schemeUtil.maxContinuousSteps=3;
 schemeUtil.debug=true;
 schemeUtil.apiBaseURL="";
 
+schemeUtil.urlResolver=function(url, cb){
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      cb(this.responseText);
+    }else  if (this.readyState == 4 && this.status > 400) {
+	  cb("ERROR");
+	}
+  };
+  xhttp.open('GET', url, true);
+  xhttp.send();
+};
+schemeUtil.icons={
+	'harrow':"<svg version='1.1' width='213' height='71' viewBox='-0.709 -0.235 213 71' enable-background='new -0.709 -0.235 213 71' xml:space='preserve'><defs></defs><polygon points='0,26.488 0,44.144 167.747,44.144 167.747,70.631 211.89,35.316 167.747,0 167.747,26.488 '/></svg>",
+	'varrow':"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='71' height='213' viewBox='-0.709 -0.235 71 213' enable-background='new -0.709 -0.235 71 213' xml:space='preserve'><defs xmlns=''/><polygon xmlns='http://www.w3.org/2000/svg' points='26.488,0 44.144,0 44.144,167.747 70.631,167.747 35.316,211.89 0,167.747 26.488,167.747'/></svg>",
+  'plus': "<svg xml:space='preserve' enable-background='new -0.709 -0.235 211 211' viewBox='-0.709 -0.235 211 211' height='50' width='50' version='1.1' xmlns:a='http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg'><defs></defs><polygon points='97.26563,210.54688  97.26563,113.08594  0,113.08594  0,97.07031  97.26563,97.07031  97.26563,0  112.89063,0  112.89063,97.07031  210.54688,97.07031  210.54688,113.08594  112.89063,113.08594  112.89063,210.54688  97.26563,210.54688  '/></svg>"
+};
+schemeUtil.svgResolver=function(c, cb){
+    //this assumes it starts as an image URL
+	var url=c.href.baseVal;
+	//it's a real url
+	if(url.indexOf('http')==0){
+		schemeUtil.urlResolver(url,function(s){
+			cb(s);
+		});
+	}else{
+		var imgtag= c.getAttribute("imgTag");
+		if(imgtag && schemeUtil.icons[imgtag]){
+			cb(schemeUtil.icons[imgtag]);
+		}
+	}
+};
 
 schemeUtil.showApprovalID=false;
 schemeUtil.approvalCode="UNII";
@@ -298,6 +330,22 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
     }
   };
 
+  var getTag = (n) => {
+    if (n.type === "reaction") {
+      if(schemeUtil.layout === "horizontal"){
+        return "harrow";
+      }else {
+        return "varrow";
+      }
+    } else if (n.img) {
+      return n.img;
+    } else if (n.type === "plus") {
+      return "plus";
+    } else {
+      return "placeholder";
+    }
+  };
+
   var getLeftText = (n) => {
     if (n.leftText) {
       return n.leftText;
@@ -325,6 +373,10 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
   var getBracketWidth = (n) => {
     if (n.brackets) return 1;
     return 0;
+  };
+  var getBracketVisibility =  (n) => {
+    if (n.brackets) return "visible";
+    return "hidden";
   };
   var getHeight = (n) => {
     if (n.type === "reaction") {
@@ -505,6 +557,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       .append("line")
       .style("stroke", "black")
       .style("stroke-width", (d) => getBracketWidth(d))
+	  .style("visibility", (d) => getBracketVisibility(d))
       .attr("x1", -paddingBrack)
       .attr("y1", -paddingBrack)
       .attr("x2", -paddingBrack)
@@ -515,6 +568,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       .append("line")
       .style("stroke", "black")
       .style("stroke-width", (d) => getBracketWidth(d))
+	  .style("visibility", (d) => getBracketVisibility(d))
       .attr("x1", -paddingBrack)
       .attr("y1", -paddingBrack)
       .attr("x2", 0)
@@ -524,6 +578,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       .append("line")
       .style("stroke", "black")
       .style("stroke-width", (d) => getBracketWidth(d))
+	  .style("visibility", (d) => getBracketVisibility(d))
       .attr("x1", -paddingBrack)
       .attr("y1", (d) => getHeightPx(d) + paddingBrack)
       .attr("x2", 0)
@@ -533,6 +588,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       .append("line")
       .style("stroke", "black")
       .style("stroke-width", (d) => getBracketWidth(d))
+	  .style("visibility", (d) => getBracketVisibility(d))
       .attr("x1", (d) => getWidthPx(d) + paddingBrack)
       .attr("y1", -paddingBrack)
       .attr("x2", (d) => getWidthPx(d) + paddingBrack)
@@ -543,6 +599,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       .append("line")
       .style("stroke", "black")
       .style("stroke-width", (d) => getBracketWidth(d))
+	  .style("visibility", (d) => getBracketVisibility(d))
       .attr("x1", (d) => getWidthPx(d) + paddingBrack)
       .attr("y1", -paddingBrack)
       .attr("x2", (d) => getWidthPx(d))
@@ -552,6 +609,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       .append("line")
       .style("stroke", "black")
       .style("stroke-width", (d) => getBracketWidth(d))
+	  .style("visibility", (d) => getBracketVisibility(d))
       .attr("x1", (d) => getWidthPx(d) + paddingBrack)
       .attr("y1", (d) => getHeightPx(d) + paddingBrack)
       .attr("x2", (d) => getWidthPx(d))
@@ -562,6 +620,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
 
       .attr("class", "node")
       .attr("xlink:href", (d) => getImg(d))
+      .attr("imgTag", (d) => getTag(d))
       .attr("width", (d) => getWidth(d))
       .attr("height", (d) => getHeight(d))
 	  .attr("r", nodeRadius);
@@ -575,7 +634,31 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
 				schemeUtil.renderScheme(nn2, selector, iter - 1, 0, -bbox.y);
 			}
 		} else{
-			schemeUtil.onFinishedLayout(svg);
+				var numIMG=document.querySelectorAll('image.node').length;
+				var tickDownFunction = ()=>{
+					numIMG--;
+					if(numIMG==0){
+					   schemeUtil.onFinishedLayout(svg);
+					}
+				};
+				document.querySelectorAll('image.node').forEach(c=>{
+				  schemeUtil.svgResolver(c, function(foundSvg){
+					if(foundSvg==="ERROR"){
+						tickDownFunction();
+					}else{
+						var svgGot = foundSvg.replaceAll(/[<][?]xml[^>]*>/g,'')
+						var tsvg=document.createElement('g')
+						tsvg.innerHTML=svgGot;
+						var elm=tsvg.firstElementChild;
+						elm.setAttribute('width',c.getAttribute('width'));
+						elm.setAttribute('height',c.getAttribute('height'));
+						c.parentElement.appendChild(elm);
+						c.remove();
+						tickDownFunction();
+					}
+				  });
+				});
+			  
 		}		
 	 })
 	 .on("tick", function () {
