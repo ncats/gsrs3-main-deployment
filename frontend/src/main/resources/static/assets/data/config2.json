@@ -1,0 +1,958 @@
+{
+  "apiBaseUrl" : "@gateway.host@",
+  "version": "3.0",
+  "contactEmail": "GSRSSupport@fda.hhs.gov",
+  "displayMatchApplication": "true",
+  "showOldLinks": true,
+  "adverseEventShinyHomepageDisplay": "true",
+  "adverseEventShinySubstanceNameDisplay": "true",
+  "adverseEventShinyAdverseEventDisplay": "true",
+  "bannerMessage": "<h3>announcement test</h3>This is a test of the custom banner message <b>this text should be in bold</b>",
+  "substanceDetailsCards": [
+    {
+      "card": "substance-overview",
+      "title": "overview"
+    },
+    {
+      "card": "fda-substance-product",
+      "title": "Products, Applications, Clinical Trials, Adverse Events",
+      "filters": [
+        {}
+      ]
+    },
+    {
+      "card": "substance-primary-definition",
+      "title": "primary definition",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "definitionType",
+          "value": "ALTERNATIVE"
+        }
+      ]
+    },
+    {
+      "card": "substance-alternative-definition",
+      "type": "SUBSTANCE->SUB_ALTERNATE",
+      "title": "alternative definitions",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        },
+        {
+          "filterName": "substanceRelationships",
+          "value": "SUBSTANCE->SUB_ALTERNATE"
+        }
+      ]
+    },
+    {
+      "card": "structure-details",
+      "title": "structure",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "chemical|polymer"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "structure"
+        }
+      ]
+    },
+    {
+      "card": "substance-names",
+      "title": "names",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "names"
+        }
+      ]
+    },
+    {
+      "card": "substance-codes",
+      "type": "classification",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "codes"
+        },
+        {
+          "filterName": "substanceCodes",
+          "value": "classification"
+        }
+      ]
+    },
+    {
+      "card": "substance-codes",
+      "type": "identifiers",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "codes"
+        },
+        {
+          "filterName": "substanceCodes",
+          "value": "identifiers"
+        }
+      ]
+    },
+    {
+      "card": "substance-subunits",
+      "title": "subunits",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "protein"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "protein.subunits"
+        }
+      ]
+    },
+    {
+      "card": "substance-subunits",
+      "title": "subunits",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "nucleicAcid"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "nucleicAcid.subunits"
+        }
+      ]
+    },
+    {
+      "card": "substance-glycosylation",
+      "title": "glycosylation",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "protein"
+        },
+        {
+          "filterName": "anyExists",
+          "propertyToCheck": "protein.glycosylation.glycosylationType|protein.glycosylation.CGlycosylationSites|protein.glycosylation.NGlycosylationSites|protein.glycosylation.OGlycosylationSites"
+        }
+      ]
+    },
+    {
+      "card": "substance-disulfide-links",
+      "title": "disulfide links",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "protein"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "protein.disulfideLinks"
+        }
+      ]
+    },
+    {
+      "card": "substance-other-links",
+      "title": "other links",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "protein"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "protein.otherLinks"
+        }
+      ]
+    },
+    {
+      "card": "substance-relationships",
+      "type": "METABOLITE",
+      "title": "metabolites",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        },
+        {
+          "filterName": "substanceRelationships",
+          "value": "METABOLITE"
+        }
+      ]
+    },
+    {
+      "card": "substance-relationships",
+      "type": "IMPURITY",
+      "title": "impurities",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        },
+        {
+          "filterName": "substanceRelationships",
+          "value": "IMPURITY"
+        }
+      ]
+    },
+    {
+      "card": "substance-relationships",
+      "type": "ACTIVE MOIETY",
+      "title": "active moiety",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        },
+        {
+          "filterName": "substanceRelationships",
+          "value": "ACTIVE MOIETY"
+        }
+      ]
+    },
+    {
+      "card": "substance-relationships",
+      "type": "CONSTITUENT",
+      "title": "constituents",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        },
+        {
+          "filterName": "substanceRelationships",
+          "value": "CONSTITUENT"
+        }
+      ]
+    },
+    {
+      "card": "substance-relationships",
+      "type": "SUB_CONCEPT->SUBSTANCE",
+      "title": "variant concepts",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        },
+        {
+          "filterName": "substanceRelationships",
+          "value": "SUB_CONCEPT->SUBSTANCE"
+        }
+      ]
+    },
+    {
+      "card": "substance-relationships",
+      "type": "RELATIONSHIPS",
+      "title": "relationships",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        },
+        {
+          "filterName": "substanceRelationships",
+          "value": [
+            "METABOLITE",
+            "IMPURITY",
+            "ACTIVE MOIETY",
+            "CONSTITUENT",
+            "SUB_CONCEPT->SUBSTANCE"
+          ]
+        }
+      ]
+    },
+    {
+      "card": "substance-relationships-visualization",
+      "title": "Relationships Visualization",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "relationships"
+        }
+      ]
+    },
+    {
+      "card": "substance-notes",
+      "title": "notes",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "notes"
+        }
+      ]
+    },
+    {
+      "card": "substance-audit-info",
+      "title": "audit info"
+    },
+    {
+      "card": "substance-references",
+      "title": "references",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "references"
+        }
+      ]
+    },
+    {
+      "card": "substance-moieties",
+      "title": "moieties",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "chemical"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "moieties"
+        }
+      ]
+    },
+    {
+      "card": "substance-concept-definition",
+      "title": "concept definition",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "concept"
+        }
+      ]
+    },
+    {
+      "card": "substance-polymer-structure",
+      "title": "display structure",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "polymer"
+        }
+      ]
+    },
+    {
+      "card": "substance-monomers",
+      "title": "monomers",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "polymer"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "polymer.monomers"
+        }
+      ]
+    },
+    {
+      "card": "substance-structural-units",
+      "title": "Structural Units",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "polymer"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "polymer.structuralUnits"
+        }
+      ]
+    },
+    {
+      "card": "substance-mixture-components",
+      "title": "mixture components",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "mixture"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "mixture.components"
+        }
+      ]
+    },
+    {
+      "card": "substance-mixture-parent",
+      "title": "mixture parent",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "$$mixtureParents"
+        }
+      ]
+    },
+    {
+      "card": "substance-ssg1-parent",
+      "title": "SSG1 parent",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "$$constituentParents"
+        }
+      ]
+    },
+    {
+      "card": "substance-constituents",
+      "title": "specified substance constituents",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "specifiedSubstanceG1"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "specifiedSubstance.constituents"
+        }
+      ]
+    },
+    {
+      "card": "substance-mixture-source",
+      "title": "mixture source",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "mixture"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "mixture.parentSubstance"
+        }
+      ]
+    },
+    {
+      "card": "substance-modifications",
+      "title": "substance modifications",
+      "filters": [
+        {
+          "filterName": "anyExists",
+          "propertyToCheck": "modifications.structuralModifications|modifications.physicalModifications|modifications.agentModifications"
+        }
+      ]
+    },
+    {
+      "card": "substance-na-sugars",
+      "title": "sugars",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "nucleicAcid"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "nucleicAcid.sugars"
+        }
+      ]
+    },
+    {
+      "card": "substance-na-linkages",
+      "title": "linkages",
+      "filters": [
+        {
+          "filterName": "equals",
+          "propertyToCheck": "substanceClass",
+          "value": "nucleicAcid"
+        },
+        {
+          "filterName": "exists",
+          "propertyToCheck": "nucleicAcid.linkages"
+        }
+      ]
+    },
+    {
+      "card": "substance-properties",
+      "title": "characteristic attributes",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "properties"
+        }
+      ]
+    },
+    {
+      "card": "substance-history",
+      "title": "history",
+      "filters": [
+        {
+          "filterName": "hasCredentials",
+          "propertyToCheck": "admin"
+        }
+      ]
+    },
+    {
+      "card": "substance-ssg-parent-substance",
+      "title": "parent substance",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "specifiedSubstanceG3.parentSubstance"
+        }
+      ]
+    },
+    {
+      "card": "substance-ssg-definition",
+      "title": "definition",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "specifiedSubstanceG3.definition"
+        }
+      ]
+    },
+    {
+      "card": "substance-ssg-grade",
+      "title": "grade",
+      "filters": [
+        {
+          "filterName": "exists",
+          "propertyToCheck": "specifiedSubstanceG3.grade"
+        }
+      ]
+    }
+  ],
+  "facets": {
+    "substances": {
+      "default": [
+        "Deprecated",
+        "Record Status",
+        "Substance Class",
+        "GInAS Tag",
+        "Relationships",
+        "Code System",
+        "ATC Level 1",
+        "ATC Level 2",
+        "ATC Level 3",
+        "ATC Level 4",
+        "WHO-SDG Level 1",
+        "WHO-SDG Level 2",
+        "Application Status",
+        "Application Type",
+        "DME Reactions",
+        "Moiety Type",
+        "Molecular Weight",
+        "SubstanceStereochemistry",
+        "Record Level Access",
+        "Display Name Level Access",
+        "Definition Level Access",
+        "Protein Type",
+        "modified",
+        "Product Ingredient Type",
+        "Product Name Type",
+        "Product Dosage Form",
+        "Definition Level",
+        "Clinical Trial Count"
+      ],
+      "admin": [
+        "Record Created By",
+        "root_lastEdited",
+        "root_lastEditedBy",
+        "root_approved",
+        "Approved By",
+        "Material Type",
+        "Family",
+        "Parts"
+      ],
+      "facetView": [
+        {
+          "category": "Default",
+          "facets": ["Deprecated", "Record Status", "Substance Class", "GInAS Tag", "GInAS Domain", "Code System", "ATC Level 1", "ATC Level 2", "ATC Level 3", "ATC Level 4", "WHO-SDG Level 1", "WHO-SDG Level 2", "DME Reactions", "Application Center", "Application Type", "Application Status", "Material Type", "Family", "Parts", "Moiety Type", "Molecular Weight", "SubstanceStereochemistry", "root_approved", "root_lastEdited", "Record Created By", "Approved By", "root_lastEditedBy", "Record Level Access", "Display Name Level Access", "Definition Level Access", "Protein Type", "Product Ingredient Type", "Product Name Type", "Product Dosage Form", "Definition Level", "Clinical Trial Count", "Relationships"]
+        },
+        {
+          "category": "Record Data",
+          "facets": ["Deprecated", "Record Status", "Substance Class", "Definition Type", "Definition Level", "GInAS Tag", "GInAS Domain", "GInAS Language", "GInAS Name Jurisdiction", "Code System", "root_approved", "root_lastEdited", "Record Created By", "root_lastEditedBy", "Approved By", "Record Level Access", "Display Name Level Access", "Definition Level Access", "Validation", "Reference Type", "GInAS Document Tag", "Relationships"]
+        },
+        {
+          "category": "User Data",
+          "facets": ["Record Created By", "Approved By", "root_lastEditedBy"]
+        },
+        {
+          "category": "CMC Data",
+          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Moiety Type", "Application Center", "Application Type", "Application Status", "Product Ingredient Type", "Product Name Type", "Product Dosage Form", "Clinical Trial Count", "CFR", "Qualification", "Interaction Type"]
+        },
+        {
+          "category": "Medical Data",
+          "facets": ["Record Status", "Substance Class", "ATC Level 1", "ATC Level 2", "ATC Level 3", "ATC Level 4", "WHO-SDG Level 1", "WHO-SDG Level 2", "DME Reactions", "Code System", "GInAS Tag", "Product Ingredient Type", "Product Name Type", "Product Dosage Form", "Clinical Trial Count", "CFR"]
+        },
+        {
+          "category": "Chemistry",
+          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Moiety Type", "Molecular Weight", "SubstanceStereochemistry", "Molecular Formula", "Polymer Class", "GInAS Subclass", "Polymer Geometry"]
+        },
+        {
+          "category": "Proteins, DNA and RNA",
+          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Protein Type", "Modifications", "Glycosylation Type", "Protein Subtype", "Linkage Type", "Nucleic Acid Subtype", "Sequence Origin", "Sequence Type", "Molecular Weight"]
+        },
+        {
+          "category": "Organisms",
+          "facets": ["Record Status", "Substance Class", "Code System", "GInAS Tag", "Material Class", "Material Type", "Modifications", "Parts", "Family", "Genus", "Species", "Author"]
+        },
+        {
+          "category": "Codes",
+          "facets": ["ATCC", "BDNUM", "BIOLOGIC SUBSTANCE CLASSIFICATION CODE", "CAS", "CAYMAN", "CERES", "CFR", "CFSAN PSEUDO CAS", "ChEMBL", "CLINICAL_TRIALS.GOV", "Code System", "CODEX ALIMENTARIUS (GSFA)", "COSMETIC INGREDIENT REVIEW (CIR)", "DASH INDICATION", "DEA NO.", "DME Reactions", "DRUG BANK", "DRUG CENTRAL", "DSLD", "EC (ENZYME CLASS)", "EC SCIENTIFIC COMMITTEE ON CONSUMER SAFETY OPINION", "ECHA (EC/EINECS)", "EMA ASSESSMENT REPORTS", "EMA VETERINARY ASSESSMENT REPORTS", "EPA CompTox", "EPA PESTICIDE CODE", "EU CLINICAL TRIALS REGISTER", "EU FOOD ADDITIVES", "EU-Orphan Drug", "EVMPD", "FARM SUBSTANCE ID", "FDA ORPHAN DRUG", "FDA UNII", "Food Contact Sustance Notif, (FCN No.)", "GENE", "GRIN", "HEALTH -CANADA NHP INGREDIENT MONOGRAPH", "HEALTH-CANADA NHP INGREDIENT RECORD", "HSDB", "IARC", "INCB IDS CODE", "INN", "INS", "ITIS", "IUPHAR", "JAPANESE REVIEW", "JECFA EVALUATION", "JECFA MONOGRAPH", "JMPR-PESTICIDE RESIDUE", "KEGG", "LactMed", "LIVERTOX", "LOINC", "MANUFACTURER PRODUCT INFORMATION", "MERCK INDEX", "MESH", "MIRBASE", "MPNS", "NCBI TAXONOMY", "NCI_THESAURUS", "NDF-RT", "NSC", "Other", "PFAF", "PHAROS", "PROTEIN ID", "PUBCHEM", "RXCUI", "STARI", "SUPERSEDED_BD_NUM", "SWGDRUG", "UCSF-FDA TRANSPORTAL", "UNII", "UNIPROT", "USDA PLANTS", "USP_CATALOG", "USP-HMC", "WEB RESOURCE", "WHO INTERNATIONAL PHARMACOPEIA", "WHO INTERNATIONAL PHARMACPOEIA", "WHO-ATC", "WHO-ESSENTIAL MEDICINES LIST", "WHO-SDG", "WHO-SDG Level 1", "WHO-SDG Level 2", "WHO-VATC", "WIKIPEDIA", "YELLOW LIST"]
+        }    
+      ]
+    },
+    "applications": {
+      "default": [
+        "Application Type",
+        "Center",
+        "Title",
+        "Has Indications",
+        "Has Ingredients",
+        "Has Products",
+        "Status Date Year",
+        "Submit Date",
+        "Submit Date Year",
+        "Application Number",
+        "Ingredient Name",
+        "Provenance (GSRS)",
+        "Public Domain",
+        "Product Name",
+        "Sponsor Name",
+        "Application Status",
+        "Ingredient Type",
+        "Substance Key",
+        "Application Sub Type",
+        "Indication",
+        "Dosage Form",
+        "Division Class Description",
+        "Source",
+        "Product Name Deprecated"
+      ],  
+      "admin": [
+        "Record Created By",
+        "Record Last Edited By",
+        "Record Create Date",
+        "Record Last Edited",
+        "Ingredient Created By",
+        "Ingredient Last Edited By",
+        "Ingredient Create Date",
+        "Ingredient Last Edited"
+      ]
+    },
+    "products": {
+      "default": [
+        "Product Name",
+        "Nonproprietary Name",
+        "Product NDC",
+        "Dosage Form Name",
+        "Ingredient Name",
+        "Ingredient Type",
+        "Product Type",
+        "Product Code Type",
+        "Application Number",
+        "Status",
+        "Marketing Category Name",
+        "Route of Admin",
+        "Is Listed",
+        "Labeler Name",
+        "Labeler DUNS Number",
+        "Registrant Name",
+        "Registrant DUNS",
+        "City",
+        "State",
+        "Company Country",
+        "Country Code",
+        "Provenance"
+      ]
+    },
+    "ctclinicaltrial": {
+      "default": [
+        "Has Substances",
+        "CT Matching Complete",
+        "Last Updated Year",
+        "Primary Completion Year",
+        "First Posted Year",
+        "Study Types",
+        "Gender",
+        "Age Groups",
+        "Intervention Type",
+        "Study Results",
+        "Conditions"
+      ]
+    },
+    "adverseeventpt": {
+      "default": [
+        "Adverse Event",
+        "Prim SOC",
+        "Ingredient Name",
+        "Substance Key"
+      ]
+    },
+    "adverseeventdme": {
+      "default": [
+        "DME Reactions",
+        "PTTerm Meddra",
+        "Ingredient Name",
+        "Substance Key"
+      ]
+    },
+    "adverseeventcvm": {
+      "default": [
+        "Adverse Event",
+        "Species",
+        "Route of Administration",
+        "Ingredient Name",
+        "Substance Key"
+      ]
+    }
+  },
+  "codeSystemOrder": [
+    "BDNUM",
+    "CAS",
+    "WHO-ATC",
+    "EVMPD",
+    "NCI"
+  ],
+
+  "homeContents": "The main goal of ginas is the production of software, called G-SRS, to assist agencies in registering and documenting information about substances found in medicines. The Global Ingredient Archival System provides a common identifier for all of the substances used in medicinal products, utilizing a consistent definition of substances globally, including active substances under clinical investigation, consistent with the ISO 11238 standard.",
+  "relationshipsVisualizationUri": "/ginas/app/beta/substanceRelationshipVisualizer/index.html?uuid=",
+  "navItems": [
+    {
+      "display": "Browse Applications",
+      "path": "browse-applications",
+      "order": 11
+    },
+    {
+      "display": "Browse Products",
+      "path": "browse-products",
+      "order": 12
+    },
+    {
+      "display": "Browse Clinical Trials",
+      "path": "browse-clinical-trials",
+      "order": 13
+    },
+    {
+      "display": "Register",
+      "children": [
+        {
+          "display": "Application",
+          "path": "application/register",
+          "order": 200
+        },
+        {
+          "display": "Product",
+          "path": "product/register",
+          "order": 210
+        },
+        {
+          "display": "Impurities",
+          "path": "impurities/register",
+          "order": 220
+        }
+      ]
+    },
+    {
+      "display": "Help",
+      "order": 60,
+      "children": [
+        {
+          "display": "User Manual",
+          "path": "user-manual",
+          "order": 10
+        },
+        {
+          "display": "Submit a Helpdesk Ticket (JIRA)",
+          "path": "jira-submit",
+          "order": 20
+        },
+        {
+          "display": "Email GSRS Support",
+          "path": "",
+          "order": 30
+        }
+      ]
+    }
+  ],
+  "substanceSelectorProperties": [
+    "root_names_name",
+    "root_approvalID",
+    "root_codes_BDNUM",
+    "root_codes_CAS",
+    "root_codes_ECHA\\ \\(EC\\/EINECS\\)"
+  ],
+  "homeDynamicLinks": [
+    {
+      "display": "Chemicals",
+      "facetName": "Substance Class",
+      "facetValue":"chemical"
+    },
+    {
+      "display": "Polymers",
+      "facetName": "Substance Class",
+      "facetValue":"polymer"
+    },
+    {
+      "display": "Structurally Diverse",
+      "facetName": "Substance Class",
+      "facetValue":"structurallyDiverse"
+    },
+    {
+      "display": "Proteins",
+      "facetName": "Substance Class",
+      "facetValue":"protein"
+    },
+    {
+      "display": "Nucleic Acids",
+      "facetName": "Substance Class",
+      "facetValue":"nucleicAcid"
+    },
+    {
+      "display": "Concepts",
+      "facetName": "Substance Class",
+      "facetValue":"concept"
+    }
+  ],
+  "registrarDynamicLinks": [
+    {
+      "display": "Chemicals",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"chemical"
+      }]
+    },
+    {
+      "display": "Polymers",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"polymer"
+      }]
+    },
+    {
+      "display": "Structurally Diverse",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"structurallyDiverse"
+      }]
+
+    },
+    {
+      "display": "Proteins",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"protein"
+      }]
+
+    },
+    {
+      "display": "Nucleic Acids",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"nucleicAcid"
+      }]
+
+    },
+    {
+      "display": "Concepts",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"concept"
+      }]
+
+    },
+    {
+      "display": "SSG1",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"specifiedSubstanceG1"
+      }]
+
+    }
+  ],
+  "registrarDynamicLinks2": [
+    {
+      "display": "Pending Chemicals",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"chemical"
+      },
+    {"facetName": "Record Status",
+      "facetValue":"pending"}
+    ]
+    },
+    {
+      "display": "Pending Polymers",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"polymer"
+      },
+      {"facetName": "Record Status",
+        "facetValue":"pending"}]
+    },
+    {
+      "display": "Pending Structurally Diverse",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"structurallyDiverse"
+      },
+      {"facetName": "Record Status",
+        "facetValue":"pending"}]
+
+    },
+    {
+      "display": "Pending Proteins",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"protein"
+      },
+      {"facetName": "Record Status",
+        "facetValue":"pending"}]
+
+    },
+    {
+      "display": "Pending Nucleic Acids",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"nucleicAcid"
+      },
+      {"facetName": "Record Status",
+        "facetValue":"pending"}]
+
+    },
+    {
+      "display": "Pending Concepts",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"concept"
+      },
+      {"facetName": "Record Status",
+        "facetValue":"pending"}]
+    },
+   {
+      "display": "Pending SSG1",
+      "facets":[{
+        "facetName": "Substance Class",
+        "facetValue":"specifiedSubstanceG1"
+      },
+      {"facetName": "Record Status",
+        "facetValue":"pending"}]
+
+    }
+  ],
+  "substance":{
+    "linking":{
+      "keyType":{
+        "default":"BDNUM",
+        "orgDisplayKeyType":"BDNUM",
+        "clinicalTrialKeyType":"UUID"
+      }
+    }
+  }
+}

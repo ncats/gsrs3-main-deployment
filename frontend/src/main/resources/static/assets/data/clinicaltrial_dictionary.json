@@ -1,0 +1,86 @@
+{
+    "Age Groups":{
+        "lucenePath":"root_ageGroups",
+        "description":"Age Groups",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "CT Matching Complete":{
+        "lucenePath":"root_ctMatchingComplete",
+        "description":"CT Matching Complete",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Deprecated":{
+        "lucenePath":"root_deprecated",
+        "description":"Clinical Trial Deprecated",
+        "type":"string",
+        "cvDomain":null,
+        "priority":null
+    },
+    "Conditions":{
+        "lucenePath":"root_conditions",
+        "description":"Conditions",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "First Posted Year":{
+        "lucenePath":"root_firstPostedYear",
+        "description":"First Posted Year",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Has Substances":{
+        "lucenePath":"root_hasSubstances",
+        "description":"Has Substances",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Intervention Type":{
+        "lucenePath":"root_invterventionType",
+        "description":"Intervention Type",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Last Updated Year":{
+        "lucenePath":"root_lastUpdatedYear",
+        "description":"Last Updated Year",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Primary Completion Year":{
+        "lucenePath":"root_primaryCompletionYear",
+        "description":"Primary Completion Year",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Sponsor":{
+        "lucenePath":"root_sponsor",
+        "description":"Sponsor",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Study Results":{
+        "lucenePath":"root_studyResults",
+        "description":"Study Results",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    },
+    "Study Types":{
+        "lucenePath":"root_studyTypes",
+        "description":"Study Types",
+        "type":"string",
+        "cvDomain":null,
+        "priority":"x"
+    }
+}

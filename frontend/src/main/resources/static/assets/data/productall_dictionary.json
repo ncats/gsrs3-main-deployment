@@ -238,21 +238,5 @@
         "cvDomain":"PROD_UNIT_PRESENTATION",
         "priority":"x",
         "suggest":null
-    },
-    "Product Record Create Date":{
-        "lucenePath":"root_creationDate",
-        "description":"Record Create Date",
-        "type":"timestamp",
-        "cvDomain":null,
-        "priority":"x",
-        "suggest":null
-    },
-    "Product Record Last Edited":{
-        "lucenePath":"root_lastModifiedDate",
-        "description":"Record Last Edited",
-        "type":"timestamp",
-        "cvDomain":null,
-        "priority":"x",
-        "suggest":null
     }
 }
