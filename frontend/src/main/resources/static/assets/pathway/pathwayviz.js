@@ -6,6 +6,7 @@
 */
 var schemeUtil={};
 
+//https://gsrs.preprod.fda.gov/ginas/app/api/v1/substances/render(2e2b4b1b-f598-4364-bf49-55bc942e690f)?format=svg&stereo=false&bondLength=10&maxWidth=250&minWidth=50&maxHeight=250&minHeight=50
 
 schemeUtil.layout="horizontal";
 schemeUtil.maxContinuousSteps=3;
@@ -27,7 +28,7 @@ schemeUtil.urlResolver=function(url, cb){
 schemeUtil.icons={
 	'harrow':"<svg version='1.1' width='213' height='71' viewBox='-0.709 -0.235 213 71' enable-background='new -0.709 -0.235 213 71' xml:space='preserve'><defs></defs><polygon points='0,26.488 0,44.144 167.747,44.144 167.747,70.631 211.89,35.316 167.747,0 167.747,26.488 '/></svg>",
 	'varrow':"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='71' height='213' viewBox='-0.709 -0.235 71 213' enable-background='new -0.709 -0.235 71 213' xml:space='preserve'><defs xmlns=''/><polygon xmlns='http://www.w3.org/2000/svg' points='26.488,0 44.144,0 44.144,167.747 70.631,167.747 35.316,211.89 0,167.747 26.488,167.747'/></svg>",
-  'plus': "<svg xml:space='preserve' enable-background='new -0.709 -0.235 211 211' viewBox='-0.709 -0.235 211 211' height='50' width='50' version='1.1' xmlns:a='http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg'><defs></defs><polygon points='97.26563,210.54688  97.26563,113.08594  0,113.08594  0,97.07031  97.26563,97.07031  97.26563,0  112.89063,0  112.89063,97.07031  210.54688,97.07031  210.54688,113.08594  112.89063,113.08594  112.89063,210.54688  97.26563,210.54688  '/></svg>"
+    'plus': "<svg xml:space='preserve' enable-background='new -0.709 -0.235 211 211' viewBox='-0.709 -0.235 211 211' height='50' width='50' version='1.1' xmlns:a='http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns='http://www.w3.org/2000/svg'><defs></defs><polygon points='97.26563,210.54688  97.26563,113.08594  0,113.08594  0,97.07031  97.26563,97.07031  97.26563,0  112.89063,0  112.89063,97.07031  210.54688,97.07031  210.54688,113.08594  112.89063,113.08594  112.89063,210.54688  97.26563,210.54688  '/></svg>"
 };
 schemeUtil.svgResolver=function(c, cb){
     //this assumes it starts as an image URL
@@ -46,6 +47,7 @@ schemeUtil.svgResolver=function(c, cb){
 };
 
 schemeUtil.showApprovalID=false;
+schemeUtil.showReagents=true;
 schemeUtil.approvalCode="UNII";
 schemeUtil.width=1500;
 schemeUtil.height=2000;
@@ -98,7 +100,7 @@ schemeUtil.makeMaterialNode = function(smat, pidArr){
    if(smat.verbatimName){
     nn.bottomText=smat.verbatimName;
    }else{
-    nn.bottomText = smat.substanceName.refPname;
+    nn.bottomText=smat.substanceName.refPname;
    }
    nn.name = smat.substanceName.approvalID;
    nn.type = "material";
@@ -118,8 +120,12 @@ schemeUtil.makeMaterialNode = function(smat, pidArr){
    }
    return nn;
 };
-schemeUtil.makeDisplayGraph = function(g4, maxSteps) {
+schemeUtil.makeDisplayGraph = function(g4, maxSteps, showReagents) {
   if(!maxSteps)maxSteps = schemeUtil.maxContinuousSteps;
+  if(!showReagents)showReagents = schemeUtil.showReagents;
+  
+  var restartEachProcess=true;
+  var showProcessNumber=true;
   
   var nodes = [];
   var links = [];
@@ -134,7 +140,9 @@ schemeUtil.makeDisplayGraph = function(g4, maxSteps) {
     var p = g4.specifiedSubstanceG4m.process[i];
     var stg = p.sites[0].stages;
     var pcanMap = {};
-	
+	if(restartEachProcess){
+		canMap={};	
+	}
 	var subSteps=0;
 	var addedNodes=[];
     for (ii = 0; ii < stg.length; ii++) {
@@ -151,6 +159,7 @@ schemeUtil.makeDisplayGraph = function(g4, maxSteps) {
       var stage = stg[ii];
       var sms = stage.startingMaterials;
       var rms = stage.resultingMaterials;
+	  var prs = stage.processingMaterials;
       var smnodes = [];
 	  
 	 
@@ -188,8 +197,25 @@ schemeUtil.makeDisplayGraph = function(g4, maxSteps) {
         }
       }
 	  
+	  var stepText = "Step " + stage.stageNumber;
+	  var bottomText = "";
+	  
+	  
+	  if(showProcessNumber && g4.specifiedSubstanceG4m.process.length>1){
+		stepText = p.processName.trim() + ": " +stepText;
+	  }
+	  
+	  if(showReagents){
+		stepText = prs.filter(f=>f.substanceRole.toLowerCase() !== "solvent")
+		              .map(f=>(f.verbatimName)?(f.verbatimName):f.substanceName.refPname)
+					  .join("\n");
+		bottomText = prs.filter(f=>f.substanceRole.toLowerCase() === "solvent")
+		              .map(f=>(f.verbatimName)?(f.verbatimName):f.substanceName.refPname)
+					  .join("\n");
+	  }
+	  
 
-      var rn = { type: "reaction", leftText: "Step " + stage.stageNumber };
+      var rn = { type: "reaction", leftText: stepText, bottomText: bottomText};
       
       rn.processIndex=i;
       rn.stepIndex=ii;
@@ -353,6 +379,37 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       return "";
     }
   };
+  var getLeftTextHeight = (n) => {
+    return 32*getLeftText(n).split("\n").length;
+  };
+  
+  var getLeftTextSVG = (n) => {
+	var txt= getLeftText(n);
+	if(txt==="")return "";
+	var lines = txt.split("\n");
+    var first = -1.2*lines.length;	
+    return txt.split("\n")
+	               .map((t,i)=>"<tspan x=\"0\" dy=\"" + ((i===0)?(first+""):"1.2")+  "em\">" + t + "</tspan>").join("\n");;
+  };
+  var getBottomText = (n) => {
+    if (n.bottomText) {
+      return n.bottomText;
+    } else {
+      return "";
+    }
+  };
+  var getBottomTextSVG = (n) => {
+	var txt=getBottomText(n);
+	var off=(getHeight(n)-0)+20;
+	
+	if(txt==="")return "";
+	var lines = txt.split("\n");
+    var first = off + "px";	
+	
+    return txt.split("\n")
+	               .map((t,i)=>"<tspan x=\"0\" dy=\"" + ((i===0)?(first+""):"1.2em")+  "\">" + t + "</tspan>").join("\n");;
+  };
+  
   var getWidth = (n) => {
     if (n.type === "reaction") {
       return "32";
@@ -506,19 +563,19 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
 
     mnode
       .append("text")
-      .text(function (d) {
-        return schemeUtil.maxLenAndOffset(d.bottomText, maxText).text;
-      })
-      .attr("dy", cheight + 20)
-	  .attr("dx", (d) => schemeUtil.textWidthPx * schemeUtil.maxLenAndOffset(d.bottomText, maxText).offset)
+      
+      .attr("dy", (d) => 0)
+	  .attr("dx", (d) => (d.type!=="reaction")?(schemeUtil.textWidthPx * schemeUtil.maxLenAndOffset(d.bottomText, maxText).offset):0)
       .attr("font-family", "monospace")
 	  .attr("fill", schemeUtil.highlightColor)
 	  .attr("font-weight", "bold")
-	  .attr("text-decoration","underline");
+	  .attr("text-decoration","underline")
+	  .html(function (d) {
+        return getBottomTextSVG(d);
+      });
     
     mnode
       .append("text")
-      .text((d) => getLeftText(d))
       .attr(
         "dx",
         (d) => {
@@ -533,14 +590,15 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
 			if(schemeUtil.layout === "vertical"){
 				return (getHeight(d).replace("px", "")-0) / 2;
 			}else{
-				return -1* ((getHeight(d).replace("px", "")-0));
+				return -1* ((getHeight(d).replace("px", "")-getLeftTextHeight(d)));
 			}
 		}
 	  )
       .attr("font-family", "monospace")
 	  .attr("fill", schemeUtil.highlightColor)
 	  .attr("font-weight", "bold")
-	  .attr("text-decoration","underline");
+	  .attr("text-decoration","underline")
+	  .html((d) => getLeftTextSVG(d));
     
     
     mnode
@@ -548,7 +606,7 @@ schemeUtil.renderScheme=function(nn2, selector, iter, ddx, ddy) {
       .text(function (d) {
         return schemeUtil.maxLenAndOffset(d.name, maxText).text;
       })
-	  .attr("dx", (d) => schemeUtil.textWidthPx * schemeUtil.maxLenAndOffset(d.bottomText, maxText).offset)
+	  .attr("dx", (d) => schemeUtil.textWidthPx * schemeUtil.maxLenAndOffset(d.name, maxText).offset)
       .attr("dy", -20)
       .attr("font-family", "monospace");
 
