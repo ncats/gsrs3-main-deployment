@@ -201,8 +201,8 @@ In substances/src/main/resources/application.conf add the following:
 #                        "auth-key"="YOURAPIQUERYUSER's key"
 # }
 
-gsrs.microservice.clinicaltrialsus.api.baseURL="http://localhost:8081"
-gsrs.microservice.clinicaltrialseurope.api.baseURL="http://localhost:8081"
+gsrs.microservice.clinicaltrialsus.api.baseURL="http://localhost:8081/"
+gsrs.microservice.clinicaltrialseurope.api.baseURL="http://localhost:8081/"
 
 gsrs.indexers.list += {
   "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalUSTrialIndexValueMaker"
