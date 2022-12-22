@@ -10,18 +10,18 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>applications</artifactId>
-    <version>0.1.3-SNAPSHOT</version>
+    <version>3.0.3-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>applications</name>
     <description>GSRS Application Microservices Spring Boot</description>
     <properties>
         <java.version>8</java.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.application.version>0.1.3-SNAPSHOT</gsrs.application.version>
-        <gsrs.starter.version>3.0.2-SNAPSHOT</gsrs.starter.version>
+        <gsrs.application.version>3.0.3-SNAPSHOT</gsrs.application.version>
+        <gsrs.starter.version>3.0.3-SNAPSHOT</gsrs.starter.version>
         <log4j2.version>2.17.1</log4j2.version>
         <!-- TO BE REMOVED -->
-        <gsrs.substance.version>3.0.2-SNAPSHOT</gsrs.substance.version>
+        <gsrs.substance.version>3.0.3-SNAPSHOT</gsrs.substance.version>
     </properties>
 
     <distributionManagement>
