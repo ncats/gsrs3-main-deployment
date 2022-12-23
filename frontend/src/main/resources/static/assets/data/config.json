@@ -1,6 +1,6 @@
 {
   "apiBaseUrl" : "http://localhost:8081/",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "contactEmail": "admin@admin.com",
   "displayMatchApplication": "false",
   "adverseEventShinyHomepageDisplay": "true",
@@ -18,8 +18,11 @@
     "products": true,
     "clinicaltrials": true,
     "adverseevents": true,
-    "impurities": true
-    },
+    "impurities": true,
+    "ssg2": false,
+    "ssg4m": false,
+    "userRegistration": false
+  },
   "usefulLinks": [
     {"title": "GSRSFind Excel tools",
     "description": "GSRSFind is an add-in for Microsoft Excel that gives a user access to data in GSRS for both search/browse and creation/modification purposes. (Note: write access requires valid credentials!)<br/>GSRSFind can augment an existing spreadsheet with data from GSRS. For example, you can add chemical structures to a column of names or identifiers.",
@@ -434,16 +437,6 @@
       ]
     },
     {
-      "card": "substance-relationships-visualization",
-      "title": "Relationships Visualization",
-      "filters": [
-        {
-          "filterName": "exists",
-          "propertyToCheck": "relationships"
-        }
-      ]
-    },
-    {
       "card": "substance-relationships",
       "type": "ACTIVE MOIETY",
       "title": "Relationships: Active Moiety",
@@ -791,6 +784,11 @@
   "relationshipsVisualizationUri": "/ginas/app/beta/substanceRelationshipVisualizer/index.html?uuid=",
   "navItems": [
     {
+      "display": "Browse Substances",
+      "path": "browse-substance",
+      "order": 10
+    },
+    {
       "component": "applications",
       "display": "Browse Applications",
       "path": "browse-applications",
@@ -839,6 +837,35 @@
       ]
     },
     {
+      "display": "Search",
+      "children": [
+        {
+          "component": "",
+          "display": "Advanced Search",
+          "path": "advanced-search",
+          "order": 180
+        },
+        {
+          "component": "",
+          "display": "Bulk Search",
+          "path": "bulk-search",
+          "order": 190
+        },
+        {
+          "component": "",
+          "display": "Structure Search",
+          "path": "structure-search",
+          "order": 200
+        },
+        {
+          "component": "",
+          "display": "Sequence Search",
+          "path": "sequence-search",
+          "order": 210
+        }
+      ]
+    },
+    {
       "display": "Help",
       "order": 60,
       "children": [
@@ -848,11 +875,22 @@
           "order": 10
         },
         {
+          "component": "",
+          "kind": "contact-us",
           "display": "Email GSRS Support",
-          "path": "",
+          "mailToPath": "mailto:%s",
+          "queryParams": {"subject" : "Support request"},
           "order": 30
         }
       ]
+    },
+    {
+      "component": "",
+      "kind": "contact-us",
+      "display": "Contact Us",
+      "mailToPath": "mailto:%s",
+      "queryParams": {"subject" : "Support request"},
+      "order": 30
     }
   ],
   "substanceSelectorProperties": [

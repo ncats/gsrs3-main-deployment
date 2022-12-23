@@ -36,6 +36,7 @@ spring.datasource.username=<username>
 spring.datasource.password=<password>
 spring.jpa.database-platform = <database dialect>
 ```
+
 #### Note:
 Some database systems require a hibernate 'dialect' class to work with GSRS.  (See https://www.educba.com/hibernate-dialect/ for more information.)
 For example, PostGreSQL 
@@ -58,6 +59,12 @@ H2:
 ```
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 ```
+
+### Lucene Upgrade in Release 3.0.3
+In release 3.0.3, Lucene version is upgraded from 4.10.0 to 5.5.0. If you are doing a fresh new installation of GSRS from scratch, you can skip this section. 
+
+Lucene version 5.5.0 has a different format from version 4.10.0. So, we included the lucene-backward-codecs.jar in the project. A full reindexing is needed to make it work. 
+In very rare cases, you may need to remove the whole indexes directory, and then do a full reindexed. 
 
 
 ## Core Dependency Repos
