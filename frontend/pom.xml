@@ -38,6 +38,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.zeldigas</groupId>
+            <artifactId>spring-hocon-property-source</artifactId>
+            <version>0.4.0</version>
+        </dependency>
     </dependencies>
 
     <build>

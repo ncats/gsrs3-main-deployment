@@ -1,0 +1,5 @@
+<Context docBase="ROOT">
+    <Resources allowLinking="true" className="org.apache.catalina.webresources.StandardRoot">
+        <PreResources className="org.apache.catalina.webresources.DirResourceSet" base="${user.dir}/conf" internalPath="/" webAppMount="/WEB-INF/classes" />
+    </Resources>
+</Context>
