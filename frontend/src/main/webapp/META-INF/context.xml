@@ -1,4 +1,6 @@
-<Context path="/frontend" docBase="frontend">
-    <Resources cacheMaxSize="40960"/>
+<Context docBase="frontend">
     <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="${gateway.allow.pattern:-\d+\.\d+\.\d+\.\d+}"/>
+    <Resources cacheMaxSize="40960" allowLinking="true" className="org.apache.catalina.webresources.StandardRoot">
+        <PreResources className="org.apache.catalina.webresources.DirResourceSet" base="${user.dir}/conf" internalPath="/" webAppMount="/WEB-INF/classes" />
+    </Resources>
 </Context>
