@@ -64,7 +64,7 @@ cd ../other-service
 # Get the configurtion details src/main/resources/application.conf 
 # and do the similar to the above 
 ```
-## Starting with GSRS 3.1 we use H2 version 2.x.x
+## In future, h2 will be upgraded, and we will use H2 version 2.x.x
 
 Use a command like this:
 ```
