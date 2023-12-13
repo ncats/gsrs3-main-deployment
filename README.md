@@ -137,7 +137,7 @@ Again in a new terminal or screen session, in the gsrs3-main-deployment director
   # If you’re using a blank database, you may want to add the test set of 18 records by doing the following instead
   # to preload a small sample for testing (fork should be set to true):
   cd substances 
-  ./mvnw clean -U spring-boot:run -Dspring-boot.run.jvmArguments="-Dix.ginas.load.file=src/test/data/rep18.gsrs"
+  ./mvnw clean -U spring-boot:run -Dspring-boot.run.jvmArguments="-Dix.ginas.load.file=src/main/resources/rep18.gsrs"
   ```
 
 - **Running the frontend service:** Again in a new terminal or screen session, in the gsrs3-main-deployment directory launch frontend by:
