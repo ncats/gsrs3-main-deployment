@@ -140,6 +140,21 @@ Again in a new terminal or screen session, in the gsrs3-main-deployment director
   ./mvnw clean -U spring-boot:run -Dspring-boot.run.jvmArguments="-Dix.ginas.load.file=src/main/resources/rep18.gsrs"
   ```
 
+Another reason to use fork=true is if you wish to set jvmArguments for a specific service.  This is more likely to be an issue if you're using embedded tomcat in **production** with a large data set rather than locally. Subustances uses quite a bit of memory, whereas the other services don't need so much; so you'd use the defaults for other services, but apply specific values for substances.  The effect of fork=true is that the service will run in it's own JVM instance. The POM configuration with arguments would like something like this:  
+
+'''
+    <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        ...
+        <configuration>
+            <fork>true</fork>
+            <jvmArguments>-Xmx16000m -Xms12000m</jvmArguments>
+        </configuration>
+    </plugin>
+'''
+
+
 - **Running the frontend service:** Again in a new terminal or screen session, in the gsrs3-main-deployment directory launch frontend by:
   ```
   cd frontend
