@@ -3,15 +3,19 @@ package gsrs.ncats.substances;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gsrs.module.substance.SubstanceEntityService;
 import gsrs.module.substance.repository.SubstanceRepository;
+import gsrs.repository.DBGSRSVersionRepository;
 import gsrs.repository.GroupRepository;
 import gsrs.repository.UserProfileRepository;
+import ix.core.models.DBGSRSVersion;
 import ix.core.models.Group;
 import ix.core.models.Principal;
 import ix.core.models.Role;
 import ix.core.models.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,6 +30,7 @@ import javax.persistence.EntityManager;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -46,6 +51,12 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
     private GroupRepository groupRepository;
     @Autowired
     private SubstanceRepository substanceRepository;
+    
+    @Autowired
+    private DBGSRSVersionRepository dBGSRSVersionRepository;
+    
+    @Autowired
+    BuildProperties buildProperties;
 
     @Autowired
     private EntityManager entityManager;
@@ -55,13 +66,37 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
 
     @Autowired
     private SubstanceEntityService substanceEntityService;
+    
+    @Value("${spring.application.name}")
+    private String entity;
+    
+    @Value("${spring.jpa.hibernate.ddl-auto:none}")
+    private String ddlAutoMode;
+    
+    private final String CREATE_MODE = "create";
+    private final String UPDATE_MODE = "update";
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+    	TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+    	
+    	transactionTemplate.executeWithoutResult(status -> {
+    		String lastVersion = dBGSRSVersionRepository.findMaxVersions(entity);
+    		String dbGsrsVersion = buildProperties.getVersion();
+    		Timestamp timestamp = new Timestamp(System.currentTimeMillis()); 
+    		if(ddlAutoMode.equalsIgnoreCase(CREATE_MODE) || 
+    				(ddlAutoMode.equalsIgnoreCase(UPDATE_MODE) && 
+    						(lastVersion == null || !lastVersion.equalsIgnoreCase(dbGsrsVersion)))) {
+    				DBGSRSVersion dBGSRSVersion = new DBGSRSVersion(entity, dbGsrsVersion, timestamp);
+    				dBGSRSVersionRepository.saveAndFlush(dBGSRSVersion);    			
+    		}            
+        });
+
+    	
         if(groupRepository.count() >0){
             return;
         }
-        TransactionTemplate transactionTemplate = new TransactionTemplate(platformTransactionManager);
+        
         transactionTemplate.executeWithoutResult(status -> {
                     groupRepository.save(new Group("protected"));
                     groupRepository.save(new Group("admin"));
@@ -77,6 +112,15 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
 
                     userProfileRepository.saveAndFlush(up);
 
+                    UserProfile up2 = new UserProfile();
+                    up2.user = new Principal("user1", "user1@example.com");
+                    up2.setPassword("user1");
+                    up2.active = true;
+                    up2.deprecated = false;
+                    up2.setRoles(Arrays.asList(Role.Query));
+
+                    userProfileRepository.saveAndFlush(up2);
+
                     UserProfile guest = new UserProfile();
                     guest.user = new Principal("GUEST", null);
                     guest.setPassword("GUEST");
@@ -89,7 +133,8 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
                     Authentication auth = new UsernamePasswordAuthenticationToken(up.user.username, null,
                             up.getRoles().stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.name())).collect(Collectors.toList()));
 
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    SecurityContextHolder.getContext().setAuthentication(auth);                  
+                    
                 });
 
         String pathToLoadFile = System.getProperty("ix.ginas.load.file");

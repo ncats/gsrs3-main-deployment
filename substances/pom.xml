@@ -10,16 +10,21 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>substances</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.1</version>
     <packaging>war</packaging>
     <name>substances</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>8</java.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.substance.version>3.0.3-SNAPSHOT</gsrs.substance.version>
-        <gsrs.starter.version>3.0.3-SNAPSHOT</gsrs.starter.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <gsrs.substance.version>3.1</gsrs.substance.version>
+        <gsrs.starter.version>3.1</gsrs.starter.version>
+        <log4j2.version>2.17.2</log4j2.version>
+<!-- TODO: refactor -->	
+        <jackson.version>2.13.4</jackson.version>
+        <jackson.databind.version>2.13.4.2</jackson.databind.version>
+<!-- END REFACTOR -->
+
     </properties>
 
     <distributionManagement>
@@ -46,14 +51,14 @@
                 <dependency>
                     <groupId>gov.nih.ncats</groupId>
                     <artifactId>molwitch-cdk</artifactId>
-                    <version>1.0.12-SNAPSHOT</version>
+                    <version>1.0.14</version>
                 </dependency>
             </dependencies>
         </profile>
         <profile>
             <id>jchem3</id>
             <activation>
-                <!-- <activeByDefault>true</activeByDefault> -->
+                <!--activeByDefault>false</activeByDefault-->
                 <property>
                     <name>env.MOLWITCH_FLAVOR</name>
                     <value>jchem3</value>
@@ -63,7 +68,7 @@
                 <dependency>
                     <groupId>gov.nih.ncats</groupId>
                     <artifactId>molwitch-jchem3</artifactId>
-                    <version>1.0.11-SNAPSHOT</version>
+                    <version>1.0.12-SNAPSHOT</version>
                 </dependency>
                 <dependency>
                     <groupId>chemaxon</groupId>
@@ -75,6 +80,7 @@
                     <artifactId>lychi</artifactId>
                     <version>0.7.1</version>
                 </dependency>
+                <!-- this is hardcoded to 3.0-SNAPSHOT based on install extra jars script -->
                 <dependency>
                     <groupId>gov.nih.ncats</groupId>
                     <artifactId>gsrs3-lychi-extension</artifactId>
@@ -94,7 +100,11 @@
             <artifactId>gsrs-controlled-vocabulary</artifactId>
             <version>${gsrs.starter.version}</version>
         </dependency>
-
+	<dependency>
+            <groupId>gov.nih.ncats</groupId>
+            <artifactId>gsrs-module-substances-data-exchange</artifactId>
+            <version>${gsrs.substance.version}</version>
+        </dependency>
 
 <!-- ######################################################### -->
 <!-- FDA specific extra pieces like exporters, validators, etc -->
@@ -185,6 +195,30 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+<!-- TODO: these shouldn't be neccessary but currently are, some other libs not trickling in -->
+<!-- START JACKSON libs to refactor -->
+        <dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-core</artifactId>
+		<version>${jackson.version}</version>
+	</dependency>
+	 <dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>${jackson.databind.version}</version>
+        </dependency>
+        <dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-annotations</artifactId>
+		<version>${jackson.version}</version>
+        </dependency>
+
+<!-- end JACKSON libs to refactor -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -199,15 +233,21 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <fork>false</fork>
-                </configuration>
+                <executions>
+                    <execution>
+                        <id>build-info</id>
+                        <goals>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
+
         </plugins>
     </build>
     <repositories>

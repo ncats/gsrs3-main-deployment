@@ -1,0 +1,35 @@
+This README provides information on upgrading GSRS from 3.0.x to GSRS 3.1 and deploying directly with GSRS 3.1. 
+
+I. Files in this folder:
+1. GSRS_3.1_Oracle_FULL.sql
+This is the GSRS_3.1 full database schema file for Oracle. It is equivalent to what Spring JPA generates.
+2. GSRS_3.1_Oracle_DELTA.sql
+These are the delta scripts including scripts creating new tables, and related new indexes, new sequences and renaming a column compared with last version GSRS3.0.3. 
+3. GSRS_3.1_Oracle_DELTA_With_30_Limit.sql
+Oracle 12c has a length limit of 128 for identifiers. Oracle 19c and newer version do not have this limitation. The sequence names and index names are shortened to be less than or equal to 128 in the scripts. Everything else is the same as GSRS_3.1_Oracle_DELTA.sql.
+4. InsertVersionInfo.sql
+This file is used to insert into the table IX_CORE_DB_GSRS_VERSION to indicate the database schema change. 
+It has a procedure and a calling part. Please make changes to the calling part to suit your system. 
+5. modifyColumnTypesForJPACreatedSchema_3.1.sql
+We observed that With Oracle 12c and 19c, the byte[] fields are mapped to Long Raw data type by Spring JPA. The Long Raw data type causes issues which can be fixed by changing the Long Raw data type to Raw in Oracle.   
+The modifyColumnTypesForJPACreatedSchema_3.1.sql changes the data types from Long Raw to Raw. 
+
+II. Steps to update your substances application: 
+1. Stop your substances application.
+2. Make sure this is set in the application.conf file: 
+    spring.jpa.hibernate.ddl-auto=none
+3. Apply the delta changes to the database using the scripts: GSRS_3.1_Oracle_DELTA.sql. 
+4. Restart your substances application. Make sure spring.jpa.hibernate.ddl-auto=none before restarting.
+5. Reindex. Run the scheduled job:reindex the all core entities from backup tables.
+6. If everything works as expected, make appropriate changes to InsertVersionInfo.sql and run it.
+
+III. Steps to start your substances application FOR THE FIRST TIME. 
+WARNING: Please do NOT follow this if you already have a running GSRS substances.
+1. Delete ginas.ix folder if it exists.
+2. Start substances with spring.jpa.hibernate.ddl-auto=create, and on command line run "mvn clean -U spring-boot:run -DskipTests".
+3. Stop substances, then run modifyColumnTypesForJPACreatedSchema_3.1.sql on database.
+4. Change create to none in the config: spring.jpa.hibernate.ddl-auto=none.
+5. Start substances with "mvn clean -U spring-boot:run -DskipTests".
+6. Start frontend and gateway.
+7. Login as admin, load data with UI.
+Note you do not need to run InsertVersionInfo.sql, the application would insert the database schema version info into the version table.

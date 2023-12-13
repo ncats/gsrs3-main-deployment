@@ -30,11 +30,12 @@ SELECT DISTINCT productid || proprietaryname AS id,
                 'SPL'                        AS fromtable
   FROM ELIST_PRODUCT_MV
 UNION ALL
-SELECT DISTINCT TO_CHAR (product_name_id) AS id,
-                TO_CHAR (product_id),
-                product_name              AS productname,
-                'GSRS'                    AS fromtable
-  FROM srscid_product_name p;
+SELECT DISTINCT TO_CHAR (n.product_name_id) AS id,
+                TO_CHAR (pv.product_id),
+                n.product_name              AS productname,
+                'GSRS'                      AS fromtable
+  FROM srscid_product_name n, srscid_product_provenance pv
+ WHERE n.product_provenance_id = pv.product_provenance_id;
 
 
 CREATE INDEX SRSCID.PRODNAMEALLTWOMV_ID_INDX ON SRSCID_PRODUCT_NAME_ALL_TWO_MV

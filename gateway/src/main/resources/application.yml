@@ -1,3 +1,10 @@
+gsrs:
+  gateway:
+    server:
+      addHeaders:
+        - "Access-Control-Allow-Origin: *"
+        - "Access-Control-Allow-Methods: POST, GET, PUT, PATCH, DELETE, OPTIONS"
+
 eureka:
   client:
     registerWithEureka: true 
@@ -61,7 +68,15 @@ zuul:
     #END applications section
     #############################
 
-
+    api_legacy_ginas_app:
+      path: /ginas/app/**
+      url: http://localhost:8080
+      stripPrefix: true
+    api_legacy_gsrs_app:
+      path: /gsrs/app/**
+      url: http://localhost:8080
+      stripPrefix: true
+      
     #fallback anything else goes to substances
     legacy:
       path: /**

@@ -1,0 +1,36 @@
+This README provides information on upgrading GSRS from 3.0.x to GSRS 3.1 and deploying directly with GSRS 3.1. 
+
+I. Files in this folder:
+1. GSRS_3.1_MySQL_FULL.sql
+This is the GSRS_3.1 full database schema file for MySQL. It is equivalent to what Spring JPA generates.
+2. GSRS_3.1_MySQL_DELTA.sql
+These are the delta scripts including scripts creating new tables, and related new indexes, new sequences and renaming a column compared with last version GSRS3.0.3.
+3. InsertVersionInfo.sql
+This file is used to insert into the table IX_CORE_DB_GSRS_VERSION to indicate the database schema change. 
+It has a procedure and a calling part. Please make changes to the calling part to suit your system. 
+
+II. Steps to update your substances application: 
+If you have customized your database, you need to use the delta scripts GSRS_3.1_MySQL_DELTA.sql to apply the changes introduced in GSRS 3.1.
+Here are the steps:
+1. Stop your substances application.
+2. Make sure this is set in the application.conf file: 
+    spring.jpa.hibernate.ddl-auto=none
+3. Apply the delta changes to the database using the scripts: GSRS_3.1_MySQL_DELTA.sql. 
+4. Restart your substances application. You can set spring.jpa.hibernate.ddl-auto to either none or update before restarting.
+5. Reindex. Run the scheduled job:reindex the all core entities from backup tables.
+6. If everything works as expected, make appropriate changes to InsertVersionInfo.sql and run it.
+
+If you have not customized your system with database model changesyou can follow the same steps described above.
+Or you can run the single last line from GSRS_3.1_MySQL_DELTA.sql 
+    alter table ix_ginas_vocabulary_term rename column value to term_value;
+in step #3.
+Then use spring.jpa.hibernate.ddl-auto=update in your application.conf file in step #4. 
+
+III. Steps to start your substances application FOR THE FIRST TIME. 
+WARNING: Please do NOT follow this if you already have a running GSRS substances.
+1. Delete ginas.ix folder if it exists.
+2. Start substances with spring.jpa.hibernate.ddl-auto=update and on command line run "mvn clean -U spring-boot:run -DskipTests". 
+3. Start substances with "mvn clean -U spring-boot:run -DskipTests".
+4. Start front end and gateway.
+5. Login as admin, load data with UI.
+Note you do not need to run InsertVersionInfo.sql, the application would insert the database schema version info into the version table.

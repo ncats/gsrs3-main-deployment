@@ -52,7 +52,7 @@ SELECT DISTINCT
  WHERE p.labelerndc = TO_CHAR (e.ndc_labeler_code(+))
 UNION ALL
 SELECT TO_CHAR (product_company_id) AS id,
-       TO_CHAR (product_id)         AS productid,
+       TO_CHAR (pv.product_id)      AS productid,
        company_name                 AS labelername,
        company_code                 AS LABELERDUNS,
        NULL                         AS feinumber,
@@ -70,7 +70,8 @@ SELECT TO_CHAR (product_company_id) AS id,
                    INSTR (company_country, '(') - 2))
            AS countrywithoutcode,
        'GSRS'                       AS fromtable
-  FROM srscid_product_company;
+  FROM srscid_product_company c, srscid_product_provenance pv
+ WHERE c.product_provenance_id = pv.product_provenance_id;
 
 
 CREATE INDEX SRSCID.PRODCMPYALLTWOMV_ID_INDX ON SRSCID_PRODUCT_CMPY_ALL_TWO_MV

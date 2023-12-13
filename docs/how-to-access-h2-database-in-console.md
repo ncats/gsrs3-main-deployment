@@ -64,7 +64,12 @@ cd ../other-service
 # Get the configurtion details src/main/resources/application.conf 
 # and do the similar to the above 
 ```
+## In future, h2 will be upgraded, and we will use H2 version 2.x.x
 
+Use a command like this:
+```
+substances> java -cp ~/.m2/repository/com/h2database/h2/2.1.214/h2-2.1.214.jar org.h2.tools.Shell
+```
 ## Notes for Windows Terminal
 
 If you're using the Windows CMD terminal, you'll need to make a few ajustments. 

@@ -5,18 +5,19 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.1</version>
+        <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>frontend</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>frontend</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>1.8</java.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <gateway.host>http://localhost:8080</gateway.host>
+        <log4j2.version>2.17.2</log4j2.version>
     </properties>
     <dependencies>
         <dependency>
@@ -41,7 +42,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -50,7 +51,23 @@
                     <fork>false</fork>
                 </configuration>
             </plugin>
-        </plugins>           
+        </plugins>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>true</filtering>
+                    <includes>
+                        <include>**/config.json</include>
+                    </includes>
+                </resource>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>false</filtering>
+                    <excludes>
+                        <exclude>**/config.json</exclude>
+                    </excludes>
+                </resource>
+            </resources>
     </build>
 
 </project>

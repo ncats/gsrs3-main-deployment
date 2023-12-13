@@ -17,7 +17,9 @@ public class MvcConfiguration implements WebMvcConfigurer {
     @Value("${route.prefix:ginas/app/beta/}")
     private String prefix = "ginas/app/beta/";
     
-
+    public MvcConfiguration(){
+//        System.out.println("here in const");
+    }
     //This is so all the front end refresh/ non-existing files default back to index.html
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -31,6 +33,7 @@ public class MvcConfiguration implements WebMvcConfigurer {
                                resourcePath = resourcePath.substring(prefix.length());
                         }
                         Resource requestedResource = location.createRelative(resourcePath);
+//                        System.out.println("here in res:" + resourcePath);
                         
                         return (requestedResource.exists() && requestedResource.isReadable()) ? requestedResource
                                 : new ClassPathResource("/static/index.html");
