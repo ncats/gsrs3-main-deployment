@@ -10,18 +10,21 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>applications</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>applications</name>
     <description>GSRS Application Microservices Spring Boot</description>
     <properties>
         <java.version>8</java.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.application.version>3.0.3-SNAPSHOT</gsrs.application.version>
-        <gsrs.starter.version>3.0.3-SNAPSHOT</gsrs.starter.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <gsrs.application.version>3.1-SNAPSHOT</gsrs.application.version>
+        <gsrs.starter.version>3.1</gsrs.starter.version>
+        <log4j2.version>2.17.2</log4j2.version>
         <!-- TO BE REMOVED -->
-        <gsrs.substance.version>3.0.3-SNAPSHOT</gsrs.substance.version>
+        <gsrs.substance.version>3.1</gsrs.substance.version>
+        <!-- TODO: refactor -->
+        <jackson.version>2.12.6</jackson.version>
+        <!-- END REFACTOR -->
     </properties>
 
     <distributionManagement>
@@ -82,6 +85,24 @@
         </dependency>
         <!-- JDBC driver classes END -->
 
+        <!-- TODO: these shouldn't be neccessary but currently are, some other libs not trickling in -->
+        <!-- START JACKSON libs to refactor -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <!-- end JACKSON libs to refactor -->
     </dependencies>
 
     <dependencyManagement>
@@ -97,7 +118,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -106,6 +127,7 @@
                     <fork>false</fork>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

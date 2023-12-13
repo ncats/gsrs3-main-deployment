@@ -10,18 +10,18 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>products</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>products</name>
     <description>GSRS Product Microservies Spring Boot</description>
     <properties>
         <java.version>8</java.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.product.version>3.0.3-SNAPSHOT</gsrs.product.version>
-        <gsrs.starter.version>3.0.3-SNAPSHOT</gsrs.starter.version>
+        <gsrs.product.version>3.1-SNAPSHOT</gsrs.product.version>
+        <gsrs.starter.version>3.1</gsrs.starter.version>
         <log4j2.version>2.17.2</log4j2.version>
         <!-- TO BE REMOVED -->
-        <gsrs.substance.version>3.0.3-SNAPSHOT</gsrs.substance.version>
+        <gsrs.substance.version>3.1</gsrs.substance.version>
     </properties>
 
     <distributionManagement>
@@ -52,6 +52,12 @@
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-module-products-spring-boot-starter</artifactId>
             <version>${gsrs.product.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j2.version}</version>
         </dependency>
 
         <!-- JDBC driver classes START -->
@@ -97,7 +103,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -106,6 +112,7 @@
                     <fork>false</fork>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

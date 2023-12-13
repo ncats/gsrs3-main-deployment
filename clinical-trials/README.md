@@ -261,3 +261,13 @@ ix.ginas.export.factories.clinicaltrialseurope=[
 	"gov.hhs.gsrs.clinicaltrial.europe.exporters.ClinicalTrialEuropeExporterFactory"
 ]
 ```
+
+## Controlled Vocabulary
+
+In GSRS 3.1, a "substance roles" field was added to the Clinical Trials US model; and a select box was added to the front end. The select options are populated with controlled vocabulary for flexibility. You can add controlled vocabulary into a database via the `vocabuarlies` end point, as shown below. Currently, `vocabularies` is part of the substances service.
+
+```
+curl -k -X POST -H 'Content-Type: application/json' -H 'auth-username: admin' -H 'auth-password: admin' -i http://localhost:8081/api/v1/vocabularies --data '
+{"id":null,"domain":"CTUS_SUBSTANCE_ROLES","vocabularyTermType":"ix.ginas.models.v1.ControlledVocabulary","editable":true,"filterable":false,"terms":[{"id":null,"value":"ADJUVANT","display":"ADJUVANT","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"BIOMARKER","display":"BIOMARKER","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"COMPARATOR","display":"COMPARATOR","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"CONTROL REGIMEN","display":"CONTROL REGIMEN","filters":[],"hidden":false,"selected":false},{"id":null,"value":"ENHANCER","display":"ENHANCER","filters":[],"hidden":false,"selected":false},{"id":null,"value":"PLACEBO","display":"PLACEBO","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"TREATMENT REGIMEN","display":"TREATMENT REGIMEN","filters":[],"hidden":false,"selected":false}]}
+'
+```   

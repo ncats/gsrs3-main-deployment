@@ -1,0 +1,25 @@
+If you have a GSRS substances application that already runs with version 3.0.x, you can ignore this. 
+If you just started experimenting with GSRS 3.0.3, then please continue.
+
+I. Files in this folder: 
+1. GSRS_3.0.3_Oracle_full_schema.sql
+This is the full database schema for Oracle. It is equivalent to what Spring JPA generates. 
+You can ignore this if your application have used Spring JPA to create the database. That is, if you have 
+spring.jpa.hibernate.ddl-auto=create
+or
+spring.jpa.hibernate.ddl-auto=update in your application.conf config file for the first time.
+
+2. modifyColumnTypesForJPACreatedSchema_3.0.3.sql
+We observed that With Oracle 12c and 19c, the byte[] fields are mapped tp Long Raw data type by Spring JPA. The Long Raw data type causes issues which can be fixed by changing the Long Raw data type to Raw in Oracle.   
+The modifyColumnTypesForJPACreatedSchema_3.0.3.sql changes the data types from Long Raw to Raw. 
+
+
+II. Steps to start the service and load data if you are deploying substance application FOR THE FIRST TIME. 
+WARNING: Please do NOT follow this if you have a working running GSRS substances.
+1. Delete ginas.ix folder if it exists.
+2. Start substances with spring.jpa.hibernate.ddl-auto=create, and on commnad line run "mvn clean -U spring-boot:run -DskipTests".
+3. Stop substances, then run modifyColumnTypesForJPACreatedSchema_3.0.3.sql on database.
+4. Change create to none in the config: spring.jpa.hibernate.ddl-auto=none.
+5. Start substances with "mvn clean -U spring-boot:run -DskipTests".
+6. Start frontend and gateway.
+7. Login as admin, load data with UI.

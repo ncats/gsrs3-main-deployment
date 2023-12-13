@@ -75,6 +75,28 @@ In very rare cases, you may need to remove the whole indexes directory, and then
 These dependencies are Spring-boot "starters." 
 Note: you don't have to do anything; these dependencies are alredy part of the POM file.
 
+## CDK or Jchem3
+
+The Substances service works with a chemoinfomatics toolkit to perform specialized chemistry related routines. Currently the default is CDK. The substances/pom.xml file has two profiles that facilitate selection. You can add `-P cdk`  or `-P jchem3` to the command you use to start the service (e.g. `mvn spring-boot:run -P cdk` ...). Alternatively, you can change the profile `activeByDefault` property to true/false in the pom.xml file. 
+
+If you change the profile and you are using a single tomcat deployment with a .war file, it will not work to just change the pom.xml file inside the expanded webapps folder.  Rather, you would have to rebuild the .war file and copy it to the webapps folder. Rebuilding the .war file will ensure the correct chemtoolkit packages are included (e.g. mvn package -P cdk && cp substances.war path/to/webapps/). 
+
+After you have changed the profile and the GSRS substances service and fontend are running, you need to run 3 tasks in the frontend UI Admin Panel: a) regenerate structure properties, b) re-backup all Substance entities, and c) reindex all core entities from the backup tables.
+
+If you use Jchem3, you should add these hasher and standardizer classes in your substances/application.conf  
+
+```
+ix.structure-hasher = "ix.core.chem.LychiStructureHasher"
+ix.structure-standardizer = "ix.core.chem.LychiStandardizer"
+```
+
+If you use CDK, you should comment out the **above** two values in your substances application.conf.  The equivalent CDK values are included by default in the substance module's substance-core.conf file.
+
+```
+ix.structure-hasher = "ix.core.chem.InchiStructureHasher"
+ix.structure-standardizer = "ix.core.chem.InchiStandardizer"
+```
+
 ## Build Instructions
 
 This entity microservice can be built into a war file for deployment in a J2EE web container. The simplest way to do this is:

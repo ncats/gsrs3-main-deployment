@@ -130,19 +130,55 @@ AS
                    LISTAGG (a.product_code, '|')
                        WITHIN GROUP (ORDER BY a.product_code)
               FROM (SELECT DISTINCT
-                           product_id, UPPER (product_code) AS product_code
-                      FROM srscid_product_code) a
+                           pv.product_id, UPPER (pc.product_code) AS product_code
+                      FROM srscid_product_code pc, srscid_product_provenance pv
+                      where pc.product_provenance_id = pv.product_provenance_id) a
              WHERE a.product_id = p.product_id)
                AS productndc,
            nonproprietary_name                             AS nonproprietaryname,
-           product_type                                    AS producttype,
-           status,
+           (SELECT DISTINCT
+                   LISTAGG (a.product_type, '|')
+                       WITHIN GROUP (ORDER BY a.product_type)
+              FROM (SELECT DISTINCT
+                           pv.product_id, UPPER (pv.product_type) AS product_type
+                      FROM srscid_product_provenance pv) a
+             WHERE a.product_id = p.product_id)
+               AS product_type,
+                      (SELECT DISTINCT
+                   LISTAGG (a.status, '|')
+                       WITHIN GROUP (ORDER BY a.status)
+              FROM (SELECT DISTINCT
+                           pv.product_id, UPPER (pv.product_status) AS status
+                      FROM srscid_product_provenance pv) a
+             WHERE a.product_id = p.product_id)
+               AS status,
            NULL                                            AS marketingcategoryname,
            NULL                                            AS islisted,
            route_of_administration,
-           app_type || app_number                          AS applicationnumber,
-           app_type                                        AS apptype,
-           app_number                                      AS appnumber,
+          (SELECT DISTINCT
+                   LISTAGG (a.applicationnumber, '|')
+                       WITHIN GROUP (ORDER BY a.applicationnumber)
+              FROM (SELECT DISTINCT
+                           pv.product_id, UPPER (pv.application_type || pv.application_number) AS applicationnumber
+                      FROM srscid_product_provenance pv) a
+             WHERE a.product_id = p.product_id)
+               AS applicationnumber,
+           (SELECT DISTINCT
+                   LISTAGG (a.application_type, '|')
+                       WITHIN GROUP (ORDER BY a.application_type)
+              FROM (SELECT DISTINCT
+                           pv.product_id, UPPER (pv.application_type) AS application_type
+                      FROM srscid_product_provenance pv) a
+             WHERE a.product_id = p.product_id)
+               AS apptype,
+           (SELECT DISTINCT
+                   LISTAGG (a.application_number, '|')
+                       WITHIN GROUP (ORDER BY a.application_number)
+              FROM (SELECT DISTINCT
+                           pv.product_id, UPPER (pv.application_number) AS application_number
+                      FROM srscid_product_provenance pv) a
+             WHERE a.product_id = p.product_id)
+               AS appnumber,
            p.country_code                                  AS country,
            SUBSTR (
                p.country_code,
@@ -153,14 +189,20 @@ AS
                countrywithoutcode,
            NULL                                            AS labelerndc,
            unit_presentation                               AS unitpresentation,
-           source,
-           source_type,
+           NULL                                            AS source,
+           NULL                                            AS source_type,
            'GSRS'                                          AS fromtable,
-           DECODE (p.provenance, '', 'GSRS', p.provenance) AS provenance,
+            (SELECT DISTINCT
+                   LISTAGG (a.provenance, '|')
+                       WITHIN GROUP (ORDER BY a.provenance)
+              FROM (SELECT DISTINCT
+                           pv.product_id, UPPER (DECODE (pv.provenance, '', 'GSRS', pv.provenance)) AS provenance
+                      FROM srscid_product_provenance pv) a
+             WHERE a.product_id = p.product_id)
+               AS provenance,
            p.created_by,
            p.create_date,
            p.modified_by,
            p.modify_date
       FROM srscid_product p, srscid_product_code c
      WHERE p.product_id = c.product_id(+);
-

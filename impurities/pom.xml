@@ -10,18 +10,18 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>impurities</artifactId>
-    <version>3.0.3-SNAPSHOT</version>
+    <version>3.1-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>impurities</name>
     <description>GSRS Impurities Microservies Spring Boot</description>
     <properties>
         <java.version>8</java.version>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.impurities.version>3.0.3-SNAPSHOT</gsrs.impurities.version>
-        <gsrs.starter.version>3.0.3-SNAPSHOT</gsrs.starter.version>
-        <log4j2.version>2.17.1</log4j2.version>
+        <gsrs.impurities.version>3.1-SNAPSHOT</gsrs.impurities.version>
+        <gsrs.starter.version>3.1</gsrs.starter.version>
+        <log4j2.version>2.17.2</log4j2.version>
         <!-- TO BE REMOVED -->
-        <gsrs.substance.version>3.0.3-SNAPSHOT</gsrs.substance.version>
+        <gsrs.substance.version>3.1</gsrs.substance.version>
     </properties>
 
     <distributionManagement>
@@ -81,7 +81,7 @@
             <scope>runtime</scope>
         </dependency>
         <!-- JDBC driver classes END -->
-
+             
     </dependencies>
 
     <dependencyManagement>
@@ -97,7 +97,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <finalName>${artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -106,6 +106,7 @@
                     <fork>false</fork>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 

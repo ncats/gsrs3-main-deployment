@@ -1,20 +1,23 @@
 package gsrs.ncats.gateway;
 
-
 import javax.servlet.http.HttpServletRequest;
-import com.netflix.zuul.context.RequestContext;
-import com.netflix.zuul.ZuulFilter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
+
+import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
+
 
 public class SimpleFilter extends ZuulFilter {
+
 
     private static Logger log = LoggerFactory.getLogger(SimpleFilter.class);
 
     @Override
     public String filterType() {
-        return "pre";
+    	return FilterConstants.PRE_TYPE;
     }
 
     @Override

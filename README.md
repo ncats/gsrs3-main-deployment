@@ -1,11 +1,9 @@
-<style>
-code {
-  white-space : pre-wrap !important;
-}
-</style>
+
 # GSRS 3 Main Deployment
 
 GSRS 3.0.2 is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. 
+
+# Note for GSRS 3.1: There are database schema changes in this release. Before upgrading your system, please check the 3.1 release notes for the related section. Also please check the README in the ./substances/database/sql/${your database flavor}/GSRS_3.1 folder for suggesting steps.
 
 # Note: as of 17 August 2022, an Oracle database instantiated by GSRS 3.x requires an extra script before data is stored.
 If you are creating a new database in Oracle using GSRS 3.x, please contact the GSRS team for a script file.
@@ -70,10 +68,13 @@ For the base level simple deployment, you can follow these steps:
 - Clone gsrs-spring-starter git repo and install (optional)
 - Clone gsrs-module-substance-starter git repo and install (optional)
 - Within the gsrs3-main-deployment repository, modify the `frontend/src/main/resources/application.properties` file to have the port you’d like the frontend to run on. The default is port 8082 and that is typically sufficient for local deployments.
-- Within the gsrs3-main-deployment repository, modify the `frontend/src/main/resources/static/assets/data/config.json` file to have the "apiBaseUrl" property point to the correct REST API endpoint. In this case, that endpoint should be the full path you will use for the gateway, including a terminal slash ("/"). The JSON property "apiBaseUrl" might not be present in the JSON file. If not, add it as the first JSON property. In the default configuration where the gateway is on localhost port 8081, you would write:
+- Within the gsrs3-main-deployment repository, modify the `frontend/src/main/resources/static/assets/data/config.json` file to have the "apiBaseUrl" property point to the correct REST API endpoint. In this case, that endpoint should be the full path you will use for the gateway, including a terminal slash ("/"). The JSON property "apiBaseUrl" might not be present in the JSON file. If not, add it as the first JSON property. Similarly add properties for "gsrsHomeBaseUrl" and optionally "apiSSG4mBaseUrl". add In the default configuration where the gateway is on localhost port 8081, you would write:
 
   ```
   "apiBaseUrl": "http://localhost:8081/",
+  "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/beta/",
+  # optional
+  "apiSSG4mBaseUrl": "http://localhost:8081/",
   ```
 
 - Within the gsrs3-main-deployment repository, modify the `substances/src/main/resources/application.conf` file, give it a port, tell it where the gateway is, and ensure the `ix.home` setting for the indexing/cache folder is properly configured, and any database connection strings are set as expected. In a default configuration which uses H2 and has substances running on port 8080, the following conf settings should be as shown below. NOTE: The above configuration if no datasource is specified will use an in-memory transient database. Every restart of the application will result in the data being lost in such a case, but this may lead to confusing results as the cache and index found in the ix.home directory will remain between restarts. If you wish to use a persistent database, please configure the jdbc connections accordingly. If using the in memory database, you may want to delete your `ginas.ix` folder between restarts. 
@@ -174,13 +175,17 @@ You can run the frontend in **development mode**. Do that if you want to make ch
           # stripPrefix: false
   ```
 
-- Save `application.yml` and restart the gateway. Next, go to your own Angular code repo (typically `GSRSFrontend`) outside of the gsrs3-main-deployment folder. Temporarily edit the file, `src/index.html`, changing from `<base href="/">` to `<base href="/ginas/app/beta/">`.  You should also edit the file `src/environments/environment.fda.local.ts`. In that file, make this temporary change by commenting out the default value. This will make the Frontend use the gateway host url.  
+- Save `application.yml` and restart the gateway.
+
+Next, go to your own Angular code repo (typically `GSRSFrontend`) outside of the gsrs3-main-deployment folder. Temporarily edit the file, `src/index.html`, changing from `<base href="/">` to `<base href="/ginas/app/beta/">`.  Make sure you temporarily have following in `src\app\fda\config\config.json` and/or `src\app\core\config\config.json` 
 
   ```
-  // environment.apiBaseUrl = 'http://localhost:8080/';
-  environment.apiBaseUrl = 'http://localhost:8081/';
+  "apiBaseUrl": "http://localhost:8081/",
+  "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/beta/",
+  # optional
+  "apiSSG4mBaseUrl": "http://localhost:8081/",  
   ```
-
+  
 Finally, recompile the angular code, as usual with the `npm` command. See [Compile Requirements](frontend/README.md#compile-requirements) in the frontend README. 
 
 Now, hitting in your browser, `http://localhost:8081/ginas/app/beta/home` will run **your own** development Angular code, rather than the **compiled** version in the `gsrs3-main-deployment` repository.  Please make sure not to commit the above changes if making a pull request to this repository.
@@ -318,7 +323,14 @@ application.host="http://localhost:8080"
 
 Create a file `$config_dir/frontend_config.json` and add the following.
 
-Copy the contents of `$webapps/frontend/src/main/resources/static/assets/data/config.json` to this file. Modify it to have the `"apiBaseUrl"` property point to the correct REST API endpoint. In this case that endpoint should be the full path you will use for the gateway, including a terminal slash ("/"). The JSON property `"apiBaseUrl"` may not be present in the JSON file, if it is not, add it as the first JSON property. In the Single Tomcat configuration where the gateway is on localhost port 8080, this will look like the this: `"apiBaseUrl": "http://localhost:8080/"`
+Copy the contents of `$webapps/frontend/src/main/resources/static/assets/data/config.json` to this file. Modify it to have the "apiBaseUrl" and other properties point to the correct  endpoints. In this case that endpoint should be the full path you will use for the gateway, including a terminal slash ("/"). The JSON property "apiBaseUrl" may not be present in the JSON file, if it is not, add it as the first JSON property. In the Single Tomcat configuration where the gateway is on localhost port 8080. Follow the same logic for "gsrsHomeBaseUrl" and optionally "apiSSG4mBaseUrl".
+
+  ```
+  "apiBaseUrl": "http://localhost:8080/",
+  "gsrsHomeBaseUrl": "http://localhost:8080/ginas/app/beta/",
+  # optional
+  "apiSSG4mBaseUrl": "http://localhost:8080/",
+  ```
 
 **4. Prepare your Substances configs** 
 

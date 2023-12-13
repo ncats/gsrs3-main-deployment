@@ -1,0 +1,10 @@
+If you have a GSRS substances application that already runs with version 3.0.x, you can ignore this. 
+If you just started experimenting with GSRS 3.0.3, then please continue.
+
+1. GSRS_3.0.3_MariaDB_FULL.sql
+This is the full GSRS_3.0.3 database schema for MariaDB. It is equivalent to what Spring JPA generates. 
+if you have 
+spring.jpa.hibernate.ddl-auto=create
+or
+spring.jpa.hibernate.ddl-auto=update 
+in your application.conf config file, you do not need to run this.  
