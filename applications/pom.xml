@@ -23,7 +23,7 @@
         <!-- TO BE REMOVED -->
         <gsrs.substance.version>3.1</gsrs.substance.version>
         <!-- TODO: refactor -->
-        <jackson.version>2.12.6</jackson.version>
+        <jackson.version>2.12.7.1</jackson.version>
         <!-- END REFACTOR -->
     </properties>
 
