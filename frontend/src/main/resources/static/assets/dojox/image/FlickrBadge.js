@@ -29,7 +29,7 @@ define("dojox/image/FlickrBadge", ["dojo", "dojox/main", "dojox/image/Badge", "d
 		//		of the A tag.
 		target: "",
 
-		apikey: "8c6803164dbc395fb7131c9d54843627",
+		apikey: "",
 		_store: null,
 
 		postCreate: function(){
