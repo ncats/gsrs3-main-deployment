@@ -14,12 +14,17 @@ services:
         #restart: always
         ports:
             - "8183:8080"
-    tomcat_app:
+    tomcat:
         container_name: tomcat
-        image: tomcat:9.0
-        restart: always
-        #volumes:
-        #    - ./sample.war:/usr/local/tomcat/webapps/sample.war:ro
+        build:
+            context: .
+            dockerfile: Dockerfile_tomcat
+        ports:
+            - "8888:8080"
+    #    image: tomcat:9.0
+    #    restart: always
+    #    #volumes:
+    #    #    - ./sample.war:/usr/local/tomcat/webapps/sample.war:ro
     #proxy:
     #    container_name: nginx
     #    image: nginx

@@ -1,4 +1,7 @@
 {
+  "apiBaseUrl": "http://localhost:8081/",
+  "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/beta/",
+  "apiSSG4mBaseUrl": "http://localhost:8081/",
   "version": "3.1",
   "contactEmail": "ncatsgsrs@mail.nih.gov",
   "displayMatchApplication": "false",

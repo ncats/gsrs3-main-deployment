@@ -1,0 +1,27 @@
+FROM tomcat:10.1.23-jdk11-temurin-jammy
+LABEL authors="Lucio Montero (lucioric2000@hotmail.com)"
+WORKDIR /app
+COPY . /app
+RUN apt-get update -y && apt-get install -y maven sudo nano
+RUN mkdir /gsrs_exports
+#RUN chown tomcat:tomcat /gsrs_exports/
+RUN chmod a+rw /gsrs_exports/
+ENV tomcat=${CATALINA_HOME}
+ENV webapps=${CATALINA_HOME}/webapps
+ENV webapps_deployment=${CATALINA_HOME}/webapps-javaee-manual
+ENV webapps_convert=${CATALINA_HOME}/webapps-convert
+ENV config_dir=/root/config_files_gsrs3.0
+ENV CATALINA_OPTS="$CATALINA_OPTS -Xms32G -Xmx32G"
+
+RUN mkdir /root/config_files_gsrs3.0
+#RUN ln -s /root/config_files_gsrs3.0 config_dir
+#RUN setenforce 0
+#RUN sed -i 's/ELINUX=enforcing/ELINUX=disabled/g' /etc/selinux/config
+COPY ./docker/conf/* ${CATALINA_HOME}/conf/
+
+
+
+#EXPOSE 8080
+
+#The chage instruction in the documentation is not needed, as the tomcat account password is already configured to never expire
+#ENTRYPOINT ["mvn",  "clean", "-U", "spring-boot:run"]
