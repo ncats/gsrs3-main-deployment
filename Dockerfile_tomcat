@@ -1,23 +1,49 @@
 FROM tomcat:10.1.23-jdk11-temurin-jammy
 LABEL authors="Lucio Montero (lucioric2000@hotmail.com)"
-WORKDIR /app
-COPY . /app
-RUN apt-get update -y && apt-get install -y maven sudo nano
-RUN mkdir /gsrs_exports
-#RUN chown tomcat:tomcat /gsrs_exports/
-RUN chmod a+rw /gsrs_exports/
 ENV tomcat=${CATALINA_HOME}
 ENV webapps=${CATALINA_HOME}/webapps
 ENV webapps_deployment=${CATALINA_HOME}/webapps-javaee-manual
 ENV webapps_convert=${CATALINA_HOME}/webapps-convert
 ENV config_dir=/root/config_files_gsrs3.0
 ENV CATALINA_OPTS="$CATALINA_OPTS -Xms32G -Xmx32G"
+ENV installation_dir=/home/installation_user/workspace3.0
 
-RUN mkdir /root/config_files_gsrs3.0
-#RUN ln -s /root/config_files_gsrs3.0 config_dir
+RUN apt-get update -y && apt-get install -y maven sudo nano
+
+RUN mkdir /gsrs_exports
+#RUN chown tomcat:tomcat /gsrs_exports/
+RUN chmod a+rw /gsrs_exports/
+
+#Work in the Tomcat folder:
+WORKDIR ${tomcat}
+RUN mkdir webapps-convert webapps-javaee webapps-javaee-manual webapps_old
+#RUN chown tomcat:tomcat webapps*
+RUN chmod a+rw webapps*
+
+RUN mkdir ginas.ix gsrs_applications.ix gsrs_products.ix gsrs_impurities.ix gsrs_adverse-events.ix gsrs_clinical-trials.ix
+#RUN chown tomcat:tomcat *.ix
+RUN chmod a+rw *.ix
+RUN chmod o-w *.ix
+
+WORKDIR ${installation_dir}
+COPY . ${installation_dir}
+#cd gsrs3-main-deployment
+#chmod -R a+x mvnw
+#ln -s /u01/tomcat
+#ln -s /u01/tomcat/webapps
+
+COPY ./docker/gsrs_configs ${config_dir}
+#RUN mkdir ${config_dir}
+RUN ln -s ${config_dir} config_dir
 #RUN setenforce 0
 #RUN sed -i 's/ELINUX=enforcing/ELINUX=disabled/g' /etc/selinux/config
 COPY ./docker/conf/* ${CATALINA_HOME}/conf/
+COPY ./docker/scripts/configureGSRS.sh ${installation_dir}/
+COPY ./docker/scripts/buildAllAndCopyToWebapps.sh ${installation_dir}/
+COPY ./docker/scripts/clear_cache_lock.sh ${config_dir}/
+RUN sudo chmod a+x ${installation_dir}/*.sh
+RUN sudo chmod a+x ${config_dir}/*.sh
+#RUN ${installation_dir}/configureGSRS.sh
 
 
 
