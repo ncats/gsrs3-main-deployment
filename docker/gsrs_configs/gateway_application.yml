@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: gateway
+
+debug: true
+
+zuul:
+  # This sets sensitiveHeaders to empty list so cookies and auth headers are passed through both ways
+  sensitiveHeaders:
+  routes:
+    ui:
+      path: /ginas/app/beta/**
+      url: http://localhost:8080/frontend/ginas/app/beta
+      serviceId: frontend
+    ginas_app:
+      path: /ginas/app/**
+      url: http://localhost:8080
+      serviceId: ginas_app_route
+    legacy:
+      path: /**
+      url: http://localhost:8080/substances
+      serviceId: substances
+  ignored-patterns:
+    - "/actuator/health"
+
+ribbon:
+  eureka:
+    enabled: false
+
+# server.port: 8081
+# management.endpoints.web.exposure.include: *
+management.endpoints.web.exposure.include: 'routes,filters'
+
+eureka.client.enabled:  false
+
+zuul.host.socket-timeout-millis: 300000

@@ -16,7 +16,7 @@ function build_cmd {
 }
 function build {
     echo "Building $1 to thw WAR $2"
-    (cd $1 && build_cmd $2)
+    (cd $1 && build_cmd $1 $2)
 }
 
 build frontend frontend

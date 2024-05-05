@@ -23,6 +23,7 @@ services:
             - "8888:8080"
         volumes:
             - install:/home/installation_user/workspace3.0
+            - tomcat:/usr/local/tomcat
     #    image: tomcat:9.0
     #    restart: always
     #    #volumes:
@@ -44,3 +45,4 @@ services:
     #        - "8082:8082"
 volumes:
     install:
+    tomcat:
