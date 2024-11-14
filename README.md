@@ -1,47 +1,49 @@
 
 # GSRS 3 Main Deployment
 
-GSRS 3.0.2 is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. 
+GSRS 3.x is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. GSRS requires the use of an RDBMS database for data storage.  The supported database flavors are: H2, PostGreSQL, MariaDB and MySQL.
 
-# Note for GSRS 3.1: There are database schema changes in this release. Before upgrading your system, please check the 3.1 release notes for the related section. Also please check the README in the ./substances/database/sql/${your database flavor}/GSRS_3.1 folder for suggesting steps.
+GSRS 3.x works with Java 8, 11, 17; versions outside of these may result in build errors. Set `JAVA_HOME` to point to one of Java 8, 11, or 17 and verify with the terminal command: `mvn --show-version`. Note, however, that the `pom.xml` files still specify Java 8 or 11, and as of 3.1.1, the GSRS team writes code to conform with Java 8 or 11.
 
-# Note: as of 17 August 2022, an Oracle database instantiated by GSRS 3.x requires an extra script before data is stored.
-If you are creating a new database in Oracle using GSRS 3.x, please contact the GSRS team for a script file.
+## Important Notes:
 
-Please feel free to run using one of the other support RDBMSs (PostGreSQL, MariaDB or MySQL)
+- For GSRS 3.1, there are database schema changes for the substances service.  Before upgrading your system, please check the [release notes](./docs/release%20notes) for discussion. Also please check the README files in [./substances/database/sql/](./substances/database/sql/) for suggested steps.
+- In October 2024, we revised past Substances README files and database creation scripts to default to the use of sequences instead of auto_increment. 
+- As of August 2022, an Oracle database instantiated by GSRS 3.x requires an extra script before data is stored. If you are creating a new database, see this [script](./substances/database/sql/Oracle/GSRS_3.1/modifyColumnTypesForJPACreatedSchema_3.1.sql) and its mention in the 3.1 database [README](./substances/database/sql/Oracle/GSRS_3.1/README). Please contact the GSRS team with any questions.
 
-Before running this application locally, it would be good to note that it only works with Java 8 to Java 11 so any versions outside of these would create build errors. A quick way to check what version is installed on your system is 
-
-```
-java --version
-```
-
-Multiple java versions can be installed on your system but Java 8 - 11 needs to be added as an environment variable for JAVA_HOME.
+## Get Started
 
 To run a deployment of the GSRS you'll need a **minimum** of two backend services (gateway and substances) and one frontend service. The backend "gateway" coordinates traffic between different microservices including the frontend. The default "substances" backend service handles the REST API for substance information, controlled vocabulary, session information and other "core" entites. The frontend service loads an Angular frontend application. 
 
-This Main Deployment contains all the required and optional artifacts you need to deploy and run GSRS. Each artifact is contained in a subdirectory. Navigate to the documentation for each by following these links.         
+This Main Deployment contains all the required and optional artifacts you need to deploy and run GSRS. Each artifact is contained in a subdirectory. Navigate to the documentation for each by following these links.
 
 - [Gateway](./gateway)
 - [Substances](./substances)
 - [Frontend](./frontend)
+
 - [Applications](./applications)
 - [Adverse Events](./adverse-events)
 - [Clinical Trials](./clinical-trials)
-- [Products](./products)
 - [Impurities](./impurities)
+- [Invitro Pharmacology](./invitro-pharmacology)
+- [Products](./products)
+
+Beyond documentation of the parts, the rest of this README is meant to provide background on how to structure whole deployments of different types and to discuss ways of integrating the parts. 
  
-Beyond documenation of the parts, the rest of this README is meant to provide background on how to structure whole deployments of different types and to discuss ways of integrating the parts. 
- 
-## Your Deployment Type Depends on Your Goal   
+## Your Deployment Type Depends on Your Goal
 
 Developers will often want to deploy locally and be able to modify code on the fly. In this case, **embedded Tomcat instances** for each service make the most sense. 
 
-A production deployment may also use an embedded archicture in combination with other technologies such as Docker. A **single Tomcat instance** where all the microservices run under one Tomcat instance as individual "war" files is also an option.
+A production deployment may also use an embedded architecture in combination with other technologies such as Docker. A **single Tomcat instance** where all the microservices run under one Tomcat instance as individual "war" files is also an option.
 
-Developers will probably want to clone referenced source git repositories as well.  Those deploying for production or just trying to run instances of GSRS microservices for evaluation can rely on published maven repostories that are downloaded automatically at build time.
+## Maven Central vs. Git
 
-## Cloning/repostitories from from Git
+If you're evaluating GSRS or want to take the simplest path toward installation of a public release for production, it makes most sense to rely on Maven Central to download all the necessary dependencies. In this case, you only need to download `gsrs3-main-deployment` from the NCATS Github website.  Next, when you run or package services, Maven will automatically locate and download the dependencies on Maven Central.
+
+Developers who wish to peruse the code or make modifications to classes between releases can clone sources from the NCATS Github repository.  If you do this, use `mvn install` on starter modules that you clone from the NCATS Github site.
+
+
+## Cloning/repositories from from Git
 
 In order to launch a local maven run for testing GSRS 3.0, you will need to access to the following git repository:
 
@@ -72,12 +74,12 @@ For the base level simple deployment, you can follow these steps:
 
   ```
   "apiBaseUrl": "http://localhost:8081/",
-  "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/beta/",
+  "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/ui/",
   # optional
   "apiSSG4mBaseUrl": "http://localhost:8081/",
   ```
 
-- Within the gsrs3-main-deployment repository, modify the `substances/src/main/resources/application.conf` file, give it a port, tell it where the gateway is, and ensure the `ix.home` setting for the indexing/cache folder is properly configured, and any database connection strings are set as expected. In a default configuration which uses H2 and has substances running on port 8080, the following conf settings should be as shown below. NOTE: The above configuration if no datasource is specified will use an in-memory transient database. Every restart of the application will result in the data being lost in such a case, but this may lead to confusing results as the cache and index found in the ix.home directory will remain between restarts. If you wish to use a persistent database, please configure the jdbc connections accordingly. If using the in memory database, you may want to delete your `ginas.ix` folder between restarts. 
+- Within the gsrs3-main-deployment repository, modify the `substances/src/main/resources/application.conf` file, assign a port number to `server.port`, tell it where the gateway is, and ensure the `ix.home` setting for the indexing/cache folder is properly configured, and any database connection strings are set as expected. In a default configuration which uses H2 and has substances running on port 8080, the following conf settings should be as shown below. NOTE: The above configuration will use an in-memory transient database if no datasource is specified. Every restart of the application will result in the data being lost in such a case, but this may lead to confusing results as the cache and index found in the ix.home directory will remain between restarts. If you wish to use a persistent database, please configure the JDBC connections accordingly. If using the in memory database, you may want to delete your `ginas.ix` folder between restarts. 
 
   ```
   # Use port 8080 for the substances API
@@ -90,7 +92,7 @@ For the base level simple deployment, you can follow these steps:
   application.host="http://localhost:8081"
   ```
 
-- Within the gsrs3-main-deployment repository, modify `gateway/src/main/resources/application.yml`, give it a port, tell it where the other 2 microservices are. The default settings should typically be configured for substances on 8080 and the frontend on 8082, but this is subject to change. The following snippet would configure things for just the substances (running on 8080) and frontend (running on 8082):
+- Within the gsrs3-main-deployment repository, modify `gateway/src/main/resources/application.yml`, assign a port number to `server.port`, tell it where the other 2 microservices are. The default settings should typically be configured for substances on 8080 and the frontend on 8082, but this is subject to change. The following snippet would configure things for just the substances (running on 8080) and frontend (running on 8082):
 
   ```
   zuul:
@@ -98,7 +100,7 @@ For the base level simple deployment, you can follow these steps:
     sensitiveHeaders:
     routes:
       ui:
-        path: /ginas/app/beta/**
+        path: /ginas/app/ui/**
         url: http://localhost:8082
         serviceId: frontend
         stripPrefix: false
@@ -127,20 +129,21 @@ Once the configuration above is performed, it's now possible to launch the servi
   ./mvnw clean -U spring-boot:run
   ```
   
-- **Running the substances service:** Before running the substances service, it would be good to take note of the fork value in the substances/pom.xml file. If you are running the substance service as-is with no data load, the fork value should be left as the default - which is false - in order to avoid a 'filename too long' error common with spring boot. However, if you choose to run the service and add the test records, set the fork value to true.
+- **Running the substances service:** Before running the substances service, it would be good to take note of the fork value in the substances/pom.xml file. As of GSRS 3.1.1, the default fork value is true.  However, you can pass `-Dwith.fork=false` or `-Dwith.fork=true` to make an explicit choice. On windows, false may work better on the substances services. You may need this to avoid a 'filename too long' error common with spring boot. However, if you choose to run the service and add the test records on the command line, set the fork value to true. 
+
 Again in a new terminal or screen session, in the gsrs3-main-deployment directory launch substances by:
   ```
-  # To run substances as-is with no data load (fork should be set to false):
+  # To run substances as-is with no data load (fork should be set to false. This may only be a concern on Windows):
   cd substances
-  ./mvnw clean -U spring-boot:run
+  ./mvnw clean -U spring-boot:run -Dwith.fork=false
 
   # If you’re using a blank database, you may want to add the test set of 18 records by doing the following instead
   # to preload a small sample for testing (fork should be set to true):
   cd substances 
-  ./mvnw clean -U spring-boot:run -Dspring-boot.run.jvmArguments="-Dix.ginas.load.file=src/main/resources/rep18.gsrs"
+  ./mvnw clean -U spring-boot:run -Dwith.fork=true -Dspring-boot.run.jvmArguments="-Dix.ginas.load.file=src/main/resources/rep18.gsrs"
   ```
 
-Another reason to use fork=true is if you wish to set jvmArguments for a **specific** service.  This is more likely to be an issue if you're using embedded tomcat in **production** with a large data set rather than locally. Substances uses quite a bit of memory, whereas the other services don't need so much; so you'd use the defaults for other services, but apply specific values for substances.  The effect of enabling fork is that the specific service will run in it's own JVM instance. The POM configuration, with arguments, would like something like this:  
+Another reason to use '-Dwith.fork=true' or the default is if you wish to set jvmArguments for a **specific** service.  This is more likely to be an issue if you're using embedded Tomcat in **production** with a large data set, rather than locally. The Substances service uses quite a bit of memory, whereas the other services don't need so much; so you'd use the defaults for other services, but apply specific values for substances.  The effect of enabling fork is that the specific service will run in its own JVM instance. The POM configuration, with arguments, would like something like this:  
 
 ```
     <plugin>
@@ -148,7 +151,7 @@ Another reason to use fork=true is if you wish to set jvmArguments for a **speci
         <artifactId>spring-boot-maven-plugin</artifactId>
         ...
         <configuration>
-            <fork>true</fork>
+            <fork>${with.fork}</fork>
             <jvmArguments>-Xmx16000m -Xms12000m</jvmArguments>
         </configuration>
     </plugin>
@@ -156,18 +159,23 @@ Another reason to use fork=true is if you wish to set jvmArguments for a **speci
 
 
 - **Running the frontend service:** Again in a new terminal or screen session, in the gsrs3-main-deployment directory launch frontend by:
+
   ```
   cd frontend
-  ./mvnw clean -U spring-boot:run
+  ./mvnw clean -U spring-boot:run -Dfrontend.tag=$FRONTEND_TAG -Dwithout.visualizer -DskipTests 
   ```
 
-- To confirm it’s working, navigate to `http://localhost:8081/ginas/app/beta` (or the equivalent for your configuration – note that "8081" in this case is the port for the gateway which will route to the frontend on another port). Note: if you deploy this application for others to use, please make sure to perform this step.  Otherwise, the first user to hit the application will see an error message.  If you deploy GSRS via script, include a GET (via curl or similar utilty) within the script.
+- As of GSRS 3.1.1, the Angular build is no longer included in the gsrs3-main-deployment repository.  Instead, it is built automatically and included in the `.jar' file or `.war` file when you run or package the Frontend service. There is a bit of learning curve to get comfortable with the new approach.  See the Frontend [README.md](./frontend/README.md) and related resources for more information.   
+
+- To confirm it’s working, navigate to `http://localhost:8081/ginas/app/ui` (or the equivalent for your configuration – note that "8081" in this case is the port for the gateway which will route to the frontend on another port). Note: if you deploy this application for others to use, please make sure to perform this step.  Otherwise, the first user to hit the application will see an error message.  If you deploy GSRS via script, include a GET (via curl or similar utilty) within the script.
 
 - You should be able to login on the Frontend.  In the local development version, the username and password are `admin`, `admin` respectively.    
 
-## Optionally use Development Mode for the Frontend in the Local Embedded Deployment
+## Optionally use Development Mode for the Frontend in the Local Embedded Deployment 
 
-You can run the frontend in **development mode**. Do that if you want to make changes to the Angular code and compile on the fly while testing.  
+You can run the frontend in **development mode**. 
+
+**Do that only if** you want to make changes to the Angular code and compile on the fly while testing.  
 
 - You will have to make some small modifications to the a) the gateway `application.yml` file and b) **your own** angular frontend code repository.  First, stop the gateway service if it is running.  Then, make the change below in the `gsrs3-main-deployment/gateway/java/main/resources/application.yml` file:
 
@@ -175,7 +183,7 @@ You can run the frontend in **development mode**. Do that if you want to make ch
    # Change FROM
   routes:
      ui:
-        path: /ginas/app/beta/**    
+        path: /ginas/app/ui/**    
         url: http://localhost:8082   
         serviceId: frontend
         stripPrefix: false
@@ -183,7 +191,7 @@ You can run the frontend in **development mode**. Do that if you want to make ch
    # Change TO 
   routes:    
     ui:
-       path: /ginas/app/beta/**     
+       path: /ginas/app/ui/**     
           url: http://localhost:4200/
           serviceId: frontend 
           # use default
@@ -192,22 +200,22 @@ You can run the frontend in **development mode**. Do that if you want to make ch
 
 - Save `application.yml` and restart the gateway.
 
-Next, go to your own Angular code repo (typically `GSRSFrontend`) outside of the gsrs3-main-deployment folder. Temporarily edit the file, `src/index.html`, changing from `<base href="/">` to `<base href="/ginas/app/beta/">`.  Make sure you temporarily have following in `src\app\fda\config\config.json` and/or `src\app\core\config\config.json` 
+Next, go to your own Angular code repo (typically `GSRSFrontend`) outside of the gsrs3-main-deployment folder. Temporarily edit the file, `src/index.html`, changing from `<base href="/">` to `<base href="/ginas/app/ui/">`.  Make sure you temporarily have following in `src\app\fda\config\config.json` and/or `src\app\core\config\config.json` 
 
   ```
   "apiBaseUrl": "http://localhost:8081/",
-  "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/beta/",
+  "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/ui/",
   # optional
   "apiSSG4mBaseUrl": "http://localhost:8081/",  
   ```
   
 Finally, recompile the angular code, as usual with the `npm` command. See [Compile Requirements](frontend/README.md#compile-requirements) in the frontend README. 
 
-Now, hitting in your browser, `http://localhost:8081/ginas/app/beta/home` will run **your own** development Angular code, rather than the **compiled** version in the `gsrs3-main-deployment` repository.  Please make sure not to commit the above changes if making a pull request to this repository.
+Now, hitting in your browser, `http://localhost:8081/ginas/app/ui/home` will run **your own** development Angular code, rather than the **compiled** version in the `gsrs3-main-deployment` repository.  Please make sure not to commit the above changes if making a pull request to this repository.
 
-## Making an Additional Microservice 
+## Making an Additional Microservice
 
-While the substance service is the core focus of GSRS, additional microservices can be built to relate another domains’ data to substances. Additional microservices currently implemented include Drug/Biologic Applications, Drug/Biologic Products and Clinical Trials. Each microservice works via two main elements: 1) a domain specific spring boot starter module, and 2) an executing implementation in `gsrs3-main-deployment`. The starter module builds on the core GSRS starter and defines domain specific models, controllers, indexers, services, etc. Next, the executing implementation in `gsrs3-main-deployment` contains a configuration file, and the "java main" application runner that launches the microservice.  Each domain starter module currently works with two datasources. The domain specific datasource holds the domain's own entity data. The other "default" datasource may or may not be the same as the substance core datasource. The default datasource stores all data records GSRS routinely keeps for all GSRS entities, such as backups and incremental edits of the entity. Currently, the default datasource also contains session and user data required for authentication. **NOTE** At present time, in order for the _same_ authenticaion to work through the gateway and UI for each service, each service _must_ point to the same default ("spring") core data source. Alternative authentication schemes which would lift this requirement are possible, but beyond the scope of this document.
+While the substance service is the core focus of GSRS, additional microservices can be built to relate another domains’ data to substances. Additional microservices currently implemented include Drug/Biologic Applications, Drug/Biologic Products and Clinical Trials. Each microservice works via two main elements: 1) a domain specific spring boot starter module, and 2) an executing implementation in `gsrs3-main-deployment`. The starter module builds on the core GSRS starter and defines domain specific models, controllers, indexers, services, etc. Next, the executing implementation in `gsrs3-main-deployment` contains a configuration file, and the "java main" application runner class that launches the microservice.  Each domain starter module currently works with two datasources. The domain specific datasource holds the domain's own entity data. The other "default" datasource may or may not be the same as the substance core datasource. The default datasource stores all data records GSRS routinely keeps for all GSRS entities, such as backups and incremental edits of the entity. Currently, the default datasource also contains session and user data required for authentication. **NOTE** At present time, in order for the _same_ authentication to work through the gateway and UI for each service, each service _must_ point to the same default ("spring") core data source. Alternative authentication schemes which would lift this requirement are possible, but beyond the scope of this document.
 
 
 If the microservice to be added to `gsrs3-main-deployment` does not yet exist, the simplest path is to copy the `substances` folder to a new folder such as `my-service`.  However, the following (and more) files will have to edited (E), renamed (R), deleted (D) and/or simplified (S) as appropriate:  
@@ -216,7 +224,7 @@ If the microservice to be added to `gsrs3-main-deployment` does not yet exist, t
 - SubstancesApplication.java (R, S)
 - LoadGroupsAndUsersOnStartup.java (D) 
 
-If the microsrevice to be added already has an implementation in the `gsrs3-main-deployment`, then it’s likely that you just need to modify its application.conf file to meet your needs and then change the gateway’s `application.yml` file to include the associated paths. Either way, the `application.conf` file will have these important values, among others.
+If the microservice to be added already has an implementation in the `gsrs3-main-deployment`, then it’s likely that you just need to modify its application.conf file to meet your needs and then change the gateway’s `application.yml` file to include the associated paths. Either way, the `application.conf` file will have these important values, among others.
 
 ```
 server.port = ####  
@@ -249,7 +257,7 @@ myservice.jpa.generate-ddl=false
 myservice.jpa.hibernate.ddl-auto=none
 #myservice.hibernate.show-sql=true
 ```
-Note that your microservice datasource is configured in a spring starter module java configuration class. In this case, `myservice` in the datasource configuration corresponds to the `PERSIST_UNIT` value in your `MyServiceDataSourceConfig` class. That perist unit value should be all lower case. The `spring` value is the default `PERSIST_UNIT`. The default datasource is configured in the GSRS Spring Boot stater in the `DefaultDataSourceConfig` class.      
+Note that your microservice datasource is configured in a spring starter module java configuration class. In this case, `myservice` in the datasource configuration corresponds to the `PERSIST_UNIT` value in your `MyServiceDataSourceConfig` class. That persist unit value should be all lower case. The `spring` value is the default `PERSIST_UNIT`. The default datasource is configured in the GSRS Spring Boot starter in the `DefaultDataSourceConfig` class.      
 
 To get your microservice running you also have to specify some paths in the gateway service `application.yml`. These paths tell the Gateway how to route traffic to your microservice's entity services. Let’s say your microservice has two entities, MyWidget and MyThingy; and your server.port defined above is 8999. Assuming an embedded tomcat context, your paths would look like this:
 ```
@@ -273,21 +281,20 @@ zuul:
       url: http://localhost:8999/api/v1/mythingies
       serviceId: my_thingies
 ```
-While an entity class `MyWidget` is singular, the url uses the plural `CONTEXT` value as defined in something like `MyWidgetEntityService.java`. The `_alt` values are necessary to handle certain ODATA-like patterns not captured by the standard route.     
+While an entity class `MyWidget` is singular, the url uses the plural `CONTEXT` value as defined in something like `MyWidgetEntityService.java`. The `_alt` values are necessary to handle certain [ODATA-like](https://www.odata.org/getting-started/basic-tutorial/) patterns not captured by the standard route.
 
 ## Single Tomcat Deployment with WAR files for Core and Frontend
 
+FDA currently uses the Single Tomcat WAR files deployment strategy in production for the GSRS core and additional microservices. The steps here have similarities to the local embedded testing deployment strategy as well as significant differences, so please review that section in this document before proceeding. FDA has also provided a detailed deployment guide in the [docs](./docs) folder which goes into some more specifics.
 
-FDA currently uses the Single Tomcat WAR files deployment strategy in production for the GSRS core and additional microservices. The steps here have similarities to the local embedded testing deployment strategy, so please review that section in this document before proceeding. These steps, however, are also quite different in several important ways. [FDA has also provided a detailed deployment guide in the docs folder](./docs) which goes into some more specifics.
- 
-One difference is that Tomcat (running on port 8080) routes traffic to executed war file instances, all running on the same port. In contrast, in the embedded case, the gateway routes traffic to executable jar files, and each jar contains its own webserver and runs on its own port. 
+One difference is that Tomcat (running on port 8080) routes traffic to executed war file instances, all running on the same port. In contrast, in the embedded case, the gateway routes traffic to executable jar files, and each jar contains its own webserver and runs on its own port.
 
 Another difference is data written to disk, such as indexes and caches, are kept in folders separate from the code. In addition, a copy of each microservice configuration is also kept separate from the code.  All edits to the configuration are made separately from the code. You will copy those edited files and use them to overwrite the ones that were generated (at packaging time) inside the WAR files.
 
-Note, the following was elaborated on Tomcat9, and should be adjusted for Tomcat10. In version 10, Tomcat automatically makes a transformation of WAR files when they are copied to the folder: `webapps-javaee`. At FDA, even on version 10, the WAR files are copied to the `webapps` folder instead, and the transformation is made there explicitly. More on that later.
+Note, the following was elaborated on Tomcat 9, and should be adjusted for Tomcat 10. In version 10, Tomcat automatically makes a transformation of WAR files when they are copied to the folder: `webapps-javaee`. At FDA, even on version 10, the WAR files are copied to the `webapps` folder instead, and the transformation is made there explicitly. More on that later.
 
 **1. Start by cloning the gsrs3-main-deployment and other optional repositories**
- 
+
 This gsrs3-main-deployment repository contains the small wrappers needed to build the WAR files needed for this deployment strategy. There are configurations in the repository for reference as well, but those configurations are usually made with the local testing deployment strategy in mind.  
 
 Note that gsrs3-main-deployment also houses the raw compiled frontend artifacts which are needed to assemble the frontend.  
@@ -300,9 +307,11 @@ git clone https://github.com/ncats/gsrs3-main-deployment
 
 Optionally, you can clone and install these repositories if you need the very latest code. If you do not, maven will download the published repositories as opposed to those on github.
  
-https://github.com/ncats/gsrs-spring-starter (master)
-https://github.com/ncats/gsrs-spring-module-substances (master)
-https://github.com/ncats/GSRSFrontend/tree/development_3.0
+- https://github.com/ncats/gsrs-spring-starter (master)
+
+- https://github.com/ncats/gsrs-spring-module-substances (master)
+
+- https://github.com/ncats/GSRSFrontend/tree/development_3.0
 
 At this time, you may also need to clone and install the applications (starter branch) and drug products repositories (starter branch). That is because the substance starter module has some dependendencies on applications and products.   
 
@@ -314,21 +323,22 @@ Run the following in your Linux terminal. Use can use `git bash` on windows.
 
   ```
   # These export statements should be run each time you open a new terminal. 
-  export gsrs_ci_repo_dir=/path/to/your/gsrs3-main-deployment/repository 	
+  export gsrs_ci_repo_dir=/path/to/your/gsrs3-main-deployment/repository
   export webapps=/path/to/tomcat/webapps 
   export config_dir=/path/to/gsrs_configs/ 
+  export data_dir=/path/to/data 
 
-  # The following need to be done once. 
-  sudo mkdir $webapps/gsrs_substances.ix
-  sudo mkdir $webapps/gsrs_substances.ix/h2
-  sudo mkdir $webapps/gsrs_substances.ix/sequence
-  sudo mkdir $webapps/gsrs_substances.ix/structure
+  # The following need to be done once.
+  sudo mkdir $data_dir
+  sudo mkdir $data_dir/gsrs_substances.ix
+  sudo mkdir $data_dir/gsrs_substances.ix/h2
+  sudo mkdir $data_dir/gsrs_substances.ix/sequence
+  sudo mkdir $data_dir/gsrs_substances.ix/structure
 
-  sudo mkdir $webapps/gsrs_frontend.ix 
   mkdir -p $config_dir
   ```
 
-**3. Prepare your Frontend configs** 
+**3. Prepare your Frontend configs**
 
 Create a file `$config_dir/frontend_application.conf` and add the following.
 ``` 
@@ -342,28 +352,24 @@ Copy the contents of `$webapps/frontend/src/main/resources/static/assets/data/co
 
   ```
   "apiBaseUrl": "http://localhost:8080/",
-  "gsrsHomeBaseUrl": "http://localhost:8080/ginas/app/beta/",
+  "gsrsHomeBaseUrl": "http://localhost:8080/ginas/app/ui/",
   # optional
   "apiSSG4mBaseUrl": "http://localhost:8080/",
   ```
 
-**4. Prepare your Substances configs** 
+**4. Prepare your Substances configs**
 
 Create a file `$config_dir/substances_application.conf` and include the following. 
   ```
   include "substances-core.conf"
 
-  # This says to use this folder for indexes, etc.
-  # Must be an absolute path in in tomcat case?
-  # Must be in webapps? 
-  ix.home="/var/lib/tomcat9/webapps/gsrs_substances.ix"
+  ix.home="$data_dir/gsrs_substances.ix"
 
   # Set the gateway address 
   application.host="http://localhost:8080" 
 
   spring.application.name="substances"
 
-  # Must be an absolute path in tomcat case?
   ix.h2 {
           base = ${ix.home}/h2
         }
@@ -401,8 +407,8 @@ Create the file `$config_dir/gateway_application.yml` and add the following:
     sensitiveHeaders:
     routes:
       ui:
-        path: /ginas/app/beta/**
-        url: http://localhost:8080/frontend/ginas/app/beta
+        path: /ginas/app/ui/**
+        url: http://localhost:8080/frontend/ginas/app/ui
         serviceId: frontend
       ginas_app:
         path: /ginas/app/**
@@ -428,8 +434,8 @@ Create the file `$config_dir/gateway_application.yml` and add the following:
   zuul.host.socket-timeout-millis: 300000
 ```
 
-**6. Package your WAR files, then copy to Tomcat and rewrite configs** 
- 
+**6. Package your WAR files, then copy to Tomcat and rewrite configs**
+
 Next, do or run the following on command-line:  
   ``` 
   # Stop your tomcat, if not yet done
@@ -494,17 +500,17 @@ Now, you're ready to run the application in Tomcat. Do the following:
   ```
   # Start your tomcat
 
-  # Check this log $webapps/logs/catalina...log
+  # Check this log $webapps/../logs/catalina...log
 
   # Try to hit these Urls
   http://localhost:8080/api/v1/substances
-  http://localhost:8080/ginas/app/beta/
+  http://localhost:8080/ginas/app/ui/
 
-  # Again, check this log $webapps/logs/catalina...log
+  # Again, check this log $webapps/../logs/catalina...log
   ```
 
 
-## Turning on an Additional Entity Services in a Single Tomcat Instance
+## Turning on an Additional Entity Service in a Single Tomcat Instance
 
 An additional microservice works with two main parts. First, a starter package that establishes microservice entities, repositories, controllers, indexers, etc. Next, there is an executing implementation in the `gsrs3-main-deployment` that imports the starter package and sets configuration properties. The `gsrs3-main-deployment` implementation for the microservice also has a main() method that runs the service. 
 
@@ -517,10 +523,11 @@ An additional service like Clinical Trials already exists, for example. The enti
   export gsrs_ci_repo_dir=/path/to/your/gsrs3-main-deployment/repository 	
   export webapps=/path/to/tomcat/webapps 
   export config_dir=/path/to/gsrs_configs/ 
+  export data_dir=/path/to/data
 
   # The following need to be done once.
-  sudo mkdir $webapps/gsrs_clinical-trials.ix
-  sudo mkdir $webapps/gsrs_substances.ix/h2
+  sudo mkdir -p $data_dir/gsrs_clinical-trials.ix/h2
+  sudo mkdir -p $data_dir/gsrs_substances.ix/h2
   ```
 
 **2. Prepare your Clinical Trials configs**
@@ -532,9 +539,10 @@ Create a file `$config_dir/clinical-trials_application.conf` and include the fol
 
   include "gsrs-core.conf"
 
-  ix.home="/var/lib/tomcat9/webapps/gsrs_clinical-trials.ix" 
+  ix.home="$data_dir/gsrs_clinical-trials.ix" 
+  ix.home_substances="$data_dir/gsrs_substances.ix" 
 
-  ix.ginas.export.path="/var/lib/tomcat9/webapps/gsrs_exports"
+  ix.ginas.export.path="$data_dir/gsrs_exports"
 
   application.host= "http://localhost:8080"
 
@@ -542,7 +550,7 @@ Create a file `$config_dir/clinical-trials_application.conf` and include the fol
   # server.port=8080
 
   # H2 Database Connection
-  spring.datasource.url="jdbc:h2:file:../substances/ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE"
+  spring.datasource.url="jdbc:h2:file:${ix_home.substances}/h2/sprinxight;AUTO_SERVER=TRUE"
   spring.datasource.driverClassName="org.h2.Driver"
   spring.jpa.database-platform="org.hibernate.dialect.H2Dialect"
   ### !!!! CAREFUL  !!!! ####
@@ -551,7 +559,7 @@ Create a file `$config_dir/clinical-trials_application.conf` and include the fol
   spring.jpa.hibernate.ddl-auto=none
   spring.hibernate.show-sql=true
 
-  clinicaltrial.datasource.url="jdbc:h2:file:./ginas.ix/h2/ctdb;AUTO_SERVER=TRUE"
+  clinicaltrial.datasource.url="jdbc:h2:file:${ix.home}/h2/ctdb;AUTO_SERVER=TRUE"
   clinicaltrial.datasource.driverClassName="org.h2.Driver"
   clinicaltrial.datasource.username="sa"
   clinicaltrial.datasource.password=""
@@ -599,7 +607,7 @@ Do or run the following on command-line:
 # Stop your tomcat, if not yet done 
 ```
 
-For Clinical Trials, run these commands on the command-line:   
+For Clinical Trials, run these commands on the command-line:
   ```
   cd $gsrs_ci_repo_dir/clinical-trials 
 
@@ -627,21 +635,21 @@ Now, you're ready to run the application in tomcat. Do the following:
   ```
   # Start your tomcat 
 
-  # Check this log $webapps/logs/catalina...log 
+  # Check this log $webapps/../logs/catalina...log 
 
   # Try to hit these Urls 
 
   http://localhost:8080/api/v1/clinical-trials 
 
-  http://localhost:8080/ginas/app/beta/browse-clinical-trials 
+  http://localhost:8080/ginas/app/ui/browse-clinical-trials 
 
-  # Again, check this log $webapps/logs/catalina...log
+  # Again, check this log $webapps/../logs/catalina...log
   ```
 
 ## Adding a New Frontend Submodule for a New microservice
 
-When developers add a new microservice to the GSRS, they may also want to create a frontend module to interact with the backend service. The frontend code is all separate from the backend and currently in a single Angular project.  Typically, each entity service has its own folder where Angular code and templates are stored. To date, all non-core folders are located in the folder: `src/app/fda`    
- 
+When developers add a new microservice to the GSRS, they may also want to create a frontend module to interact with the backend service. The frontend code is all separate from the backend and currently in a single Angular project.  Typically, each entity service has its own folder where Angular code and templates are stored. To date, all non-core folders are located in the folder: `src/app/fda`
+
 Critical files affecting non-substance modules are:
 ```
 src/app/fda/config/config.json
@@ -653,7 +661,7 @@ Projects can be selectively defined as loaded components. This makes it easy to 
 <div *ngIf = "loadedComponents.clinicaltrialsus">
   your content
 </div>
-``` 
+```
 In this example, "clinicaltrialsus" is the name of the loaded component. The following shows several files that you will likely have to modify if you add a frontend for a new entity service.
 
 ```
@@ -705,4 +713,4 @@ set configName(configName: string) {
   </a>
   <mat-divider></mat-divider>
   </span>
-``` 
+```

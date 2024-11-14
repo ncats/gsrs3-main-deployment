@@ -10,22 +10,27 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>substances</artifactId>
-    <version>3.1</version>
-    <packaging>war</packaging>
+    <version>3.1.1.2</version>
+
     <name>substances</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>8</java.version>
+        <with.packaging>war</with.packaging>
+        <with.fork>true</with.fork>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.substance.version>3.1</gsrs.substance.version>
-        <gsrs.starter.version>3.1</gsrs.starter.version>
+        <gsrs.substance.version>3.1.1.2</gsrs.substance.version>
+        <gsrs.starter.version>3.1.1</gsrs.starter.version>
         <log4j2.version>2.17.2</log4j2.version>
-<!-- TODO: refactor -->	
         <jackson.version>2.13.4</jackson.version>
         <jackson.databind.version>2.13.4.2</jackson.databind.version>
-<!-- END REFACTOR -->
-
+        <mariadb.version>1.5.7</mariadb.version>
+        <mysql.version>8.0.26</mysql.version>
+        <oracle-database.version>19.8.0.0</oracle-database.version>
+        <postgresql.version>42.7.3</postgresql.version>
     </properties>
+
+    <packaging>${with.packaging}</packaging>
 
     <distributionManagement>
         <snapshotRepository>
@@ -51,14 +56,14 @@
                 <dependency>
                     <groupId>gov.nih.ncats</groupId>
                     <artifactId>molwitch-cdk</artifactId>
-                    <version>1.0.14</version>
+                    <version>1.0.21</version>
                 </dependency>
             </dependencies>
         </profile>
         <profile>
             <id>jchem3</id>
             <activation>
-                <!--activeByDefault>false</activeByDefault-->
+                <activeByDefault>false</activeByDefault>
                 <property>
                     <name>env.MOLWITCH_FLAVOR</name>
                     <value>jchem3</value>
@@ -85,6 +90,77 @@
                     <groupId>gov.nih.ncats</groupId>
                     <artifactId>gsrs3-lychi-extension</artifactId>
                     <version>3.0-SNAPSHOT</version>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>mariadb</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env.DB_MARIADB_DEPENDENCY</name>
+                    <value>ADD</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.mariadb.jdbc</groupId>
+                    <artifactId>mariadb-java-client</artifactId>
+                    <version>${mariadb.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>mysql</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env.DB_MYSQL_DEPENDENCY</name>
+                    <value>ADD</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>mysql</groupId>
+                    <artifactId>mysql-connector-java</artifactId>
+                    <version>${mysql.version}</version>
+                </dependency>
+
+            </dependencies>
+        </profile>
+        <profile>
+            <id>oracle</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env.DB_ORACLE_DEPENDENCY</name>
+                    <value>ADD</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.oracle.database.jdbc</groupId>
+                    <artifactId>ojdbc8</artifactId>
+                    <version>${oracle-database.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
+
+        <profile>
+            <id>postgresql</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env.DB_POSTGRESQL_DEPENDENCY</name>
+                    <value>ADD</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.postgresql</groupId>
+                    <artifactId>postgresql</artifactId>
+                    <version>${postgresql.version}</version>
                 </dependency>
             </dependencies>
         </profile>
@@ -120,15 +196,14 @@
             
 
         <dependency>
-            <groupId>org.eclipse.jdt</groupId>
-            <artifactId>ecj</artifactId>
-            <version>3.26.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-spring-boot-autoconfigure</artifactId>
             <version>${gsrs.starter.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.fda.gsrs</groupId>
+            <artifactId>Featureize-Nitrosamines</artifactId>
+            <version>0.0.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>gov.nih.ncats</groupId>
@@ -156,35 +231,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
-             
-        <!-- JDBC driver classes START -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.26</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>1.5.7</version>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-            <version>19.6.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- JDBC driver classes END -->
-             
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -195,7 +246,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-<!-- TODO: these shouldn't be neccessary but currently are, some other libs not trickling in -->
+        <!-- TODO: these shouldn't be necessary but currently are, some other libs not trickling in -->
 <!-- START JACKSON libs to refactor -->
         <dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
@@ -233,11 +284,14 @@
     </dependencyManagement>
 
     <build>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>${with.fork}</fork>
+                </configuration>
                 <executions>
                     <execution>
                         <id>build-info</id>

@@ -109,22 +109,6 @@ zuul:
       path: /api/v1/products(**)/**
       url: http://localhost:8084/api/v1/products
       serviceId: products_core
-    products_all:
-      path: /api/v1/productsall/**
-      url: http://localhost:8084/api/v1/productsall
-      serviceId: products_all
-    products_all_alt:
-      path: /api/v1/productsall(**)/**
-      url: http://localhost:8084/api/v1/productsall
-      serviceId: products_all
-    products_elist:
-      path: /api/v1/productselist/**
-      url: http://localhost:8084/api/v1/productselist
-      serviceId: products_elist
-    products_elist_alt:
-      path: /api/v1/productselist(**)/**
-      url: http://localhost:8084/api/v1/productselist
-      serviceId: products_elist
 #############################
 #END products section
 #############################
@@ -146,22 +130,6 @@ zuul:
       path: /api/v1/products(**)/**
       url: http://localhost:8080/products/api/v1/products
       serviceId: products_core
-    products_all:
-      path: /api/v1/productsall/**
-      url: http://localhost:8080/products/api/v1/productsall
-      serviceId: products_all
-    products_all_alt:
-      path: /api/v1/productsall(**)/**
-      url: http://localhost:8080/products/api/v1/productsall
-      serviceId: products_all
-    products_elist:
-      path: /api/v1/productselist/**
-      url: http://localhost:8080/products/api/v1/productselist
-      serviceId: products_elist
-    products_elist_alt:
-      path: /api/v1/productselist(**)/**
-      url: http://localhost:8080/products/api/v1/productselist
-      serviceId: products_elist
 
 ```
 
@@ -176,11 +144,12 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 That way, the first time you run this service, Hibernate will create the data structures necessary 
 to hold your data.  As a test, you can hit the URL `http://localhost:8084/api/v1/products` in your browser.
-It should show 
+
+Without error, it should show: 
 ```
 {"total":0,"count":0,"skip":0,"top":10,"content":[]}
 ```
-Without error.  
+  
 Once the tables have been created, change the settings to 
 ```
 spring.jpa.hibernate.ddl-auto=none

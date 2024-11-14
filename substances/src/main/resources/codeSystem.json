@@ -31,6 +31,7 @@
     {"codeSystem":"USAN","url":"https://searchusan.ama-assn.org/finder/usan/search/$CODE$/relevant/1/"},
     {"codeSystem":"NSC","url":"https://dtp.cancer.gov/dtpstandard/servlet/dwindex?searchtype=NSC&outputformat=html&searchlist=$CODE$"},
     {"codeSystem":"EPA CompTox","url":"https://comptox.epa.gov/dashboard/chemical/details/$CODE$"},
-    {"codeSystem":"DailyMed","url":"https://dailymed.nlm.nih.gov/dailymed/search.cfm?adv=1&query=($CODE$)"},
-    {"codeSystem":"Catalogue of Life","url":"https://www.catalogueoflife.org/data/taxon/$CODE$"}
+    {"codeSystem":"DailyMed","url":"https://dailymed.nlm.nih.gov/dailymed/search.cfm?adv=1&query=($CODE$)"}, 
+    {"codeSystem":"Catalogue of Life","url":"https://www.catalogueoflife.org/data/taxon/$CODE$"},
+    {"codeSystem":"POWO","url":"https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:$CODE$"}
 ]
