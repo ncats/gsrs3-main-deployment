@@ -149,7 +149,7 @@ zuul:
     #############################
     invitropharmacology_core:
       path: ${api.base.path}/api/v1/invitropharmacology/**
-      url: http://localhost:8090/invitro-pharmacology/api/v1/invitropharmacology
+      url: http://localhost:8090/api/v1/invitropharmacology
       serviceId: invitropharmacology_core
     #############################
     #END invitro-pharmacology  section
