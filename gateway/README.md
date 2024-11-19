@@ -49,9 +49,9 @@ zuul.host.socket-timeout-millis: 300000
 
 Next, set the routes for other services. 
 
-For embedded Tomcat, these are shown here in the default [application.yml](./src/main/resources/application.yml) file.
+A) For **embedded Tomcat**, these are shown and already set here in the default [application.yml](./src/main/resources/application.yml) file.
 
-For single Tomcat the routes are different.  The service name is included in the target path and the port is the same for all services. 
+B) Otherwise, for **single Tomcat** the routes are different.  The service name is included in the target path and the port is the same for all services. 
 
 ```
 zuul:
@@ -63,111 +63,113 @@ zuul:
   ... 
 
     adverseeventpt:
-      path: /api/v1/adverseeventpt/**
+      path: ${api.base.path}/api/v1/adverseeventpt/**
       url: http://localhost:8080/adverse-events/api/v1/adverseeventpt
       serviceId: adverseeventpt
     adverseeventpt_alt:
-      path: /api/v1/adverseeventpt(**)/**
+      path: ${api.base.path}/api/v1/adverseeventpt(**)/**
       url: http://localhost:8080/adverse-events/api/v1/adverseeventpt
       serviceId: adverseeventpt
     adverseeventdme:
-      path: /api/v1/adverseeventdme/**
+      path: ${api.base.path}/api/v1/adverseeventdme/**
       url: http://localhost:8080/adverse-events/api/v1/adverseeventdme
       serviceId: adverseeventdme
     adverseeventdme_alt:
-      path: /api/v1/adverseeventdme(**)/**
+      path: ${api.base.path}/api/v1/adverseeventdme(**)/**
       url: http://localhost:8080/adverse-events/api/v1/adverseeventdme
       serviceId: adverseeventdme
     adverseeventcvm:
-      path: /api/v1/adverseeventcvm/**
+      path: ${api.base.path}/api/v1/adverseeventcvm/**
       url: http://localhost:8080/adverse-events/api/v1/adverseeventcvm
       serviceId: adverseeventcvm
     adverseeventcvm_alt:
-      path: /api/v1/adverseeventcvm(**)/**
+      path: ${api.base.path}/api/v1/adverseeventcvm(**)/**
       url: http://localhost:8080/adverse-events/api/v1/adverseeventcvm
       serviceId: adverseeventcvm
 
     applications_core:
-      path: /api/v1/applications/**
+      path: ${api.base.path}/api/v1/applications/**
       url: http://localhost:8080/applications/api/v1/applications
       serviceId: applications_core
     applications_core_alt:
-      path: /api/v1/applications(**)/**
+      path: ${api.base.path}/api/v1/applications(**)/**
       url: http://localhost:8080/applications/api/v1/applications
       serviceId: applications_core_alt
     applications_all:
-      path: /api/v1/applicationsall/**
+      path: ${api.base.path}/api/v1/applicationsall/**
       url: http://localhost:8080/applications/api/v1/applicationsall
       serviceId: applications_all
     applications_all_alt:
-      path: /api/v1/applicationsall(**)/**
+      path: ${api.base.path}/api/v1/applicationsall(**)/**
       url: http://localhost:8080/applications/api/v1/applicationsall
       serviceId: applications_all_alt
     applications_darrts:
-      path: /api/v1/applicationsdarrts/**
+      path: ${api.base.path}/api/v1/applicationsdarrts/**
       url: http://localhost:8080/applications/api/v1/applicationsdarrts
       serviceId: applications_darrts
     applications_darrts_alt:
-      path: /api/v1/applicationsdarrts(**)/**
+      path: ${api.base.path}/api/v1/applicationsdarrts(**)/**
       url: http://localhost:8080/applications/api/v1/applicationsdarrts
       serviceId: applications_darrts_alt
     applications_searchcount:
-      path: /api/v1/searchcounts/**
+      path: ${api.base.path}/api/v1/searchcounts/**
       url: http://localhost:8080/applications/api/v1/searchcounts
       serviceId: applications_searchcount
     applications_searchcount_alt:
-      path: /api/v1/searchcounts(**)/**
+      path: ${api.base.path}/api/v1/searchcounts(**)/**
       url: http://localhost:8080/applications/api/v1/searchcounts
       serviceId: applications_searchcount
 
     clinical_trials_us:
-      path: /api/v1/clinicaltrialsus/**
+      path: ${api.base.path}/api/v1/clinicaltrialsus/**
       url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialsus
       serviceId: clinical_trials_us
     clinical_trials_us_alt:
-      path: /api/v1/clinicaltrialsus(**)/**
+      path: ${api.base.path}/api/v1/clinicaltrialsus(**)/**
       url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialsus
       serviceId: clinical_trials_us
     clinical_trials_europe:
-      path: /api/v1/clinicaltrialseurope/**
+      path: ${api.base.path}/api/v1/clinicaltrialseurope/**
       url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialseurope
       serviceId: clinical_trials_europe
     clinical_trials_europe_alt:
-      path: /api/v1/clinicaltrialseurope(**)/**
+      path: ${api.base.path}/api/v1/clinicaltrialseurope(**)/**
       url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialseurope
       serviceId: clinical_trials_europe  
 
     impurities:
-      path: /api/v1/impurities/**
+      path: ${api.base.path}/api/v1/impurities/**
       url: http://localhost:8080/impurities/api/v1/impurities
       serviceId: impurities
     impurities_alt:
-      path: /api/v1/impurities(**)/**
+      path: ${api.base.path}/api/v1/impurities(**)/**
       url: http://localhost:8080/impurities/api/v1/impurities
       serviceId: impurities
 
     invitropharmacology_core:
-      path: /api/v1/invitropharmacology/**
+      path: ${api.base.path}/api/v1/invitropharmacology/**
       url: http://localhost:8080/invitro-pharmacology/api/v1/invitropharmacology
       serviceId: invitropharmacology_core
 
     products_core:
-      path: /api/v1/products/**
+      path: ${api.base.path}/api/v1/products/**
       url: http://localhost:8080/products/api/v1/products
       serviceId: products_core
     products_core_alt:
-      path: /api/v1/products(**)/**
+      path: ${api.base.path}/api/v1/products(**)/**
       url: http://localhost:8080/products/api/v1/products
       serviceId: products_core
 
     ssg4m_core:
-      path: /api/v1/ssg4m/**
+      path: ${api.base.path}/api/v1/ssg4m/**
       url: http://localhost:8080/ssg4m/ssg4m
       serviceId: ssg4m_core
     ssg4m_core_alt:
-      path: /api/v1/ssg4m(**)/**
+      path: ${api.base.path}/api/v1/ssg4m(**)/**
       url: http://localhost:8080/ssg4m/ssg4m
       serviceId: ssg4m_core_alt
+
+
 
 
 

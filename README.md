@@ -198,7 +198,9 @@ You can run the frontend in **development mode**.
           # stripPrefix: false
   ```
 
-- Save `application.yml` and restart the gateway.
+- Save `application.yml`.
+- In your gateway terminal sesssion set `API_BASE_PATH=''`.   
+- Restart the gateway.
 
 Next, go to your own Angular code repo (typically `GSRSFrontend`) outside of the gsrs3-main-deployment folder. Temporarily edit the file, `src/index.html`, changing from `<base href="/">` to `<base href="/ginas/app/ui/">`.  Make sure you temporarily have following in `src\app\fda\config\config.json` and/or `src\app\core\config\config.json` 
 

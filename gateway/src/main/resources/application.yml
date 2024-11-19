@@ -1,3 +1,6 @@
+
+api.base.path: ${API_BASE_PATH:/ginas/app}
+
 gsrs:
   gateway:
     server:
@@ -37,27 +40,27 @@ zuul:
     #START adverse-events section
     #############################
     adverseeventpt:
-      path: /api/v1/adverseeventpt/**
+      path: ${api.base.path}/api/v1/adverseeventpt/**
       url: http://localhost:8086/api/v1/adverseeventpt
       serviceId: adverseeventpt
     adverseeventpt_alt:
-      path: /api/v1/adverseeventpt(**)/**
+      path: ${api.base.path}/api/v1/adverseeventpt(**)/**
       url: http://localhost:8086/api/v1/adverseeventpt
       serviceId: adverseeventpt
     adverseeventdme:
-      path: /api/v1/adverseeventdme/**
+      path: ${api.base.path}/api/v1/adverseeventdme/**
       url: http://localhost:8086/api/v1/adverseeventdme
       serviceId: adverseeventdme
     adverseeventdme_alt:
-      path: /api/v1/adverseeventdme(**)/**
+      path: ${api.base.path}/api/v1/adverseeventdme(**)/**
       url: http://localhost:8086/api/v1/adverseeventdme
       serviceId: adverseeventdme
     adverseeventcvm:
-      path: /api/v1/adverseeventcvm/**
+      path: ${api.base.path}/api/v1/adverseeventcvm/**
       url: http://localhost:8086/api/v1/adverseeventcvm
       serviceId: adverseeventcvm
     adverseeventcvm_alt:
-      path: /api/v1/adverseeventcvm(**)/**
+      path: ${api.base.path}/api/v1/adverseeventcvm(**)/**
       url: http://localhost:8086/api/v1/adverseeventcvm
       serviceId: adverseeventcvm
     #############################
@@ -68,35 +71,35 @@ zuul:
     #START applications section
     #############################
     applications_core:
-      path: /api/v1/applications/**
+      path: ${api.base.path}/api/v1/applications/**
       url: http://localhost:8083/api/v1/applications
       serviceId: applications_core
     applications_core_alt:
-      path: /api/v1/applications(**)/**
+      path: ${api.base.path}/api/v1/applications(**)/**
       url: http://localhost:8083/api/v1/applications
       serviceId: applications_core_alt
     applications_all:
-      path: /api/v1/applicationsall/**
+      path: ${api.base.path}/api/v1/applicationsall/**
       url: http://localhost:8083/api/v1/applicationsall
       serviceId: applications_all
     applications_all_alt:
-      path: /api/v1/applicationsall(**)/**
+      path: ${api.base.path}/api/v1/applicationsall(**)/**
       url: http://localhost:8083/api/v1/applicationsall
       serviceId: applications_all_alt
     applications_darrts:
-      path: /api/v1/applicationsdarrts/**
+      path: ${api.base.path}/api/v1/applicationsdarrts/**
       url: http://localhost:8083/api/v1/applicationsdarrts
       serviceId: applications_darrts
     applications_darrts_alt:
-      path: /api/v1/applicationsdarrts(**)/**
+      path: ${api.base.path}/api/v1/applicationsdarrts(**)/**
       url: http://localhost:8083/api/v1/applicationsdarrts
       serviceId: applications_darrts_alt
     applications_searchcount:
-      path: /api/v1/searchcounts/**
+      path: ${api.base.path}/api/v1/searchcounts/**
       url: http://localhost:8083/api/v1/searchcounts
       serviceId: applications_searchcount
     applications_searchcount_alt:
-      path: /api/v1/searchcounts(**)/**
+      path: ${api.base.path}/api/v1/searchcounts(**)/**
       url: http://localhost:8083/api/v1/searchcounts
       serviceId: applications_searchcount
     #############################
@@ -107,19 +110,19 @@ zuul:
     #START clinical-trials section
     #############################
     clinical_trials_us:
-      path: /api/v1/clinicaltrialsus/**
+      path: ${api.base.path}/api/v1/clinicaltrialsus/**
       url: http://localhost:8089/api/v1/clinicaltrialsus
       serviceId: clinical_trials_us
     clinical_trials_us_alt:
-      path: /api/v1/clinicaltrialsus(**)/**
+      path: ${api.base.path}/api/v1/clinicaltrialsus(**)/**
       url: http://localhost:8089/api/v1/clinicaltrialsus
       serviceId: clinical_trials_us
     clinical_trials_europe:
-      path: /api/v1/clinicaltrialseurope/**
+      path: ${api.base.path}/api/v1/clinicaltrialseurope/**
       url: http://localhost:8089/api/v1/clinicaltrialseurope
       serviceId: clinical_trials_europe
     clinical_trials_europe_alt:
-      path: /api/v1/clinicaltrialseurope(**)/**
+      path: ${api.base.path}/api/v1/clinicaltrialseurope(**)/**
       url: http://localhost:8089/api/v1/clinicaltrialseurope
       serviceId: clinical_trials_europe  
     #############################
@@ -130,11 +133,11 @@ zuul:
     #START impurities section
     #############################
     impurities_core:
-      path: /api/v1/impurities/**
+      path: ${api.base.path}/api/v1/impurities/**
       url: http://localhost:8085/api/v1/impurities
       serviceId: impurities_core
     impurities_core_alt:
-      path: /api/v1/impurities(**)/**
+      path: ${api.base.path}/api/v1/impurities(**)/**
       url: http://localhost:8085/api/v1/impurities
       serviceId: impurities_core
     #############################
@@ -145,7 +148,7 @@ zuul:
     #START invitro-pharmacology  section
     #############################
     invitropharmacology_core:
-      path: /api/v1/invitropharmacology/**
+      path: ${api.base.path}/api/v1/invitropharmacology/**
       url: http://localhost:8090/invitro-pharmacology/api/v1/invitropharmacology
       serviceId: invitropharmacology_core
     #############################
@@ -156,11 +159,11 @@ zuul:
     #START products section
     #############################
     products_core:
-      path: /api/v1/products/**
+      path: ${api.base.path}/api/v1/products/**
       url: http://localhost:8084/api/v1/products
       serviceId: products_core
     products_core_alt:
-      path: /api/v1/products(**)/**
+      path: ${api.base.path}/api/v1/products(**)/**
       url: http://localhost:8084/api/v1/products
       serviceId: products_core
     #############################
@@ -171,11 +174,11 @@ zuul:
     #START ssg4m section
     #############################
     ssg4m_core:
-      path: /api/v1/ssg4m/**
+      path: ${api.base.path}/api/v1/ssg4m/**
       url: http://localhost:8088/ssg4m
       serviceId: ssg4m_core
     ssg4m_core_alt:
-      path: /api/v1/ssg4m(**)/**
+      path: ${api.base.path}/api/v1/ssg4m(**)/**
       url: http://localhost:8088/ssg4m
       serviceId: ssg4m_core_alt
     #############################
@@ -238,4 +241,3 @@ zuul.host.socket-timeout-millis: 300000
 
 #Keeps + encoded characters encoded as +
 zuul.forceOriginalQueryStringEncoding: true
-
