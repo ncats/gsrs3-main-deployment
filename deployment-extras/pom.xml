@@ -10,16 +10,19 @@
     </parent>
     <groupId>gsrs.ncats</groupId>
     <artifactId>deployment-extras</artifactId>
-    <version>3.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <version>3.1.1-SNAPSHOT</version>
     <name>deployment-extras</name>
     <description>Deployment specific resources</description>
     <properties>
         <java.version>8</java.version>
+        <with.packaging>war</with.packaging>
+        <with.fork>true</with.fork>
         <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.starter.version>3.1</gsrs.starter.version>
+        <gsrs.starter.version>3.1.1</gsrs.starter.version>
         <log4j2.version>2.17.2</log4j2.version>
     </properties>
+
+    <packaging>${with.packaging}</packaging>
 
     <distributionManagement>
         <snapshotRepository>
@@ -32,11 +35,6 @@
         </repository>
     </distributionManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.eclipse.jdt</groupId>
-            <artifactId>ecj</artifactId>
-            <version>3.26.0</version>
-        </dependency>
 
         <dependency>
             <groupId>gov.nih.ncats</groupId>
@@ -67,11 +65,14 @@
     </dependencyManagement>
 
     <build>
-        <finalName>deployment-extras</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>${with.fork}</fork>
+                </configuration>
             </plugin>
 
         </plugins>

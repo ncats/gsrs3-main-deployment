@@ -1,0 +1,41 @@
+If you are deploying GSRS for the first time, you can ignore this README and follow the instructions in GSRS 3.1.
+
+The only change related to MariaDB in 3.1.1 is that we no longer use this hibernate setting:
+    'spring.jpa.hibernate.use-new-id-generator-mappings'.
+If used at all this setting would typically be found in your `substances/application.conf` file `spring.datasource` block. If not used, the GSRS defaults to true.  
+
+If you did not find it in your config file, or if it is set to be "true", then you have nothing to worry about and you do not need to do anything for the database to upgrate GSRS3.1 to GSRS 3.1.1. You can stop right here.
+
+On the other hand, if you have it in your config file and it is set as "false", please read on.
+
+In the past, we did use the above setting when generating the schema for MariaDB, so as to be compatible with GSRS 2.x.  
+
+For 3.1.1, we are removing this setting. It is the same as using: 
+
+```
+spring.jpa.hibernate.use-new-id-generator-mappings="true"
+```
+
+because:
+
+- this is the current default for GSRS for all database flavors; and 
+- we have learned that this setting will no longer be available when we upgrade to SpringBoot 3. 
+
+We plan to upgrade Spring Boot in GSRS 3.1.2.
+
+The implication of using "true" for this setting is that GSRS uses "sequences" when generating numeric IDs for tables instead of "auto_increment".  
+
+If in the past, you generated your own blank database using the DDL create/update settings in your application.conf file, and had no setting for mappings, OR you set mappings to true, your database should already be using sequences. 
+
+If you started with a database you were using with 2.x, then it is likely that you are using auto_increment. Or if in the past, you used the FULL.sql file from a version lower than 3.1.1, then it is likely you are using auto_increment. 
+
+To check if auto_increment is used. The most easy way is to check the table definition of ix_core_principal:
+    SHOW CREATE TABLE ix_core_principal;  
+
+IMPORTANT NOTE:
+If you find auto_increment in the database definition, to upgrate to GSRS 3.1.1 from 3.1, the only thing you need to do now related to MariaDB is to make sure:
+    spring.jpa.hibernate.ddl-auto=none
+
+Please let us know if you are in this situation @ ncatsgsrs@mail.nih.gov, we can provide you with more information on deployment and data loading.
+
+

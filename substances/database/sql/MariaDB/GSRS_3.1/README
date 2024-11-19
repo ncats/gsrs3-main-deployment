@@ -7,32 +7,50 @@ This is the GSRS_3.1 full database schema file for MariaDB. It is equivalent to 
 These are the delta scripts including scripts creating new tables, and related new indexes, new sequences and renaming a column compared with last version GSRS3.0.3.
 3. InsertVersionInfo.sql
 This file is used to insert into the table IX_CORE_DB_GSRS_VERSION to indicate the database schema change. 
-It has a procedure and a calling part. Please make changes to the calling part to suit your system. 
+It has a procedure and a calling part. Please make changes to the calling part to suit your system.
+4. Folder /scripts_with_auto_increment
+This folder contains all the sql scripts that use auto_increment instead of sequences. These scripts are for reference if you used them previously. We strongly encourage you use the sql scripts that use sequences in script #1, #2 and #3. In SpringBoot 3, the hibernate generated schema will only use sequences for the auto generated ids, and the option to generate ids with auto_increment will be removed. If you used this set of scripts and have questions, please contact the team @ ncatsgsrs@mail.nih.gov.
 
-II. Steps to update your substances application: 
+
+II. Steps to start your substances application FOR THE FIRST TIME. 
+WARNING: Please do NOT follow this if you already have a running GSRS substances in previous version.
+1. Delete ginas.ix folder if it exists.
+2. Start substances with spring.jpa.hibernate.ddl-auto=update and on command line run "mvn clean -U spring-boot:run -DskipTests".
+3. Start substances with "mvn clean -U spring-boot:run -DskipTests", and add any additional runtime arguments, such as -Dspring-boot.run.jvmArguments="-Xmx12000m" to allocate additional memory.
+4. Start front end and gateway.
+5. Login as admin, load data with UI.
+Note you do not need to run InsertVersionInfo.sql, the application would insert the database schema version info into the version table.
+
+III. Steps to UPGRADE your substances application to GSRS3.1:
 If you have customized your database, you need to use the delta scripts GSRS_3.1_MariaDB_DELTA.sql to apply the changes introduced in GSRS 3.1.
 Here are the steps:
 1. Stop your substances application.
 2. Make sure this is set in the application.conf file: 
     spring.jpa.hibernate.ddl-auto=none
 3. Apply the delta changes to the database using the scripts: GSRS_3.1_MariaDB_DELTA.sql. 
-4. Restart your substances application. You can set spring.jpa.hibernate.ddl-auto to either none or update before restarting.
+4. Check the setting of spring.jpa.hibernate.ddl-auto, it should be either none or update before restarting. Then restart your substances application.
+
+--------------------------
+IMPORTANT NOTE:
+--------------------------
+a. Use ddl-auto=update or ddl-auto=none
+If you have not customized your system with database model changes AND you did not use auto_increment in the table definitions for ids, then use
+    spring.jpa.hibernate.ddl-auto=update in your application.conf file.
+Otherwise use
+    spring.jpa.hibernate.ddl-auto=none.
+
+b. How to find out whether auto_increment is used
+To check whether auto_increment is used. The most easy way is to check the table definition of ix_core_principal:
+    SHOW CREATE TABLE ix_core_principal;
+If id is defined in the table as
+    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+then auto_increment is used. Otherwise it is not used.
+
 5. Reindex. Run the scheduled job:reindex the all core entities from backup tables.
 6. If everything works as expected, make appropriate changes to InsertVersionInfo.sql and run it.
 
-If you have not customized your system with database model changes, you can follow the same steps described above.
-Or you can run the single last line from GSRS_3.1_MariaDB_DELTA.sql 
-    alter table ix_ginas_vocabulary_term change column value term_value varchar(3000);
-in step #3.
-Then use spring.jpa.hibernate.ddl-auto=update in your application.conf file in step #4. 
 
 
 
-III. Steps to start your substances application FOR THE FIRST TIME. 
-WARNING: Please do NOT follow this if you already have a running GSRS substances.
-1. Delete ginas.ix folder if it exists.
-2. Start substances with spring.jpa.hibernate.ddl-auto=update and on command line run "mvn clean -U spring-boot:run -DskipTests".
-3. Start substances with "mvn clean -U spring-boot:run -DskipTests".
-4. Start front end and gateway.
-5. Login as admin, load data with UI.
-Note you do not need to run InsertVersionInfo.sql, the application would insert the database schema version info into the version table.
+
+

@@ -11,16 +11,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import gov.hhs.gsrs.products.product.EnableProduct;
-import gov.hhs.gsrs.products.productall.EnableProductAll;
-import gov.hhs.gsrs.products.productelist.EnableProductElist;
 import gov.hhs.gsrs.products.ProductDataSourceConfig;
 import gsrs.*;
 
 //TODO: This may be an issue, and we may need to refactor to make less
 // explicit reference to FDA-specific systems.
 @EnableProduct
-@EnableProductAll
-@EnableProductElist
 
 //TODO: eventually remove?
 @EnableGsrsLegacySequenceSearch

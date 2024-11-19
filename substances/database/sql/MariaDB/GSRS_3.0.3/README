@@ -7,4 +7,8 @@ if you have
 spring.jpa.hibernate.ddl-auto=create
 or
 spring.jpa.hibernate.ddl-auto=update 
-in your application.conf config file, you do not need to run this.  
+in your application.conf config file, you do not need to run this.
+
+2. GSRS_3.0.3_MariaDB_With_Auto_Increment_FULL.sql
+We strongly encourage you use the above GSRS_3.0.3_MariaDB_FULL.sql to create you schema as in SpringBoot 3, the hibernate generated schema will only use sequences for the auto generated ids, and the option to generate ids with auto_increment will be removed. 
+This file is just for reference if you used this previously. The only difference between these two sql scripts is that ids are generated using sequences in #1, while ids are generated using auto_increment in #2.
