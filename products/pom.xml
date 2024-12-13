@@ -22,7 +22,7 @@
         <gsrs.product.version>3.1.1-SNAPSHOT</gsrs.product.version>
         <gsrs.starter.version>3.1.1</gsrs.starter.version>
         <gsrs.substance.version>3.1.1.2</gsrs.substance.version>
-        <log4j2.version>2.17.2</log4j2.version>
+        <log4j2.version>2.24.2</log4j2.version>
         <mariadb.version>1.5.7</mariadb.version>
         <mysql.version>8.0.26</mysql.version>
         <oracle-database.version>19.8.0.0</oracle-database.version>
