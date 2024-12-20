@@ -1,0 +1,2 @@
+'Updated Dec 21, 2024'
+'Purpose: Repository GSRS User Guide images'
