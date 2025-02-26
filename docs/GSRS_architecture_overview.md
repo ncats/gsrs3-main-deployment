@@ -71,7 +71,7 @@ The optional Discovery server microservice can be used to register and
 find microservices. As of this writing in March 2024, NCATS and FDA
 systems do not use the Discovery server microservice.
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/arch_image1.png" alt="Diagram Description automatically generated" width=85% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/arch_image1.png" alt="Diagram Description automatically generated" width=85% />
 </div>
 <div align="center">
   Figure 1: Microservice level architecture
@@ -121,7 +121,7 @@ host for fast retrieval by the application. GSRS provides functionality
 indexes from the database table data if for any reason the indexes
 become stale.  
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/arch_image2.png" alt="Diagram Description automatically generated" width=85% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/arch_image2.png" alt="Diagram Description automatically generated" width=85% />
 </div>
 <div align="center">
 Figure 2: The Core Components of GSRS
@@ -136,7 +136,7 @@ and define specialized functionality applicable to
 them.
 
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/arch_image3.png" alt="Diagram Description automatically generated" width=85% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/arch_image3.png" alt="Diagram Description automatically generated" width=85% />
 </div>
 <div align="center">
 Figure 3: GSRS Entity Dependencies
@@ -197,7 +197,7 @@ on the Angular framework. The Substance entity service and the core
 framework are in the backend.
 
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/arch_image4.png" alt="Diagram Description automatically generated" width=80% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/arch_image4.png" alt="Diagram Description automatically generated" width=80% />
 </div>
 <div align="center">
 Figure 4: GSRS Tech Stack
@@ -265,14 +265,14 @@ the system.
 Every extension has its own config file.
 
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/arch_image5.png" alt="Diagram Description automatically generated" width=70% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/arch_image5.png" alt="Diagram Description automatically generated" width=70% />
 </div>
 <div align="center">
 Figure 5: Configurable Layers
 
 </div>
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/arch_image6.png" alt="Diagram Description automatically generated" width=90% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/arch_image6.png" alt="Diagram Description automatically generated" width=90% />
 </div>
 <div align="center">
 Figure 6: Development & Deployment Layers with Components
@@ -313,7 +313,7 @@ Trials service. It has its own database and Lucene indexes. It also
 connects to the Substance service’s database.
 
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/arch_image7.png" alt="Diagram Description automatically generated" width=85% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/arch_image7.png" alt="Diagram Description automatically generated" width=85% />
 </div>
 <div align="center">
 Figure 7: GSRS Extensions’ communication with the core GSRS database

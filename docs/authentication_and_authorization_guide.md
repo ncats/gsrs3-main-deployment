@@ -10,7 +10,7 @@ production environments. The picture below shows a typical
 authentication framework to use SSO for authentication.
 
 <div align="center">
-<img src="https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/images/auth_image1.png" alt="Diagram Description automatically generated" width=85% />
+<img src="https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/images/auth_image1.png" alt="Diagram Description automatically generated" width=85% />
 </div>
 <div align="center">
 Figure 1: Authentication Structure
