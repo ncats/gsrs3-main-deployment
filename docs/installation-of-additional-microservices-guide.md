@@ -6,18 +6,18 @@ Version at last edit: GSRSv3.1.1
 
 Most organizations new to GSRS begin with the substances service.  When the organization has gotten that far, system administrators (admins) will likely have become familiar with three services: the Substances service, the Frontend Service, and the Gateway Service. In addition to those, FDA and NCATS have together created the following services:
 
-- [Adverse Events](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/adverse-events)
-- [Applications](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/applications)
-- [Clinical Trials](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/clinical-trials)
-- [Impurities](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/impurities)
-- [Invitro Pharmacology](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/invitro-pharmacology)
-- [Products](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/products)
-- [SSG4m](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/ssg4m)
+- [Adverse Events](https://github.com/ncats/gsrs3-main-deployment/tree/main/adverse-events)
+- [Applications](https://github.com/ncats/gsrs3-main-deployment/tree/main/applications)
+- [Clinical Trials](https://github.com/ncats/gsrs3-main-deployment/tree/main/clinical-trials)
+- [Impurities](https://github.com/ncats/gsrs3-main-deployment/tree/main/impurities)
+- [Invitro Pharmacology](https://github.com/ncats/gsrs3-main-deployment/tree/main/invitro-pharmacology)
+- [Products](https://github.com/ncats/gsrs3-main-deployment/tree/main/products)
+- [SSG4m](https://github.com/ncats/gsrs3-main-deployment/tree/main/ssg4m)
 
-Before running the additional service, the admin has decided on a deployment strategy.  The main README for [gsrs3-main-deployment](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment)
+Before running the additional service, the admin has decided on a deployment strategy.  The main README for [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment/tree/main)
 outlines the differences between embedded Tomcat and single Tomcat. Such deployments could also be running under something like Docker and/or Kubernetes.  Most people becoming familiar with GSRS services probably start with embedded Tomcat.
 
-An admin should also go to the [gsrs3-main-deployment](https://github.com/ncats/gsrs-ci/tree/gsrs-example-deployment/) repository and become familiar with several files or features that are present in each of the microservices.  
+An admin should also go to the [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment/tree/main/) repository and become familiar with several files or features that are present in each of the microservices.  
 
 - README.md
 - pom.xml
