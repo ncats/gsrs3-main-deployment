@@ -56,8 +56,23 @@ import gov.hhs.gsrs.ssg4.ssg4m.EnableSsg4m;
 
 public class Ssg4mApplication {
 
+
 	public static void main(String[] args) {
 		SpringApplication.run(Ssg4mApplication.class, args);
+	}
+	@Bean
+	public gsrs.config.GsrsServiceInfoEndpointPathConfiguration gsrsServiceInfoEndpointPathConfiguration(){
+		return new gsrs.config.GsrsServiceInfoEndpointPathConfiguration();
+	}
+
+	@Bean
+	public gsrs.config.BasicServiceInfoController basicServiceInfoController(){
+		return new gsrs.config.BasicServiceInfoController();
+	}
+
+	@Bean
+	public gsrs.config.NoEntityConfigurationServiceInfoController noEntityConfigurationServiceInfoController(){
+		return new gsrs.config.NoEntityConfigurationServiceInfoController();
 	}
 
 	@Bean

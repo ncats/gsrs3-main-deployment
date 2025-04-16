@@ -2,18 +2,30 @@ package gov.nih.ncats.gsrsfrontend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+// import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
+// (exclude = {DataSourceAutoConfiguration.class })
 public class GsrsFrontendApplication {
+
+    @Bean
+    public gsrs.config.GsrsServiceInfoEndpointPathConfiguration gsrsServiceInfoEndpointPathConfiguration(){
+        return new gsrs.config.GsrsServiceInfoEndpointPathConfiguration();
+    }
+
+    @Bean
+    public gsrs.config.BasicServiceInfoController basicServiceInfoController(){
+        return new gsrs.config.BasicServiceInfoController();
+    }
+
+    @Bean
+    public gsrs.config.NoEntityConfigurationServiceInfoController noEntityConfigurationServiceInfoController(){
+        return new gsrs.config.NoEntityConfigurationServiceInfoController();
+    }
+
 
     public static void main(String[] args) {
         SpringApplication.run(GsrsFrontendApplication.class, args);
     }
-
-
-
 }

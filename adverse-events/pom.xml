@@ -5,28 +5,28 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
+        <version>2.7.18</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>adverse-events</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.1.2-SNAPSHOT</version>
     <name>adverse-events</name>
     <description>GSRS Adverse Events Microservices Spring Boot</description>
     <properties>
         <java.version>8</java.version>
         <with.packaging>war</with.packaging>
         <with.fork>true</with.fork>
-        <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.adverse-events.version>3.1.1-SNAPSHOT</gsrs.adverse-events.version>
-        <gsrs.starter.version>3.1.1</gsrs.starter.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <gsrs.adverse-events.version>3.1.2-SNAPSHOT</gsrs.adverse-events.version>
+        <gsrs.starter.version>3.1.2-SNAPSHOT</gsrs.starter.version>
         <log4j2.version>2.17.2</log4j2.version>
         <mariadb.version>1.5.7</mariadb.version>
         <mysql.version>8.0.26</mysql.version>
         <oracle-database.version>19.8.0.0</oracle-database.version>
         <postgresql.version>42.7.3</postgresql.version>
         <!-- TO BE REMOVED -->
-        <gsrs.substance.version>3.1.1.2</gsrs.substance.version>
+        <gsrs.substance.version>3.1.2-SNAPSHOT</gsrs.substance.version>
     </properties>
 
     <packaging>${with.packaging}</packaging>
@@ -126,6 +126,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
 
         <!-- NCATS ADVERSE EVENTS DEPENDENICES -->
         <dependency>

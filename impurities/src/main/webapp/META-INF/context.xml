@@ -1,0 +1,6 @@
+<Context path="/impurities" docBase="impurities">
+    <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="${gateway.allow.pattern:-.*}"/>
+    <Resources allowLinking="true" className="org.apache.catalina.webresources.StandardRoot">
+        <PreResources className="org.apache.catalina.webresources.DirResourceSet" base="${user.dir}/conf" internalPath="/" webAppMount="/WEB-INF/classes" />
+    </Resources>
+</Context>

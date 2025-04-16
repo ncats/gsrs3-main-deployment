@@ -15,7 +15,6 @@ public class MvcConfiguration implements WebMvcConfigurer {
     private static final String prefix = "ginas/app/beta/";
     
     public MvcConfiguration(){
-        System.out.println("here in const");
     }
     //This is so all the front end refresh/ non-existing files default back to index.html
 //    @Override

@@ -1,4 +1,3 @@
-impurities/database/ReadMe.txt
 Note: we have included a script only for MariaDB because the other database systems
 we have tested work fine with Hibernate to generate a database schema.
 

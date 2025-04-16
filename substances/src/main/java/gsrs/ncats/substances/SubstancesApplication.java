@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -33,6 +34,7 @@ import ix.core.search.bulk.EnableBulkSearch;
 @EnableBulkSearch
 @EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
 //@EnableJpaRepositories(basePackages ={"ix","gsrs", "gov.nih.ncats"} )
+@EnableScheduling
 @EnableGsrsScheduler
 @EnableGsrsBackup
 @EnableControlledVocabulary
