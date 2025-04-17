@@ -12,7 +12,7 @@ We are using variable substitutions on configuration.
 
 Default local key values are found in the "top" include file: 
 
-gsrs3-main-deployment/<service>/src/main/resources/<service>-env.conf
+`gsrs3-main-deployment/<service>/src/main/resources/<service>-env.conf`
 
 This file is included in the services application.conf file. 
 
@@ -20,7 +20,10 @@ Each application.conf also has an include at the button that allows you to any j
 
 The "bottom" included file is: 
 
-gsrs3-main-deployment/<service>/src/main/resources/<service>.conf
+`gsrs3-main-deployment/<service>/src/main/resources/<service>.conf`
+
+
+Hopefully, you will no longer have to edit the application.conf file but can include your customizations either as environment variables or overrides.  
 
 These will make things work when running in embedded tomcat (local development) EVEN THOUGH the application.conf files assume defaults for single tomcat
 
