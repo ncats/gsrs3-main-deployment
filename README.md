@@ -1,6 +1,6 @@
 # PRE-RELEASE 3.1.2 TEMPORARY NOTES (branch of gsrs3-main-deplloyment)
 
-There is a branch up for pre-release 3.1.2 for beta testing
+There is a branch up for pre-release 3.1.2 beta testing
 
 IMPORTANT NOTES FOR TESTERS
 
