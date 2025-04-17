@@ -25,7 +25,7 @@ The "bottom" included file is:
 
 Hopefully, you will no longer have to edit the application.conf file but can include your customizations either as environment variables or overrides.  
 
-These will make things work when running in embedded tomcat (local development) EVEN THOUGH the application.conf files assume defaults for single tomcat
+The default `*-env.conf` files will make things work when running in embedded tomcat (local development) EVEN THOUGH the application.conf files assume defaults for single tomcat
 
 In the FRONTEND SERVICE, for now use as the value "development_3.0"  for -Dfrontend.tag
 
