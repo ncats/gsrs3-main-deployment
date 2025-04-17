@@ -1,3 +1,68 @@
+# PRE-RELEASE 3.1.2 TEMPORARY NOTES (branch of gsrs3-main-deplloyment)
+
+There is a branch up for pre-release 3.1.2 for beta testing
+
+IMPORTANT NOTES FOR TESTERS
+
+The versions in this pre-release are 3.1.2-SNAPSHOT
+
+There have been huge changes to how things are configured.
+
+We are using variable substitutions on configuration.
+
+Default local key values are found in the "top" include file: 
+
+gsrs3-main-deployment/<service>/src/main/resources/<service>-env.conf
+
+This file is included in the services application.conf file. 
+
+Each application.conf also has an include at the button that allows you to any java properties that have been previously set. 
+
+The "bottom" included file is: 
+
+gsrs3-main-deployment/<service>/src/main/resources/<service>.conf
+
+These will make things work when running in embedded tomcat (local development) EVEN THOUGH the application.conf files assume defaults for single tomcat
+
+In the FRONTEND SERVICE, for now use as the value "development_3.0"  for -Dfrontend.tag
+
+Recommended adjustments to your frontend config.json file when running locally.
+
+```
+ "apiBaseUrl": "http://localhost:8081/ginas/app/",
+ "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/ui/",
+ "apiSSG4mBaseUrl": "http://localhost:8081/ginas/app/",
+ "occasionalApiBasePath": "/ginas/app",
+```
+
+The UPSTREAM MODULES have not been published on Maven central, therefore please pull from httsp://github.com/ncats branches
+
+repo (default branch)
+
+- gsrs-spring-starter   (master)
+- gsrs-spring-module-substances   (master)
+- gsrs-spring-module-adverse-events   (starter)
+- gsrs-spring-module-drug-applications   (starter)
+- gsrs-spring-module-clinical-trials   (master)
+- gsrs-spring-module-impurities   (starter)
+- gsrs-spring-module-invitro-pharmacology   (master)
+- gsrs-spring-module-drug-products   (starter)
+- gsrs-spring-module-ssg4   (master)
+
+Install them with
+
+`./mvnw clean -U install -DskipTests`
+
+Please, peruse this document first, and then use it as a reference:
+
+https://github.com/ncats/gsrs3-main-deployment/blob/gsrs_3.1.2_prerelease/docs/how-configuration-works-3.1.2.md
+
+Here is the 3.1.2 pre release branch:
+
+https://github.com/ncats/gsrs3-main-deployment/tree/gsrs_3.1.2_prerelease
+
+
+
 
 # GSRS 3 Main Deployment
 
