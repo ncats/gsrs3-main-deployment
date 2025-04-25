@@ -2,6 +2,11 @@
 
 There is a branch up for pre-release 3.1.2 beta testing
 
+UPATES: 
+
+2025-05-25: Pushed updates after GSRSv3.1.2RC1 at FDA. 
+
+
 IMPORTANT NOTES FOR TESTERS
 
 The versions in this pre-release are 3.1.2-SNAPSHOT

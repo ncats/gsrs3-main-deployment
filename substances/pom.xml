@@ -56,40 +56,7 @@
                 <dependency>
                     <groupId>gov.nih.ncats</groupId>
                     <artifactId>molwitch-cdk</artifactId>
-                    <version>1.0.23</version>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>jchem3</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <property>
-                    <name>env.MOLWITCH_FLAVOR</name>
-                    <value>jchem3</value>
-                </property>
-            </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>gov.nih.ncats</groupId>
-                    <artifactId>molwitch-jchem3</artifactId>
-                    <version>1.0.12-SNAPSHOT</version>
-                </dependency>
-                <dependency>
-                    <groupId>chemaxon</groupId>
-                    <artifactId>jchem</artifactId>
-                    <version>1.0.0fake</version>
-                </dependency>
-                <dependency>
-                    <groupId>gov.nih.ncats</groupId>
-                    <artifactId>lychi</artifactId>
-                    <version>0.7.1</version>
-                </dependency>
-                <!-- this is hardcoded to 3.0-SNAPSHOT based on install extra jars script -->
-                <dependency>
-                    <groupId>gov.nih.ncats</groupId>
-                    <artifactId>gsrs3-lychi-extension</artifactId>
-                    <version>3.0-SNAPSHOT</version>
+                    <version>1.0.24</version>
                 </dependency>
             </dependencies>
         </profile>
