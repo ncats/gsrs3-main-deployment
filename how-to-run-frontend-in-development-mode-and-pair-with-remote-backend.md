@@ -75,7 +75,13 @@ MS_URL_FRONTEND="http://localhost:4200"
 GATEWAY_FRONTEND_ROUTE_URL="http://localhost:4200"
  ```
 
-Next, go to your GSRSFrontend repository.
+Next, go to your GSRSFrontend repository to run/server it.
+
+```
+cd GSRSFrontend 
+npm run start:fda:local
+```
+
 
 In visual studio, edit this file: `src/app/fda/config/config.json` to add these configs, changing the port if your GATEWAY port is different. 
 
@@ -98,7 +104,7 @@ Normally, when using the default gateway configuration, this should be the value
 
 In your browser, go to http://localhost:8081/ginas/app/ui
  
-
+ 
 
 
 
