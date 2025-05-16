@@ -14,18 +14,32 @@ a) The GSRS team uses Visual Studio Code to edit the frontend, so you'll want th
 
 https://code.visualstudio.com
 
-b) Clone the GRSFrontend repository 
+b) Install node.js if not yet installed. 
+
+GSRS team members use varying versions. The author of this document is using v20.5.1 on Mac. By default, our automated build procedure currently uses v14.17.0. You can install node by downloading from this site (https://nodejs.org/en site) or possibly with a package manager on Linux or Mac.
+
+c) Clone the GRSFrontend repository 
 
 The latest code is on the development_3.0 branch.
 
 ```
-git clone https://github.com/ncats/GRSFrontend 
+git clone https://github.com/ncats/GRSFrontend
+cd GSRSFrontend 
+
+```
+d) Run `build.sh` on the project
+
+This is necessary once, or after a new code pull. 
+
+We recommend you use "Git bash" Terminal if on Windows. Otherwise, please translate the bash script to windows a batch file. Git Bash usually comes free if you installed Git on Windows (https://git-scm.com/).  And Bash comes already installed on Linux or Mac.  
+
+```
+bash build.sh 
 ```
 
 ### Run and serve the Angular code locally. 
 
 ```
-cd GSRSFrontend 
 npm run start:fda:local
 ```
 
@@ -68,7 +82,7 @@ But, do run services gsrs3-main-deployment gateway and substances (and maybe cli
 
 Go to your gateway service folder and edit the file `gsrs3-main/deployment/src/main/resources/gateway-env.conf` 
 
-Uncomment these to lines to route traffic for the frontend to you local develoment mode frontend. 
+Uncomment these to lines to route traffic for the frontend to you local develoment mode frontend.  Then, restart the gateway service.
 
 ```
 MS_URL_FRONTEND="http://localhost:4200"
@@ -102,15 +116,5 @@ Normally, when using the default gateway configuration, this should be the value
 
 ### Try it through the gateway on 8081 
 
-In your browser, go to http://localhost:8081/ginas/app/ui
+In your browser, go to http://localhost:8081/ginas/app/ui/
  
-
-
-
-
-
-
-
-
-
-
