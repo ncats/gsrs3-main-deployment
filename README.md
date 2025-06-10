@@ -4,7 +4,8 @@ There is a branch up for pre-release 3.1.2 beta testing
 
 UPATES: 
 
-2025-05-25: Pushed updates after GSRSv3.1.2RC1 at FDA. 
+- 2025-05-25: Pushed updates after GSRSv3.1.2RC1 at FDA. 
+- 2025-06-10: Pushed minor updates  to application.conf files, removed molwitch-cdk extra jar.  Will now come from maven central
 
 
 IMPORTANT NOTES FOR TESTERS

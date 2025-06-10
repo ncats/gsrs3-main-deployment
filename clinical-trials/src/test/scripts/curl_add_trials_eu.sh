@@ -42,11 +42,13 @@ curl -X POST -H 'Content-Type: application/json' -H "$AUTH_H1" -H "$AUTH_H2"  -i
 ,"clinicalTrialEuropeProductList":[{"impSection":"impSection1","productName":"productName1","tradeName":"tradeName1","impRole":"impRole1","impRoutesAdmin":"impRoutesAdmin1","pharmaceuticalForm":"pharmaceuticalForm1","clinicalTrialEuropeDrugList":[{"substanceKey":"b67893b0-68f0-4924-9ebb-3ebb932db965","substanceKeyType":"UUID"}]}]
 }
 '
+
 curl -X POST -H 'Content-Type: application/json' -H "$AUTH_H1" -H "$AUTH_H2"  -i $API_BASE_URL/api/v1/clinicaltrialseurope --data '
 {"trialNumber":"2022-000001-09-FR", "title": "This is trial 9"
-,"clinicalTrialEuropeProductList":[{"impSection":"impSection1","productName":"productName1","tradeName":"tradeName1","impRole":"impRole1","impRoutesAdmin":"impRoutesAdmin1","pharmaceuticalForm":"pharmaceuticalForm1","clinicalTrialEuropeDrugList":[{"substanceKey":"b67893b0-68f0-4924-9ebb-3ebb932db965","substanceKeyType":"UUID"}]}], "clinicalTrialEuropeMeddraList":
+,"clinicalTrialEuropeProductList":[{"impSection":"impSection1","productName":"productName1","tradeName":"tradeName1","impRole":"impRole1","impRoutesAdmin":"impRoutesAdmin1","pharmaceuticalForm":"pharmaceuticalForm1","clinicalTrialEuropeDrugList":[{"substanceKey":"b67893b0-68f0-4924-9ebb-3ebb932db965","substanceKeyType":"UUID"}]}], "clinicalTrialEuropeMeddraList": [{"meddraTerm": "meddraTerm1"}, {"meddraTerm": "meddraTerm2"},{"meddraTerm": "meddraTerm3"},{"meddraTerm": "meddraTerm4"}]
 }
 '
+
 curl -X POST -H 'Content-Type: application/json' -H "$AUTH_H1" -H "$AUTH_H2"  -i $API_BASE_URL/api/v1/clinicaltrialseurope --data '
 {"trialNumber":"2022-000001-10-FR", "title": "This is trial 10"
 ,"clinicalTrialEuropeProductList":[{"impSection":"impSection1","productName":"productName1","tradeName":"tradeName1","impRole":"impRole1","impRoutesAdmin":"impRoutesAdmin1","pharmaceuticalForm":"pharmaceuticalForm1","clinicalTrialEuropeDrugList":[{"substanceKey":"b67893b0-68f0-4924-9ebb-3ebb932db965","substanceKeyType":"UUID"}]}]
