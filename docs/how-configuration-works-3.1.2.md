@@ -4,11 +4,15 @@ Last Edited: 2025-07-03
 
 GSRS version at last edit: GSRS 3.1.2
 
+[Introduction](#introduction)
+
 [Quick explanation](#quick-explanation)
 
 [Detailed explanation](#detailed-explanation)
 
 [Listing of select configuration files](#listing-of-select-configuration-files)
+
+## Introduction
 
 In version 3.1.2, we expanded the use of [HOCON](http://github.com/lightbend/config/blob/main/HOCON.md) in configuration, and we made major changes in how configuration works.
 
@@ -31,6 +35,8 @@ For example, the substances service has these files in the resources folder, amo
 - conf/substances.conf (bottom include)
 
 The top `-env` files are generally for setting quasi-environment variables.
+
+<b>Definition</b>: For the purposes of this document, "quasi-environment variables" are variables that look and act like environment variables, but are set in a HOCON configuration file rather than in a terminal session via an `export` or `set` command.  Like environment variables, a quasi-environment variable is typically a single key value pair. In GSRS SpringBoot, environment variables are most often in ALL_CAPS format and most often used to set Java properties.
 
 The `-env` files are optional for your deployments. If your prefer, you can use environment variables using the Bash `export`  command. But, if you do choose not to use the `-env` configuration files, it would be wise to make the files blank or delete them before deployment.
 
@@ -109,7 +115,7 @@ What happens in the background when we `build` or `package` is that `application
 The benefit of HOCON is that it:
 
 - provides a more readable format;
-- allows for easier environment variariable substitutions;
+- allows for easier environment variable substitutions;
 - allows for more flexible overrides; and
 - allows for more flexible file includes.
 
@@ -119,7 +125,7 @@ In GSRS, we solve this problem in two ways, in two different contexts where it m
 
 For Gateway routes, we name the Zuul route keys in ways that can be sorted alphanumerically. However, this load behavior can be disabled -- and should be if you chose to use Yaml to configure the Gateway. See the [Gateway](#configuring-the-gateway) section of this document for more detail.
 
-For `extension` configurations, we added an numeric order field in extension configuration object properties. When GSRS loads extension configuration objects it sort by the order field to control precedence. See the [Extensions](#extension-configurations) section of this document for more detail.
+For `extension` configurations, we added a numeric order field in extension configuration object properties. When GSRS loads extension configuration objects it sorts by the order field to control precedence. See the [Extensions](#extension-configurations) section of this document for more detail.
 
 If one uses HOCON for the `application.conf`, it is best practice to delete any `application.properties` or `application.yml` files as all these files would be loaded automatically by SpringBoot and cause strange behavior.
 
@@ -176,31 +182,40 @@ class xyz {
 
 ### Be careful with case sensitivity
 
-Spring Boot property libraries tend to be flexible when it comes to case sensitivity. When looking to match a Java variable with a property, the framework will attempt various matches including snake-case, lowerCamelCase, and CamelCase. However, when combined with HOCON, there can be confusion if the same variable name appears in different cases. For example,
+SpringBoot property libraries tend to be flexible when it comes to case sensitivity. When looking to make a Java variable with a property, the framework will attempt various matches including snake-case, lowerCamelCase, and CamelCase. However, when combined with HOCON, there can be confusion if the same property appears in different cases. For example:
 
 ```
-# __aw__ VERIFY this
+@GetMapping("getSomeProperties")
+public void printSomeProperties() {
+    /*
+    Configuration test1:
+    entityprocessors1.test1 = { a = 1, b = 2 }
+    entityProcessors1.test1 = { a = 3, b = 4 }
 
-entityprocessors.test1 = { a = 1, b = 2 }
-entityProcessors.test2 = { a = 1, b = 2 }
-entityprocessors = null
+    entityprocessors1.test1 = { d = 5, e = 6 }
+    entityProcessors1.test1 = { d = 6, e = 7 }
+    */
 
-entityprocessors2 = ["a", "b"]
-entityProcessors2 = ["a", "b"]
-entityprocessors2 = []
+    print("entityProcessors1.test1.a: " + env.getProperty("entityProcessors1.test1.a"));
+    System.out.println("entityprocessors1.test1.a: " + env.getProperty("entityprocessors1.test1.a"));
 
-# result when translated into Java properites
+    print("entityProcessors1.test1.d: " + env.getProperty("entityProcessors1.test1.d"));
+    print("entityprocessors1.test1.d: " + env.getProperty("entityprocessors1.test1.d"));
 
-entityProcessors.test2.a=1
-entityProcessors.test2.b=2
-entityProcessors2[0]=a
-entityProcessors2[1]=b
-entityprocessors2=
+    /*
+    Results test1
+
+    entityProcessors1.test1.a: 3
+    entityprocessors1.test1.a: 1
+
+    entityProcessors1.test1.d: 6
+    entityprocessors1.test1.d: 5
+    */
+
+  }
 ```
 
-To avoid gotchas, the solution is to be consistent about case when writing properties.
-
-When in doubt, try to use the case conventions found in the gsrs-spring-starter (gsrs-core.conf) and in substances module (substances-core.conf).
+To avoid gotchas, the solution is to be consistent about case when writing properties. When in doubt, try to use the case conventions found in the gsrs-spring-starter (gsrs-core.conf) and in substances module (substances-core.conf).
 
 ### Environment variables
 
@@ -304,7 +319,6 @@ mymap.bar = {"y", "15"}
 The result would be:
 
 ```
-# __aw__ VERIFY this
 mymap.bar = {
    {"z", "18"},
    {"y", "15"}
@@ -475,7 +489,7 @@ If all presets occur as terminal session environment variables, then the `*-env.
 
 If you examine the `application.conf` for products, you'll also notice that there is a datasource configuration section.
 
-This section is structured to allow you to set values in different ways: 
+This section is structured to allow you to set values in different ways:
 
 - one specific microservice
 - all microservices or
@@ -521,7 +535,7 @@ Again, these values could be set as environment variables, or they could be incl
 
 # products-env-db.conf
 
-# products needs to conntect to both the substances datasource and the products datasource 
+# products needs to conntect to both the substances datasource and the products datasource
 
 # First, connect to the substances default datasource
 
@@ -629,7 +643,7 @@ We DO NOT encourage it, but you can still use Yaml provided you set the property
 
 #### Gateway and single Tomcat
 
-The application.conf file in 3.1.2 assumes HOCON fromat.  
+The application.conf file in 3.1.2 assumes HOCON fromat.
 
 Single tomcat strategy is assumed by default, and in this case very little by way of presets is necessary.
 
@@ -676,9 +690,9 @@ In any case, the `gateway-env.conf` file is meant to be an example.  You may inc
 
 ### API calls to check configuration information
 
-Starting in 3.1.2, there are new API endpoints to check the contents of GSRS configuration.  These are disabled by default. To enable, use these settings in each **individual** microservice.  
+Starting in 3.1.2, there are new API endpoints to check the contents of GSRS configuration.  These are disabled by default. To enable, use these settings in each **individual** microservice.
 
-Allowing these resources could be a security risk, although most of the endpoints require an `admin` role.  
+Allowing these resources could be a security risk, although most of the endpoints require an `admin` role.
 
 This is NOT true however for services like the frontend, gateway, or discovery. The latter services minimize dependencies and therefore do not import GSRS user/security libraries.  In production or even a test server that is available on the online, we don't recommend that you enable the API endpoints in these slim microservices such as the gateway. In such cases there are also `@log*` endpoints. You can enable these only so as to print the information to the log rather than to an API response.
 
@@ -692,7 +706,7 @@ Remember that HOCON configuration is tranlated into Java properities in each mic
 
 ```
 # Consider the security implications if you do this!
-gsrs.services.config.properties.report.api.enabled=true  
+gsrs.services.config.properties.report.api.enabled=true
 gsrs.services.config.properties.report.log.enabled=true
 ```
 
@@ -729,7 +743,7 @@ Set this property in the the entity oriented microservices to see config data th
 
 ```
 # Consider security when using this feature
-gsrs.extensions.config.report.api.enabled=true 
+gsrs.extensions.config.report.api.enabled=true
 ```
 
 These configs are used by "extensions" such as validators, processors, indexers and scheduled tasks.  They are typically lazy-loaded on demand and stored in a cached supplier or autowire value.
@@ -760,13 +774,13 @@ Whereas entity processors are bunched together. So, we'd do:
 
 ### Actuator Routes
 
-Another resource that can be helpful for checking configuration is the actuator.  The new GSRS configuration has facilities to make the actuator available when when running the application as a whole.  
+Another resource that can be helpful for checking configuration is the actuator.  The new GSRS configuration has facilities to make the actuator available when when running the application as a whole.
 
 To enable actuator endpoints in each service, set this environment variable as in these examples:
 
 ```
 # Consider security if you do this.
-export MS_ACTUATOR_EXPOSE_ENDPOINTS_SUBSTANCES="health,env"  
+export MS_ACTUATOR_EXPOSE_ENDPOINTS_SUBSTANCES="health,env"
 
 # Consider security if you do this
 export MS_ACTUATOR_EXPOSE_ENDPOINTS_GATEWAY="health,env,routes"  # consider security
@@ -831,45 +845,45 @@ ix.ginas.export.exporterfactories.products.list.ProductTextExporterFactory =
 #### Microservices
 
 - [adverse-events/src/main/resources/application.conf](../blob/main/adverse-events/src/main/resources/application.conf)
--  [adverse-events/src/main/resources/adverse-events-env.conf](../blob/main/adverse-events/src/main/resources/adverse-events-env.conf)
+- [adverse-events/src/main/resources/adverse-events-env.conf](../blob/main/adverse-events/src/main/resources/adverse-events-env.conf)
 - [adverse-events/src/main/resources/adverse-events-env-db.conf](../blob/main/adverse-events/src/main/resources/adverse-events-env-db.conf)
 - [adverse-events/src/main/resources/adverse-events.conf](../blob/main/adverse-events/src/main/resources/adverse-events.conf)
 
 - [applications/src/main/resources/application.conf](../blob/main/applications/src/main/resources/application.conf)
--  [applications/src/main/resources/applications-env.conf](../blob/main/applications/src/main/resources/applications-env.conf)
+- [applications/src/main/resources/applications-env.conf](../blob/main/applications/src/main/resources/applications-env.conf)
 - [applications/src/main/resources/applications-env-db.conf](../blob/main/applications/src/main/resources/applications-env-db.conf)
 - [applications/src/main/resources/applications.conf](../blob/main/applications/src/main/resources/applications.conf)
 
 - [clinical-trials/src/main/resources/application.conf](../blob/main/clinical-trials/src/main/resources/application.conf)
--  [clinical-trials/src/main/resources/clinical-trials-env.conf](../blob/main/clinical-trials/src/main/resources/clinical-trials-env.conf)
+- [clinical-trials/src/main/resources/clinical-trials-env.conf](../blob/main/clinical-trials/src/main/resources/clinical-trials-env.conf)
 - [clinical-trials/src/main/resources/clinical-trials-env-db.conf](../blob/main/clinical-trials/src/main/resources/clinical-trials-env-db.conf)
 - [clinical-trials/src/main/resources/clinical-trials.conf](../blob/main/clinical-trials/src/main/resources/clinical-trials.conf)
 
 - [frontend/src/main/resources/application.conf](../blob/main/frontend/src/main/resources/application.conf)
--  [frontend/src/main/resources/frontend-env.conf](../blob/main/frontend/src/main/resources/frontend-env.conf)
+- [frontend/src/main/resources/frontend-env.conf](../blob/main/frontend/src/main/resources/frontend-env.conf)
 - [frontend/src/main/resources/frontend.conf](../blob/main/frontend/src/main/resources/frontend.conf)
 
 - [gateway/src/main/resources/application.conf](../blob/main/gateway/src/main/resources/application.conf)
--  [gateway/src/main/resources/gateway-env.conf](../blob/main/gateway/src/main/resources/gateway-env.conf)
+- [gateway/src/main/resources/gateway-env.conf](../blob/main/gateway/src/main/resources/gateway-env.conf)
 - [gateway/src/main/resources/gateway.conf](../blob/main/gateway/src/main/resources/gateway.conf)
 
 - [impurities/src/main/resources/application.conf](../blob/main/impurities/src/main/resources/application.conf)
--  [impurities/src/main/resources/impurities-env.conf](../blob/main/impurities/src/main/resources/impurities-env.conf)
+- [impurities/src/main/resources/impurities-env.conf](../blob/main/impurities/src/main/resources/impurities-env.conf)
 - [impurities/src/main/resources/impurities-env-db.conf](../blob/main/impurities/src/main/resources/impurities-env-db.conf)
 - [impurities/src/main/resources/impurities.conf](../blob/main/impurities/src/main/resources/impurities.conf)
 
 - [invitro-pharmacology/src/main/resources/application.conf](../blob/main/invitro-pharmacology/src/main/resources/application.conf)
--  [invitro-pharmacology/src/main/resources/invitro-pharmacology-env.conf](../blob/main/invitro-pharmacology/src/main/resources/invitro-pharmacology-env.conf)
+- [invitro-pharmacology/src/main/resources/invitro-pharmacology-env.conf](../blob/main/invitro-pharmacology/src/main/resources/invitro-pharmacology-env.conf)
 - [invitro-pharmacology/src/main/resources/invitro-pharmacology-env-db.conf](../blob/main/invitro-pharmacology/src/main/resources/invitro-pharmacology-env-db.conf)
 - [invitro-pharmacology/src/main/resources/invitro-pharmacology.conf](../blob/main/invitro-pharmacology/src/main/resources/invitro-pharmacology.conf)
 
 - [ssg4m/src/main/resources/application.conf](../blob/main/ssg4m/src/main/resources/application.conf)
--  [ssg4m/src/main/resources/ssg4m-env.conf](../blob/main/ssg4m/src/main/resources/ssg4m-env.conf)
+- [ssg4m/src/main/resources/ssg4m-env.conf](../blob/main/ssg4m/src/main/resources/ssg4m-env.conf)
 - [ssg4m/src/main/resources/ssg4m-env-db.conf](../blob/main/ssg4m/src/main/resources/ssg4m-env-db.conf)
 - [ssg4m/src/main/resources/ssg4m.conf](../blob/main/ssg4m/src/main/resources/ssg4m.conf)
 
 - [substances/src/main/resources/application.conf](../blob/main/substances/src/main/resources/application.conf)
--  [substances/src/main/resources/substances-env.conf](../blob/main/substances/src/main/resources/substances-env.conf)
+- [substances/src/main/resources/substances-env.conf](../blob/main/substances/src/main/resources/substances-env.conf)
 - [substances/src/main/resources/substances-env-db.conf](../blob/main/substances/src/main/resources/substances-env-db.conf)
 - [substances/src/main/resources/substances.conf](../blob/main/substances/src/main/resources/substances.conf)
 

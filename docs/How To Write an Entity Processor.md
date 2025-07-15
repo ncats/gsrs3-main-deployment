@@ -51,7 +51,7 @@ default void preUpdate(K obj) throws FailProcessingException{};
 default void postUpdate(K obj) throws FailProcessingException{}; 
 
 default void postLoad(K obj) throws FailProcessingException{}; 
-``` 
+```
 
  
 
@@ -129,7 +129,7 @@ standardizeName(name);
 
 } 
 
-``` 
+```
 
  
 
@@ -145,17 +145,15 @@ After writing an entity processor, it must be enabled in the application configu
 
  
 
-``` 
+``` HOCON
 
-gsrs.entityProcessors +={ 
-
-"class":"ix.ginas.models.v1.Name", 
-
-"processor":"ix.ginas.processors.ToUpperCaseNameProcessor" 
-
+gsrs.entityProcessors.list.ToUpperCaseNameProcessor ={ 
+	"class":"ix.ginas.models.v1.Name", 
+	"processor":"ix.ginas.processors.ToUpperCaseNameProcessor",
+	"order": 2000
 } 
 
-``` 
+```
 
  
 
@@ -208,7 +206,7 @@ To test an entity processor, add these items to the test class:
     public void addEntityProcessor(){ 
 
         entityProcessorFactory.setEntityProcessors(persistedSubstanceProcessorTestDouble); 
-
+        
         persistedSubstanceProcessorTestDouble.reset(); 
 
     } 
@@ -223,4 +221,3 @@ See the code within our github repository for a complete example:
 ```
 https://github.com/ncats/gsrs-spring-module-substances/blob/master/gsrs-module-substance-example/src/test/java/example/substance/processor/PersistedSubstanceProcessorTest.java 
 ```
- 

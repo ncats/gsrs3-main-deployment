@@ -4,6 +4,17 @@ Last Edited: 2024-10-31
 
 GSRS version at last edit: GSRS 3.1.1
 
+
+<b>NOTE</b>: 
+
+Major changes to configuration procedures were made in version 3.1.2. 
+
+If you are using GSRSv3.1.2 or higher please refer to this document instead. 
+
+[./how-configuration-works-3.1.2.md](./how-configuration-works-3.1.2.md)   
+
+<hr>
+
 ## Get Started
 
 A good way to get started is to examine some GSRS Spring Boot service configuration files.
