@@ -99,9 +99,9 @@ Additional versions of the dialect are available and may work better with your d
 
 _spring.datasource.driverClassName="oracle.jdbc.OracleDriver"_
 
-The the database URL has is form  <--  "jdbc:oracle:thin:@//localhost.com:1532/SUBS"
+# The the database URL has is form  <--  "jdbc:oracle:thin:@//localhost.com:1532/SUBS"
 
-_[spring.datasource.url=${URL} 
+_[spring.datasource.url="${URL}"_
 
 _spring.datasource.username="GSRSXXXXX”_
 
