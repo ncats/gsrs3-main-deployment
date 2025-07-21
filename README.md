@@ -197,6 +197,9 @@ Open a new terminal or screen session and run these commands:
 cd path/to/gsrs3-main/deployment
 cd substances
 
+# You may have to do this, depending on the circumstances, to install some extra depdencies. 
+bash installExtraJars.sh
+
 # Option 1, No data load
 ./mvnw clean -U spring-boot:run -DskipTests
 
