@@ -508,6 +508,7 @@ For **Substances**, run these commands on the command-line:
 ```
 sudo rm -r /var/lib/tomcat9/webapps/substances
 cd $gsrs_ci_repo_dir/substances
+bash installExtraJars.sh # may be necessary depending on the circumstances.
 mvn clean -U package -DprofileIdEnabled=true -DskipTests  # to generate substances.war
 sudo unzip $gsrs_ci_repo_dir/substances/target/substances.war -d $webapps/substances
 
