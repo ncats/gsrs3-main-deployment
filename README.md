@@ -1,12 +1,16 @@
 
+
+
+
 # GSRS 3 Main Deployment
+
+ **---- DRAFT prelease 3.1.2 DRAFT ---**
 
 GSRS 3.x is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. GSRS requires the use of an RDBMS database for data storage.  The supported database flavors are: H2, PostGreSQL, MariaDB and MySQL.
 
 GSRS 3.x works with Java 8, 11, 17; versions outside of these may result in build errors. Set `JAVA_HOME` to point to one of Java 8, 11, or 17 and verify with the terminal command: `mvn --show-version`. Note, however, that the `pom.xml` files still specify Java 8 or 11, and as of 3.1.1, the GSRS team writes code to conform with Java 8 or 11.
 
 ## SECTION 1: Important Notes
-
 - For GSRS 3.1, there are database schema changes for the substances service.  Before upgrading your system, please check the [release notes](./docs/release%20notes) for discussion. Also please check the README files in [./substances/database/sql/](./substances/database/sql/) for suggested steps.
 - In October 2024, we revised past Substances README files and database creation scripts to default to the use of sequences instead of auto_increment. 
 - As of August 2022, an Oracle database instantiated by GSRS 3.x requires an extra script before data is stored. If you are creating a new database, see this [script](./substances/database/sql/Oracle/GSRS_3.1/modifyColumnTypesForJPACreatedSchema_3.1.sql) and its mention in the 3.1 database [README](./substances/database/sql/Oracle/GSRS_3.1/README). Please contact the GSRS team with any questions.
