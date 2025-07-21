@@ -1,7 +1,4 @@
 
-
-
-
 # GSRS 3 Main Deployment
 
  **---- DRAFT prelease 3.1.2 DRAFT ---**
@@ -11,6 +8,8 @@ GSRS 3.x is based on a Spring Boot microservice infrastructure and is highly fle
 GSRS 3.x works with Java 8, 11, 17; versions outside of these may result in build errors. Set `JAVA_HOME` to point to one of Java 8, 11, or 17 and verify with the terminal command: `mvn --show-version`. Note, however, that the `pom.xml` files still specify Java 8 or 11, and as of 3.1.1, the GSRS team writes code to conform with Java 8 or 11.
 
 ## SECTION 1: Important Notes
+
+- In GSRS 3.1.2, there are dramatic changes to GSRS is configured. This is outlines below with more detail in this "[How it works](./blob/main/docs/how-configuration-works-3.1.2.md)" document.
 - For GSRS 3.1, there are database schema changes for the substances service.  Before upgrading your system, please check the [release notes](./docs/release%20notes) for discussion. Also please check the README files in [./substances/database/sql/](./substances/database/sql/) for suggested steps.
 - In October 2024, we revised past Substances README files and database creation scripts to default to the use of sequences instead of auto_increment. 
 - As of August 2022, an Oracle database instantiated by GSRS 3.x requires an extra script before data is stored. If you are creating a new database, see this [script](./substances/database/sql/Oracle/GSRS_3.1/modifyColumnTypesForJPACreatedSchema_3.1.sql) and its mention in the 3.1 database [README](./substances/database/sql/Oracle/GSRS_3.1/README). Please contact the GSRS team with any questions.
@@ -292,19 +291,21 @@ Finally, recompile the angular code, as usual with the `npm` command. See [Compi
 
 Now, hitting in your browser, `http://localhost:8081/ginas/app/ui/home` will run **your own** development Angular code, rather than the **compiled** version in the `gsrs3-main-deployment` repository.
 
-## SECTION 3C: single Tomcat deployment
+## SECTION 3C: Single Tomcat deployment
 
 ### Single Tomcat Deployment with WAR files for Core and Frontend
 
-FDA currently uses the Single Tomcat WAR files deployment strategy in production for the GSRS core and additional microservices. The steps here have similarities to the local embedded testing deployment strategy as well as significant differences, so please review that section in this document before proceeding. FDA has also provided a detailed deployment guide in the [docs](./docs) folder, which goes into more specifics.
+FDA currently uses the single Tomcat WAR files deployment strategy in production for the GSRS core and additional microservices. The steps here have similarities to the local embedded testing deployment strategy as well as significant differences, so please review that section in this document before proceeding. FDA has also provided a detailed deployment guide in the [docs](./docs) folder, which goes into more specifics.
 
-One big difference with Single Tomcat is that Tomcat (running on port 8080) routes traffic to executed war file instances, all running on the same port. In contrast, in the embedded case, the gateway routes traffic to executable jar files, and each jar contains its own internal webserver, and each service runs on its own port.
+One big difference with single Tomcat is that Tomcat (running on port 8080) routes traffic to executed war file instances, all running on the same port. In contrast, in the embedded case, the gateway routes traffic to executable jar files, and each jar contains its own internal webserver, and each service runs on its own port.
 
 Another practical difference is data written to disk, such as indexes and caches, are kept in folders separate from the code.
 
-In addition, a copy of each microservice configuration is kept separate from the code, in a folder dedicated to configuration.  You make edits in this folder, and you copy them to the `webapps/<service>/WEB-INF/classes` folder to overwrite the ones that were generated (at packaging time) inside the WAR files.
 
-For simplicity, we use Tomcat 9 in this README.md file so as to avoid some complications that arise with Tomcat 10. These complications in Tomcat 10 relate to the use of a webapps-javaee folder and the need to convert some `javax` classes to `jakarta` classes. Once GSRS is using Spring Boot 3x, this documentation will shift toward Tomcat 10.
+
+To save server specific configs from being overwritten, a copy of each microservice configuration is kept separate from the code, in a folder dedicated to configuration.  You make edits in this folder, and you copy them to the `webapps/<service>/WEB-INF/classes` folder to overwrite the ones that were generated at packaging time inside the WAR files.
+
+For simplicity, we use Tomcat 9 in this README.md file so as to avoid some complications that arise with Tomcat 10. These complications in Tomcat 10 relate to the use of a webapps-javaee folder and the need to convert some `javax` classes to `jakarta` classes. Once GSRS is using SpringBoot 3x, this documentation will shift toward Tomcat 10.
 
 ### Cloning the gsrs3-main-deployment and other optional repositories
 
@@ -399,10 +400,10 @@ APPLICATION_HOST="https://localhost:8080"
 # Assumption TWO
 APPLICATION_HOST="https://my.server:8080"
 
-# Assumption TWO
+# Assumption THREE
 # Application host url should have no trailing slash
 APPLICATION_HOST="https://my.server"
-#  Assuming we have NGINX fowarding to a reverse proxy like this: 
+#  Assuming we have NGINX forwarding to a reverse proxy like this: 
 #  location /ginas/app {
 #    proxy_http_version 1.1;
 #    include proxy_params;
@@ -413,7 +414,9 @@ APPLICATION_HOST="https://my.server"
 #    proxy_send_timeout 300;
 #  }
 
+# Options 1 & 2: 8080, Option 3: the port used to reach the Gateway such as defaults 80 or 443
 APPLICATION_HOST_PORT="8080"
+
 MS_SERVER_PORT_SUBSTANCES=8080
 MS_LOOPBACK_PORT_SUBSTANCES=8080
 
@@ -425,7 +428,7 @@ MS_ADMIN_PANEL_DOWNLOAD_PATH_SUBSTANCES="/path/to//data/substances/"
 GSRS_SESSIONS_SESSION_SECURE=true
 
 # API URLs have slash
-# Assumption here is service-to-service communication on on server so localhost is OK
+# Assumption here is service-to-service communication on server, so localhost is OK
 API_BASE_URL_APPLICATIONS="http://localhost:8080/applications/"
 API_BASE_URL_CLINICAL_TRIALS_US="http://localhost:8080/clinical-trials/"
 API_BASE_URL_CLINICAL_TRIALS_EUROPE="http://localhost:8080/clinical-trials/"
@@ -767,7 +770,9 @@ export interface LoadedComponents {
 set configName(configName: string) {
      ... 
      if (configName === '...' || configName === 'clinicaltrialsus' ... )
-``` 
+    ...
+}
+```
 
 ```
 # src/app/core/base/base.component.html
