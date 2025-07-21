@@ -1,4 +1,4 @@
-
+ 
 # GSRS 3 Main Deployment
 
  **---- DRAFT prelease 3.1.2 DRAFT ---**
@@ -112,19 +112,40 @@ The bottom-includes allow you override Java properties set in application.conf o
 
 Check here: [how-configuration-works-3.1.2.md](blob/main/docs/how-configuration-works-3.1.2.md) for details on how all this works.
 
-Within the gsrs3-main-deployment repository, modify the `substances/src/main/resources/application.conf` file, assign a port number to `server.port`, tell it where the gateway is, and ensure the `ix.home` setting for the indexing/cache folder is properly configured, and any database connection strings are set as expected. In a default configuration which uses H2 and has substances running on port 8080, the following conf settings should be as shown below. NOTE: The above configuration will use an in-memory transient database if no datasource is specified. Every restart of the application will result in the data being lost in such a case, but this may lead to confusing results as the cache and index found in the ix.home directory will remain between restarts. If you wish to use a persistent database, please configure the JDBC connections accordingly. If using the in memory database, you may want to delete your `ginas.ix` folder between restarts.
-
 Important values that are set by configuration for substances in an embedded Tomcat deployment include the following.
 
 ```
-# 8080 is the port the GSRS team uses for the substances service in embedded Tomcat.
-server.port= 8080
- 
-# Tells the substances service to use ginas.ix to store indexing data.
-ix.home="./ginas.ix"                     
- 
-# We set the application.host to the Gateway services's url, if using the Gateway. 
-application.host="http://localhost:8081"
+- `server.port= 8080`. Embedded Tomcat requires that server.port be set. The GSRS Team uses 8080 for substances.
+- `ix.home="./ginas.ix"` In embedded Tomcat this the default location for the index.  
+- application.host="http://localhost:8081". The application host is typically the url that reaches the Gateway if you are using the Gateway. Otherwise it would be the url that reaches the service itself. 
+
+The data source is also important. Here's an example of how you would use `substances-env-db.conf` to configure Mariadb. 
+
+DB_URL_SUBSTANCES="jdbc:mysql://mysql:3306/substances"
+DB_USERNAME_SUBSTANCES=yourusername
+DB_PASSWORD_SUBSTANCES=XXXXXX
+DB_DRIVER_CLASS_NAME_SUBSTANCES="com.mysql.cj.jdbc.Driver"
+DB_CONNECTION_TIMEOUT_SUBSTANCES=12000
+DB_MAXIMUM_POOL_SIZE_SUBSTANCES=50
+DB_DIALECT_SUBSTANCES="org.hibernate.dialect.MySQL8Dialect"
+# Set to .ddl-auto update if you want SpringBoot to generate a schema.  
+# Seware that this will may change your schema and/or erase data.
+DB_DDL_AUTO_SUBSTANCES=none
+```
+
+Alternatively, you use the bottom-included `substances.conf` to override values in `application.conf`.
+
+```
+spring.datasource.driver-class-name="org.mariadb.jdbc.Driver"
+spring.datasource.url="jdbc:mysql://mariadb:3306/substances"
+spring.datasource.username="yourusername"
+spring.datasource.password="XXXXXX"
+spring.jpa.database-platform="org.hibernate.dialect.MariaDB103Dialect"
+# Set to .ddl-auto update if you want SpringBoot to generate a schema.  
+# Seware that this will may change your schema and/or erase data.
+spring.jpa.hibernate.ddl-auto=none
+spring.datasource.connection-timeout = 12000
+spring.datasource.maximum-pool-size= 50 #maximum pool size
 ```
 
 ### Gateway configuration (embedded Tomcat)
@@ -614,8 +635,30 @@ API_BASE_URL_SUBTANCES="http://localhost:8080/substances/"
 MS_SERVLET_CONTEXT_PATH_CLINICAL_TRIALS="/clinical-trials"
 ```
 
-In `substances-env-db.conf`, configure the databasources (example Mariadb).
+In `clinical-trials-env-db.conf`, configure TWO databasources (example Mariadb). 
 
+```
+# The clinical-trials needs access to the substances service to verify whether
+# substances linked to trials exist, for example. 
+# Point to the same database as the substances service configuration
+DB_URL_SUBSTANCES="jdbc:mysql://localhost:3306/substances"
+DB_USERNAME_SUBSTANCES="yourusername"
+DB_PASSWORD_SUBSTANCES="XXXXXX"
+DB_DRIVER_CLASS_NAME_SUBSTANCES="org.mariadb.jdbc.Driver"
+DB_CONNECTION_TIMEOUT_SUBSTANCES=12000
+DB_MAXIMUM_POOL_SIZE_SUBSTANCES=50
+DB_DIALECT_SUBSTANCES="org.hibernate.dialect.MariaDB103Dialect"
+DB_DDL_AUTO_SUBSTANCES=none
+
+DB_URL_SRSCID="jdbc:mysql://localhost:3306/clinical_trials"
+DB_USERNAME_CLINICAL_TRIALS="drugs"
+DB_PASSWORD_CLINICAL_TRIALS="eeR1pood"
+DB_DRIVER_CLASS_NAME_CLINICAL_TRIALS="org.mariadb.jdbc.Driver"
+DB_CONNECTION_TIMEOUT_CLINICAL_TRIALS=12000
+DB_MAXIMUM_POOL_SIZE_CLINICAL_TRIALS=20
+DB_DIALECT_CLINICAL_TRIALS="org.hibernate.dialect.MariaDB103Dialect"
+DB_DDL_AUTO_CLINICAL_TRIALS=none
+```
 
 ### Package Clinical Trials service WAR file and overwrite configs
 
