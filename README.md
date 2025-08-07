@@ -1,7 +1,6 @@
- 
+
 # GSRS 3 Main Deployment
 
- **---- DRAFT prelease 3.1.2 DRAFT ---**
 
 GSRS 3.x is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. GSRS requires the use of an RDBMS database for data storage.  The supported database flavors are: H2, PostGreSQL, MariaDB and MySQL.
 
@@ -12,7 +11,7 @@ GSRS 3.x works with Java 8, 11, 17; versions outside of these may result in buil
 - In GSRS 3.1.2, there are dramatic changes to how GSRS is configured. This is outlined below with more detail in this "[How it works](./blob/main/docs/how-configuration-works-3.1.2.md)" document.
 - In GSRS 3.1.2, there were changes to the Impurities microservice database schema.  Before upgrading your system, please check the [release notes](./docs/release%20notes) for discussion. Also please check the README files in [./impurities/database/](../../tree/main/impurities/database/) for suggested steps.
 - For GSRS 3.1, there are database schema changes for the substances service.  Before upgrading your system, please check the [release notes](./docs/release%20notes) for discussion. Also please check the README files in [./substances/database/sql/](../../tree/main/substances/database/sql/) for suggested steps.
-- In October 2024, we revised past Substances README files and database creation scripts to default to the use of sequences instead of auto_increment. 
+- In October 2024, we revised past Substances README files and database creation scripts to default to the use of sequences instead of auto_increment.
 - As of August 2022, an Oracle database instantiated by GSRS 3.x requires an extra script before data is stored. If you are creating a new database, see this [script](../../blob/main/substances/database/sql/Oracle/GSRS_3.1/modifyColumnTypesForJPACreatedSchema_3.1.sql) and its mention in the 3.1 database [README](../../blob/main/substances/database/sql/Oracle/GSRS_3.1/README). Please contact the GSRS team with any questions.
 
 ## SECTION 2: Get Started
@@ -33,18 +32,20 @@ This Main Deployment contains all the required and optional artifacts you need t
 - [Products](./products)
 
 Beyond documentation of the parts, the rest of this README is meant to provide background on how to structure whole deployments of different types and to discuss ways of integrating the parts.
- 
+
 ## SECTION 3A: Deployments
 
 ### Deployment Types
 
-Developers will often want to deploy locally and be able to modify code on the fly. In this case, **embedded Tomcat instances** for each service make the most sense.
+The GSRS is a SpringBoot Java application that is usually deployed on a Tomcat web server and servlet. Tomcat acts as a bridge between web servers and Java-based applications.
 
-A production deployment may also use an embedded architecture in combination with other technologies such as Docker.
+Traditionally, Tomcat is installed on a server and allows administrators to deploy multiple Java applications on the same server, each in its own folder (a.k."context"). In GSRS's case, multiple microservices can be installed within one Tomcat server all running under a single port. We call this a **single or Tomcat** deployment.
 
-A **single Tomcat instance** where all the microservices run under one Tomcat instance as individual "war" files is also an option.
+In contrast, an embedded Tomcat server consists of a single Java web application packaged together with its own Tomcat server. Each microservice is individually packaged this way into a single Jar. The Jar is portable and can be run without having to install separate Tomcat software on a server or in a local development environment.
 
-### Maven Central vs. Git
+Developers will first want to deploy locally and be able to modify code on the fly. This is achieved more efficiently with **embedded Tomcat**.
+
+### Maven Central vs. Git repositories
 
 If you're evaluating GSRS or want to take the simplest path toward installation of a public release for production, it makes most sense to rely on Maven Central to download all the necessary dependencies. In this case, you only need to download `gsrs3-main-deployment` from the NCATS Github website.  Next, when you run or package services, the Maven program will automatically locate and download the dependencies from Maven Central.
 
@@ -98,7 +99,7 @@ application.conf
 include substances-env.conf
 include substances-env-db.conf
 
-# body 
+# body
 some.java.property = ${SOME_VALUE}
 
 include substances.conf
@@ -116,10 +117,10 @@ Important values that are set by configuration for substances in an embedded Tom
 
 ```
 - `server.port= 8080`. Embedded Tomcat requires that server.port be set. The GSRS Team uses 8080 for substances.
-- `ix.home="./ginas.ix"` In embedded Tomcat this the default location for the index.  
-- application.host="http://localhost:8081". The application host is typically the url that reaches the Gateway if you are using the Gateway. Otherwise it would be the url that reaches the service itself. 
+- `ix.home="./ginas.ix"` In embedded Tomcat this the default location for the index.
+- application.host="http://localhost:8081". The application host is typically the url that reaches the Gateway if you are using the Gateway. Otherwise it would be the url that reaches the service itself.
 
-The data source is also important. Here's an example of how you would use `substances-env-db.conf` to configure Mariadb. 
+The data source is also important. Here's an example of how you would use `substances-env-db.conf` to configure Mariadb.
 
 DB_URL_SUBSTANCES="jdbc:mysql://mysql:3306/substances"
 DB_USERNAME_SUBSTANCES=yourusername
@@ -128,7 +129,7 @@ DB_DRIVER_CLASS_NAME_SUBSTANCES="com.mysql.cj.jdbc.Driver"
 DB_CONNECTION_TIMEOUT_SUBSTANCES=12000
 DB_MAXIMUM_POOL_SIZE_SUBSTANCES=50
 DB_DIALECT_SUBSTANCES="org.hibernate.dialect.MySQL8Dialect"
-# Set to .ddl-auto update if you want SpringBoot to generate a schema.  
+# Set to .ddl-auto update if you want SpringBoot to generate a schema.
 # Seware that this will may change your schema and/or erase data.
 DB_DDL_AUTO_SUBSTANCES=none
 ```
@@ -141,7 +142,7 @@ spring.datasource.url="jdbc:mysql://mariadb:3306/substances"
 spring.datasource.username="yourusername"
 spring.datasource.password="XXXXXX"
 spring.jpa.database-platform="org.hibernate.dialect.MariaDB103Dialect"
-# Set to .ddl-auto update if you want SpringBoot to generate a schema.  
+# Set to .ddl-auto update if you want SpringBoot to generate a schema.
 # Seware that this will may change your schema and/or erase data.
 spring.jpa.hibernate.ddl-auto=none
 spring.datasource.connection-timeout = 12000
@@ -158,7 +159,7 @@ For the Gateway, check these configuration files in the `gateway/src/main/resour
 
 The gateway uses the Zuul package to route paths to the various GSRS services.
 
-In embedded Tomcat, we access the url `http://localhost:8081/ginas/app/ui/`, and the Gateway forwards the request to the Frontend service at `http://localhost:8082/ginas/app/ui/`.  
+In embedded Tomcat, we access the url `http://localhost:8081/ginas/app/ui/`, and the Gateway forwards the request to the Frontend service at `http://localhost:8082/ginas/app/ui/`.
 
 To get information about a substance, the Frontend UI sends requests to the gateway `http://localhost:8081/ginas/app/api/v1/substances(ASPIRIN)`. Then, the Gateway forwards this request to the substances service at `http://localhost:8080/api/v1/substances(ASPIRIN)`.
 
@@ -197,7 +198,7 @@ Open a new terminal or screen session and run these commands:
 cd path/to/gsrs3-main/deployment
 cd substances
 
-# You may have to do this, depending on the circumstances, to install some extra depdencies. 
+# You may have to do this, depending on the circumstances, to install some extra depdencies.
 bash installExtraJars.sh
 
 # Option 1, No data load
@@ -211,14 +212,14 @@ bash installExtraJars.sh
 If you wish to delete the substances index before running, you can do this beforehand:
 
 ```
-rm -r ginas.ix 
+rm -r ginas.ix
 ```
 
 If you have problems with "file too long" on windows, try adding this option to the `./mvnw` command `-Dwith.fork=false`.
 
 ...
 
-Besides being the default, another reason to use '-Dwith.fork=true'  is if you wish to set jvmArguments for a **specific** service.  This is more likely to be an issue if you're using embedded Tomcat in **production** with a large data set, rather than locally. The Substances service uses quite a bit of memory, whereas the other services don't need so much; so you'd use the defaults for other services, but apply specific values for substances.  The effect of enabling fork is that the specific service will run in its own JVM instance. The POM configuration, with arguments, would like something like this:  
+Besides being the default, another reason to use '-Dwith.fork=true'  is if you wish to set jvmArguments for a **specific** service.  This is more likely to be an issue if you're using embedded Tomcat in **production** with a large data set, rather than locally. The Substances service uses quite a bit of memory, whereas the other services don't need so much; so you'd use the defaults for other services, but apply specific values for substances.  The effect of enabling fork is that the specific service will run in its own JVM instance. The POM configuration, with arguments, would like something like this:
 
 ```
 <plugin>
@@ -239,7 +240,7 @@ In a new terminal or screen session, run the following commands:
 ```
 cd path/to/gsrs3-main-deployment
 cd gateway
-./mvnw clean -U spring-boot:run -DskipTests 
+./mvnw clean -U spring-boot:run -DskipTests
 ```
 
 #### Running the frontend (embedded Tomcat)
@@ -258,7 +259,7 @@ You made a copy of the config.json above. Create a new file with an editor such 
 
 ```
 mkdir -p /path/to/custom/static/assets/data
-nano /path/to/custom/static/assets/data/config.json 
+nano /path/to/custom/static/assets/data/config.json
 ```
 
 Next, package with Maven and run with `java`.
@@ -268,7 +269,7 @@ cd path/to/gsrs3-main-deployment
 cd frontend
 # Package the frontend service
 export FRONTEND_TAG='GSRSv3.1.2PUB' # Github tag
-mvn clean -U package -Dfrontend.tag=$FRONTEND_TAG  -Dwithout.visualizer -DskipTests 
+mvn clean -U package -Dfrontend.tag=$FRONTEND_TAG  -Dwithout.visualizer -DskipTests
 
 # Run (mac, linux)
 java -cp "target/frontend.war:/path/to/custom" -Dserver.port=8082 org.springframework.boot.loader.WarLauncher
@@ -287,7 +288,7 @@ You should be able to login from the Frontend UI.  In the local development vers
 
 You can run the frontend in **development mode**.
 
-**Do that only if** you want to make changes to the Angular code and compile on the fly while testing.  
+**Do that only if** you want to make changes to the Angular code and compile on the fly while testing.
 
 You will have to make some small modifications to the a/ the gateway `application.yml` file and b/ **your own** angular frontend code repository.
 
@@ -303,15 +304,15 @@ Save `gateway-env.conf`.
 
 Press Control-C to stop the gateway if it is still running, and restart it with `./mvn spring-boot:run -DskipTests`.
 
-Next, go to your own Angular code repo (typically `GSRSFrontend`) outside of the gsrs3-main-deployment folder. Edit the file, `src/index.html`, temporarily changing from `<base href="/">` to `<base href="/ginas/app/ui/">`.  Make sure you temporarily have following in `src\app\fda\config\config.json`.  
+Next, go to your own Angular code repo (typically `GSRSFrontend`) outside of the gsrs3-main-deployment folder. Edit the file, `src/index.html`, temporarily changing from `<base href="/">` to `<base href="/ginas/app/ui/">`.  Make sure you temporarily have following in `src\app\fda\config\config.json`.
 
 ```
 "apiBaseUrl": "http://localhost:8081/ginas/app/ui/",
 "gsrsHomeBaseUrl": "http://localhost:8081/ginas/app/ui/",
 # optional
-"apiSSG4mBaseUrl": "http://localhost:8081/",  
+"apiSSG4mBaseUrl": "http://localhost:8081/",
 ```
-  
+
 Finally, recompile the angular code, as usual with the `npm` command. See [Compile Requirements](frontend/README.md#compile-requirements) in the frontend README.
 
 Now, hitting in your browser, `http://localhost:8081/ginas/app/ui/home` will run **your own** development Angular code, rather than the **compiled** version in the `gsrs3-main-deployment` repository.
@@ -360,7 +361,7 @@ If you do not take the option of installing the git repositories, Maven will dow
 
 On your server, create some helpful environment variables for this tutorial and then create folders where configurations and runtime time data can be written. These folders should be separate from the code. That way, they won't be erased on each new deployment.
 
-Run the following in your Linux terminal, or you can use `GitBash` on windows.  
+Run the following in your Linux terminal, or you can use `GitBash` on windows.
 
 These export statements should be run each time you open a new terminal. Or put them in your `.bash_profile` so that the exports happen automatically each time you open a new terminal.
 
@@ -398,7 +399,7 @@ sudo mkdir /var/lib/tomcat9/conf
 
 ### Preparing your configs (single Tomcat)
 
-As noted in this [how configuration works in 3.1.2](./blob/gsrs_3.1.2_prerelease/docs/how-configuration-works-3.1.2.md) document, we will create files that will be included by the main `application.conf` file for each service.  
+As noted in this [how configuration works in 3.1.2](./blob/gsrs_3.1.2_prerelease/docs/how-configuration-works-3.1.2.md) document, we will create files that will be included by the main `application.conf` file for each service.
 
 These files set variables that will be interpolated into application.conf, or will override the values set in the `application.conf` file.
 
@@ -419,7 +420,7 @@ Add these lines to `substances-env.conf`
 ```
 # Application host url should have no trailing slash
 
-# Assumption ONE 
+# Assumption ONE
 APPLICATION_HOST="https://localhost:8080"
 
 # Assumption TWO
@@ -428,7 +429,7 @@ APPLICATION_HOST="https://my.server:8080"
 # Assumption THREE
 # Application host url should have no trailing slash
 APPLICATION_HOST="https://my.server"
-#  Assuming we have NGINX forwarding to a reverse proxy like this: 
+#  Assuming we have NGINX forwarding to a reverse proxy like this:
 #  location /ginas/app {
 #    proxy_http_version 1.1;
 #    include proxy_params;
@@ -449,7 +450,7 @@ IX_HOME="/path/to/data/substances/ginas.ix"
 MS_EXPORT_PATH_SUBSTANCES="/path/to/data/substances/exports"
 MS_ADMIN_PANEL_DOWNLOAD_PATH_SUBSTANCES="/path/to//data/substances/"
 
-# If on production 
+# If on production
 GSRS_SESSIONS_SESSION_SECURE=true
 
 # API URLs have slash
@@ -529,7 +530,7 @@ sudo chown tomcat:tomcat ${webapps}/substances/WEB-INF/classes/substances.conf
 
 ```
 
-For the **Gateway**, run these commands on the command-line:  
+For the **Gateway**, run these commands on the command-line:
 
 ```
 # Notice that the gateway is written to ROOT in the Tomcat webapps folder
@@ -548,13 +549,13 @@ sudo chmod a+r ${webapps}/ROOT/WEB-INF/classes/gateway.conf
 sudo chown tomcat:tomcat ${webapps}/ROOT/WEB-INF/classes/gateway.conf
 ```
 
-For the Frontend, do the following on command-line:  
+For the Frontend, do the following on command-line:
 
 ```
 export FRONTEND_TAG=GSRSv3.1.2PUB # or other branch
 cd $gsrs_ci_repo_dir/frontend
 sudo rm -r /var/lib/tomcat9/webapps/frontend
-./mvnw clean -U package -Dfrontend.tag=$FRONTEND_TAG -Dwithout.visualizer -DskipTests 
+./mvnw clean -U package -Dfrontend.tag=$FRONTEND_TAG -Dwithout.visualizer -DskipTests
 sudo unzip $gsrs_ci_repo_dir/frontend/target/frontend.war -d $webapps/frontend
 
 # Something like this may be needed to get started. You should adjust for security as needed.
@@ -593,15 +594,15 @@ http://localhost:8080/ginas/app/ui/
 An additional microservice works with two main parts. First, a starter package that establishes microservice entities, repositories, controllers, indexers, etc. Next, there is an executing implementation in the `gsrs3-main-deployment` that imports the starter package and sets configuration properties. The `gsrs3-main-deployment` implementation for the microservice also has a main() method that runs the service.
 
 An additional service like Clinical Trials already exists, for example. The entities present in the Clinical Trials starter package are ClinicalTrialUS and ClinicalTrialEurope.  In the `gsrs3-main-deployment`, you'll see a folder `gsrs3-main-deployment/clinical-trials`. To make it work in the single Tomcat instance scenario described above, take the following steps.
- 
+
 ### Prepare for Clinical Trials service (single Tomcat)
 
 These export statements should be run each time you open a new terminal or put them in `bash_profile` if not already present.
 
 ```
 export gsrs_ci_repo_dir=/path/to/your/gsrs3-main-deployment
-export webapps=/path/to/tomcat/webapps 
-export config_dir=/path/to/gsrs_configs/ 
+export webapps=/path/to/tomcat/webapps
+export config_dir=/path/to/gsrs_configs/
 export data_dir=/path/to/data
 
 ```
@@ -639,11 +640,11 @@ API_BASE_URL_SUBTANCES="http://localhost:8080/substances/"
 MS_SERVLET_CONTEXT_PATH_CLINICAL_TRIALS="/clinical-trials"
 ```
 
-In `clinical-trials-env-db.conf`, configure TWO databasources (example Mariadb). 
+In `clinical-trials-env-db.conf`, configure TWO databasources (example Mariadb).
 
 ```
 # The clinical-trials needs access to the substances service to verify whether
-# substances linked to trials exist, for example. 
+# substances linked to trials exist, for example.
 # Point to the same database as the substances service configuration
 DB_URL_SUBSTANCES="jdbc:mysql://localhost:3306/substances"
 DB_USERNAME_SUBSTANCES="yourusername"
@@ -693,17 +694,17 @@ sudo chown tomcat:tomcat ${webapps}/clinical-trials/WEB-INF/classes/clinical-tri
 Now, you're ready to run the application in tomcat. Do the following:
 
 ```
-# Start your tomcat 
+# Start your tomcat
 
-# Check this log $webapps/../logs/catalina...log 
+# Check this log $webapps/../logs/catalina...log
 
 # Try to hit these Urls inside ssh.
 
-http://localhost:8080/api/v1/clinical-trials 
+http://localhost:8080/api/v1/clinical-trials
 
 # Try to hit these Urls inside from your browser.
 
-http://my.server/api/v1/clinicaltrialsus 
+http://my.server/api/v1/clinicaltrialsus
 
 http://my.server/ginas/app/ui/browse-clinical-trials
 
@@ -719,7 +720,7 @@ While the substance service is the core focus of GSRS, additional microservices 
 If the microservice to be added to `gsrs3-main-deployment` does not yet exist, the simplest path is to copy the `substances` folder to a new folder such as `my-service`.  However, the following (and more) files will have to edited (E), renamed (R), deleted (D) and/or simplified (S) as appropriate:
 
 - pom.xml (E, S)
-- application.conf (E, S) 
+- application.conf (E, S)
 - SubstancesApplication.java (R, S)
 - LoadGroupsAndUsersOnStartup.java (D)
 
@@ -734,7 +735,7 @@ To get your new microservice running you also have to specify some new paths in 
 ```
 zuul.routes: {
   # ...
-  "my_widgets": {  
+  "my_widgets": {
     "path": "/api/v1/mywidgets/**",
     "url": http://localhost:8999/api/v1/mywidgets
     "serviceId": "my_widgets"
@@ -781,7 +782,7 @@ Projects can be selectively defined as loaded components. This makes it easy to 
 In this example, "clinicaltrialsus" is the name of the loaded component. The following shows several files that you will likely have to modify if you add a frontend for a new entity service.
 
 ```
-# src/app/fda/config.json 
+# src/app/fda/config.json
 # Add:
 "loadedComponents": {
   ...
@@ -800,7 +801,7 @@ In this example, "clinicaltrialsus" is the name of the loaded component. The fol
 
 ```
 # src/app/core/config/config.model.ts
-# Add: 
+# Add:
 export interface LoadedComponents {
   ...
   clinicaltrialsus?: boolean;
@@ -814,9 +815,9 @@ export interface LoadedComponents {
 
 ```
 # src/app/core/facets-manager/facets-manager.component.ts
-# Modify this method to add your entity group to the `if` statement so that facets will be collected. 
+# Modify this method to add your entity group to the `if` statement so that facets will be collected.
 set configName(configName: string) {
-     ... 
+     ...
      if (configName === '...' || configName === 'clinicaltrialsus' ... )
     ...
 }
@@ -824,7 +825,7 @@ set configName(configName: string) {
 
 ```
 # src/app/core/base/base.component.html
-# Add: 
+# Add:
   <span *ngIf = "loadedComponents.clinicaltrialsus">
   <a mat-menu-item routerLink="/browse-clinical-trials-us">
     Browse US Clinical Trials
