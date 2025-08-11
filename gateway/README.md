@@ -22,7 +22,11 @@ The GSRS Gateway microservice uses no databases.
 
 ## Configuration
 
-The [./src/main/resources/application.conf](./src/main/resources/application.conf) file orchestrates the GSRS Gateway module's configuration. We hope that you will not need to change it. Instead, we recommend that you use environment variables and/or the top and/or bottom include files to influence the module's orchestration.
+The [./src/main/resources/application.conf](./src/main/resources/application.conf) file orchestrates the GSRS Gateway module's configuration. We hope that you will not need to change it.
+
+If you find that GSRS cannot run without a change to application.conf, please let the GSRS team know!
+
+Therefore, instead, we recommend that you use environment variables and/or the top and/or bottom include files to influence the module's orchestration.
 
 - gateway-env.conf (top)
 - gateway.conf (bottom)

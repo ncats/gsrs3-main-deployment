@@ -9,7 +9,11 @@ The UI is an Angular-framework application.
 
 ## Configuration
 
-The [./src/main/resources/application.conf](./src/main/resources/application.conf) file orchestrates configuration. The core GSRS application development team hopes that you will not need to change it. Instead, we recommend that you use environment variables and/or the top and/or bottom include files to influence orchestration.
+The [./src/main/resources/application.conf](./src/main/resources/application.conf) file orchestrates configuration. Our hope is that you will not need to change it.
+
+If you find that GSRS cannot run without a change to application.conf, please let the GSRS team know!
+
+Therefore, instead, we recommend that you use environment variables and/or the top and/or bottom include files to influence orchestration.
 
 - frontend-env.conf (top)
 - frontend.conf (bottom)

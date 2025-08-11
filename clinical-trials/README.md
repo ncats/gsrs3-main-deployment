@@ -4,9 +4,9 @@ This microservice is an entity service for storing, retrieving, searching and in
 
 ## Core Dependency Repos
 
-- https://github.com/ncats/gsrs-spring-starter
-- https://github.com/ncats/gsrs-spring-module-substances
-- https://github.com/ncats/gsrs-spring-module-clinical-trials
+- <https://github.com/ncats/gsrs-spring-starter>
+- <https://github.com/ncats/gsrs-spring-module-substances>
+- <https://github.com/ncats/gsrs-spring-module-clinical-trials>
 
 The three dependencies are Spring-boot "starters." This `gsrs-main-deployment/clinical-trials` service includes these starter libraries to actually create an executable runnable deployment.
 
@@ -56,7 +56,11 @@ One quick way to load a small set of substances for testing in the Substances se
 
 ## Configuration
 
-The [./src/main/resources/application.conf](./src/main/resources/application.conf) file orchestrates configuration, Our hope is that you will not need to change it. Instead use environment variables and/or the top and/or bottom include files to influence the orchestration.
+The [./src/main/resources/application.conf](./src/main/resources/application.conf) file orchestrates configuration. Our hope is that you will not need to change it.
+
+If you find that GSRS cannot run without a change to application.conf, please let the GSRS team know!
+
+Therefore, instead use environment variables and/or the top and/or bottom include files to influence the orchestration.
 
 - clinical-trials-env.conf (top)
 - clinical-trials-env-db.conf (top)
@@ -92,7 +96,7 @@ MS_SERVLET_CONTEXT_PATH_CLINICAL_TRIALS="clinical-trials/"
 
 The bottom include, `clinical-trials.conf`, file can be used to override undesirable values that might be set in the `application.conf` or upstream. This file is blank/missing by default.
 
-Core configuration values for the Gateway include:
+Core configuration values for the clinical-trials service include:
 
 - `application.host`
 - `server.port=8089` (required for embedded Tomcat only)
