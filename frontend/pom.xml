@@ -5,18 +5,22 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
+        <version>2.7.18</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>frontend</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.1.2-SNAPSHOT</version>
     <name>frontend</name>
-    <description>Demo project for Spring Boot</description>
+    <description>GSRS 3 frontend</description>
     <properties>
         <java.version>1.8</java.version>
         <with.packaging>war</with.packaging>
         <with.fork>true</with.fork>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <gsrs.starter.version>3.1.2</gsrs.starter.version>
+        <ncats-common.version>0.3.6</ncats-common.version>
+        <gsrs-services-common.version>1.0-SNAPSHOT</gsrs-services-common.version>
         <gateway.host>http://localhost:8080</gateway.host>
         <npm.script.name>build:fda:prod</npm.script.name>
         <log4j2.version>2.17.2</log4j2.version>
@@ -31,6 +35,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+           <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
@@ -38,7 +47,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
@@ -49,7 +57,69 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zeldigas</groupId>
+            <artifactId>spring-hocon-property-source</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.nih.ncats</groupId>
+            <artifactId>ncats-common</artifactId>
+            <version>${ncats-common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.nih.ncats</groupId>
+            <artifactId>gsrs-basic-service-utilities</artifactId>
+            <version>${gsrs-services-common.version}</version>
+        </dependency>
+
     </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>central-repo1-maven2</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>central</id>
+            <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -62,12 +132,20 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.15.0</version>
                 <configuration>
                     <nodeVersion>v14.17.0</nodeVersion>
-                    <!-- npmVersion>6.14.13</npmVersion -->
                     <installDirectory>target</installDirectory>
                     <workingDirectory>target/GSRSFrontend</workingDirectory>
                     <environmentVariables>
@@ -96,39 +174,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>npm run build-file-select</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${node.disable}</skip>
-                            <arguments>run build-file-select</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm run build-jsdraw-wrapper</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${node.disable}</skip>
-                            <arguments>run build-jsdraw-wrapper</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm run build-ketcher-wrapper</id>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${node.disable}</skip>
-                            <arguments>run build-ketcher-wrapper</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>npm install --legacy-peer-deps</id>
                         <phase>generate-resources</phase>
                         <goals>
@@ -137,39 +182,6 @@
                         <configuration>
                             <skip>${node.disable}</skip>
                             <arguments>install --legacy-peer-deps</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm install webpack</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${node.disable}</skip>
-                            <arguments>install webpack</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm install webpack-sources</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${node.disable}</skip>
-                            <arguments>install --save webpack-sources --legacy-peer-deps</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm install @types/ws@8.5.4</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <skip>${node.disable}</skip>
-                            <arguments>install -f @types/ws@8.5.4</arguments>
                         </configuration>
                     </execution>
                     <execution>
@@ -217,27 +229,7 @@
                                 <move file="${project.build.directory}/GSRSFrontend/browser" tofile="${project.build.directory}/GSRSFrontend/dist/browser" failonerror="false" quiet="true"/>
                                 <move file="${project.build.directory}/GSRSFrontend-${frontend.tag}" tofile="${project.build.directory}/GSRSFrontend" failonerror="false" quiet="true"/>
                                 <move file="${project.build.directory}/GSRSFrontend-development_3.0" tofile="${project.build.directory}/GSRSFrontend" failonerror="false" quiet="true"/>
-                                <echo file="${project.build.directory}/package.dev.json">{"name":"gsrs-client","version":"0.0.0","scripts":{"${npm.script.name}": "node -v", "build-file-select": "node -v", "build-jsdraw-wrapper": "node -v", "build-ketcher-wrapper": "node -v"}}</echo>
-                                <copy file="${project.build.directory}/package.dev.json" tofile="${project.build.directory}/package.real.json" failonerror="false" quiet="true"/>
-                                <copy file="${project.build.directory}/GSRSFrontend/package.dev.json" tofile="${project.build.directory}/package.dev.json" overwrite="true" failonerror="false" quiet="true"/>
-                                <copy file="${project.build.directory}/GSRSFrontend/package.real.json" tofile="${project.build.directory}/package.real.json" overwrite="true" failonerror="false" quiet="true"/>
                                 <delete file="${project.build.directory}/GSRSFrontend/package-lock.json"/>
-                                <delete file="${project.build.directory}/GSRSFrontend/package.json"/>
-                                <move file="${project.build.directory}/package.dev.json" tofile="${project.build.directory}/GSRSFrontend/package.json" failonerror="false" quiet="true"/>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>replace package.json with package.real.json</id>
-                        <phase>process-sources</phase>
-                        <configuration>
-                            <skip>${without.static}</skip>
-                            <target>
-                                <delete file="${project.build.directory}/GSRSFrontend/package.json"/>
-                                <move file="${project.build.directory}/package.real.json" tofile="${project.build.directory}/GSRSFrontend/package.json" overwrite="true" failonerror="false" quiet="true"/>
                             </target>
                         </configuration>
                         <goals>

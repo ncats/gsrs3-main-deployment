@@ -1,0 +1,181 @@
+<html><body>
+<!-- 
+
+This is meant to help with finding/testing service info links. 
+
+Load this as a file in your browser 
+
+file:///path/to/gsrs-ci/deployment-extras/scripts/test-links.html
+
+For a lot of these to work, you must be logged and you configuration/environment has to be set up.
+See the tip here about setting environment variables for LOCAL and nonprod testing. 
+These environment values will facilitate having the right permissions/values to see stuff.
+
+https://github.com/ncats/gsrs-ci/pull/541
+-->
+
+<h3>adverse-events</h3>
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/adverse-events/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/adverse-events/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/adverse-events/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/adverse-events/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/actuator/health'>http://localhost:9081/service-info/api/v1/adverse-events/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/actuator/env'>http://localhost:9081/service-info/api/v1/adverse-events/actuator/env</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@entityProcessorConfigs'>http://localhost:9081/service-info/api/v1/adverse-events/@entityProcessorConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@exporterFactoryConfigs'>http://localhost:9081/service-info/api/v1/adverse-events/@exporterFactoryConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@registeredFunctionConfigs'>http://localhost:9081/service-info/api/v1/adverse-events/@registeredFunctionConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@scheduledTaskConfigs'>http://localhost:9081/service-info/api/v1/adverse-events/@scheduledTaskConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@validatorConfigs/adverseeventpt'>http://localhost:9081/service-info/api/v1/adverse-events/@validatorConfigs/adverseeventpt</a><br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@validatorConfigs/adverseeventdme'>http://localhost:9081/service-info/api/v1/adverse-events/@validatorConfigs/adverseeventdme</a><br />
+<a href='http://localhost:9081/service-info/api/v1/adverse-events/@validatorConfigs/adverseeventcvm'>http://localhost:9081/service-info/api/v1/adverse-events/@validatorConfigs/adverseeventcvm</a><br />
+<br />
+<br />
+<h3>applications</h3>
+<a href='http://localhost:9081/service-info/api/v1/applications/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/applications/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/applications/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/applications/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/applications/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/applications/actuator/health'>http://localhost:9081/service-info/api/v1/applications/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/applications/actuator/env'>http://localhost:9081/service-info/api/v1/applications/actuator/env</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@entityProcessorConfigs'>http://localhost:9081/service-info/api/v1/applications/@entityProcessorConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@exporterFactoryConfigs'>http://localhost:9081/service-info/api/v1/applications/@exporterFactoryConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@registeredFunctionConfigs'>http://localhost:9081/service-info/api/v1/applications/@registeredFunctionConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@scheduledTaskConfigs'>http://localhost:9081/service-info/api/v1/applications/@scheduledTaskConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/applications/@validatorConfigs/applications'>http://localhost:9081/service-info/api/v1/applications/@validatorConfigs/applications</a><br />
+<br />
+<br />
+<h3>clinical-trials</h3>
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/clinical-trials/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/clinical-trials/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/clinical-trials/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/clinical-trials/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/actuator/health'>http://localhost:9081/service-info/api/v1/clinical-trials/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/actuator/env'>http://localhost:9081/service-info/api/v1/clinical-trials/actuator/env</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@entityProcessorConfigs'>http://localhost:9081/service-info/api/v1/clinical-trials/@entityProcessorConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@exporterFactoryConfigs'>http://localhost:9081/service-info/api/v1/clinical-trials/@exporterFactoryConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@registeredFunctionConfigs'>http://localhost:9081/service-info/api/v1/clinical-trials/@registeredFunctionConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@scheduledTaskConfigs'>http://localhost:9081/service-info/api/v1/clinical-trials/@scheduledTaskConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@validatorConfigs/clinicaltrialsus'>http://localhost:9081/service-info/api/v1/clinical-trials/@validatorConfigs/clinicaltrialsus</a><br />
+<a href='http://localhost:9081/service-info/api/v1/clinical-trials/@validatorConfigs/clinicaltrialseurope'>http://localhost:9081/service-info/api/v1/clinical-trials/@validatorConfigs/clinicaltrialseurope</a><br />
+<br />
+<br />
+<h3>gateway</h3>
+<a href='http://localhost:9081/service-info/api/v1/gateway/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/gateway/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/gateway/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/gateway/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/gateway/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/actuator/health'>http://localhost:9081/service-info/api/v1/gateway/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/actuator/env'>http://localhost:9081/service-info/api/v1/gateway/actuator/env</a><br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/actuator/routes'>http://localhost:9081/service-info/api/v1/gateway/actuator/routes</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/@processedRouteConfigs'>http://localhost:9081/service-info/api/v1/gateway/@processedRouteConfigs</a><br />
+<a href='http://localhost:9081/service-info/api/v1/gateway/@logProcessedRouteConfigs'>http://localhost:9081/service-info/api/v1/gateway/@logProcessedRouteConfigs</a><br />
+<br />
+<h3>impurities</h3>
+<a href='http://localhost:9081/service-info/api/v1/impurities/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/impurities/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/impurities/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/impurities/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/impurities/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/actuator/health'>http://localhost:9081/service-info/api/v1/impurities/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/actuator/env'>http://localhost:9081/service-info/api/v1/impurities/actuator/env</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@entityProcessorConfigs'>http://localhost:9081/service-info/api/v1/impurities/@entityProcessorConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@exporterFactoryConfigs'>http://localhost:9081/service-info/api/v1/impurities/@exporterFactoryConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@registeredFunctionConfigs'>http://localhost:9081/service-info/api/v1/impurities/@registeredFunctionConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@scheduledTaskConfigs'>http://localhost:9081/service-info/api/v1/impurities/@scheduledTaskConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/impurities/@validatorConfigs/impurities'>http://localhost:9081/service-info/api/v1/impurities/@validatorConfigs/impurities</a><br />
+<br />
+<br />
+<h3>invitro-pharmacology</h3>
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/actuator/health'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/actuator/env'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/actuator/env</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@entityProcessorConfigs'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@entityProcessorConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@exporterFactoryConfigs'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@exporterFactoryConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@registeredFunctionConfigs'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@registeredFunctionConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@scheduledTaskConfigs'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@scheduledTaskConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/invitro-pharmacology/@validatorConfigs/invitropharmacology'>http://localhost:9081/service-info/api/v1/invitro-pharmacology/@validatorConfigs/invitropharmacology</a><br />
+<br />
+<br />
+<h3>products</h3>
+<a href='http://localhost:9081/service-info/api/v1/products/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/products/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/products/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/products/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/products/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/products/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/products/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/products/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/products/actuator/health'>http://localhost:9081/service-info/api/v1/products/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/products/actuator/env'>http://localhost:9081/service-info/api/v1/products/actuator/env</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/products/@entityProcessorConfigs'>http://localhost:9081/service-info/api/v1/products/@entityProcessorConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/products/@exporterFactoryConfigs'>http://localhost:9081/service-info/api/v1/products/@exporterFactoryConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/products/@registeredFunctionConfigs'>http://localhost:9081/service-info/api/v1/products/@registeredFunctionConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/products/@scheduledTaskConfigs'>http://localhost:9081/service-info/api/v1/products/@scheduledTaskConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/products/@validatorConfigs/products'>http://localhost:9081/service-info/api/v1/products/@validatorConfigs/products</a><br />
+<br />
+<br />
+<h3>substances</h3>
+<a href='http://localhost:9081/service-info/api/v1/substances/@configurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/substances/@configurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@configurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/substances/@configurationProperties?fmt=json</a><br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@logConfigurationProperties?fmt=text'>http://localhost:9081/service-info/api/v1/substances/@logConfigurationProperties?fmt=text</a><br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@logConfigurationProperties?fmt=json'>http://localhost:9081/service-info/api/v1/substances/@logConfigurationProperties?fmt=json</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/actuator/health'>http://localhost:9081/service-info/api/v1/substances/actuator/health</a><br />
+<a href='http://localhost:9081/service-info/api/v1/substances/actuator/env'>http://localhost:9081/service-info/api/v1/substances/actuator/env</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@entityProcessorConfigs'>http://localhost:9081/service-info/api/v1/substances/@entityProcessorConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@exporterFactoryConfigs'>http://localhost:9081/service-info/api/v1/substances/@exporterFactoryConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@importAdapterFactoryConfigs/substances'>http://localhost:9081/service-info/api/v1/substances/@importAdapterFactoryConfigs/substances</a><br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@importAdapterFactoryConfigs/vocabularies'>http://localhost:9081/service-info/api/v1/substances/@importAdapterFactoryConfigs/vocabularies</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@matchableCalculationConfigs/substances'>http://localhost:9081/service-info/api/v1/substances/@matchableCalculationConfigs/substances</a><br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@matchableCalculationConfigs/vocabularies'>http://localhost:9081/service-info/api/v1/substances/@matchableCalculationConfigs/vocabularies</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@registeredFunctionConfigs'>http://localhost:9081/service-info/api/v1/substances/@registeredFunctionConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@scheduledTaskConfigs'>http://localhost:9081/service-info/api/v1/substances/@scheduledTaskConfigs</a><br />
+<br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@validatorConfigs/substances'>http://localhost:9081/service-info/api/v1/substances/@validatorConfigs/substances</a><br />
+<a href='http://localhost:9081/service-info/api/v1/substances/@validatorConfigs/vocabularies'>http://localhost:9081/service-info/api/v1/substances/@validatorConfigs/vocabularies</a><br />
+<br />
+<br />
+</body></html>
+

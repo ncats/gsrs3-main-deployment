@@ -4,7 +4,7 @@ The GSRS front-end has dozens of settings and values to customize several aspect
 
 We have provided a spreadsheet with each Field name, description, data model, and an example to help explain each one.
 
- [View the Configuration Details Guide](https://github.com/ncats/gsrs-ci/blob/gsrs-example-deployment/docs/GSRS%20Frontend%20Configuration%20Details.xlsx).
+ [View the Configuration Details Guide](https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/GSRS%20Frontend%20Configuration%20Details.xlsx).
 
 ### Editing the front-end configuration file
 

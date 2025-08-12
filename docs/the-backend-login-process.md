@@ -110,7 +110,8 @@ Then, with this method, you would not need to pass credentials with each request
 Create this file: 
 ```
 # extract_session_key.sh 
-curl -s --head -X GET -H 'auth-password: admin' -H 'auth-username: admin' -i http://localhost:8081/api/v1/whoami | grep 'Set-Cookie: ix.session=' | perl -lne  'chomp; if(/Set-Cookie: ix.session=(.*?);/) {  print $1; }'
+PORT="${PORT:-8081}"
+curl -s --head -X GET -H 'auth-password: admin' -H 'auth-username: admin' -i http://localhost:$PORT/api/v1/whoami | grep 'Set-Cookie: ix.session=' | perl -lne  'chomp; if(/Set-Cookie: ix.session=(.*?);/) {  print $1; }'
 ````
 
 This gets the response header from the `api/v1/whoami` endpoint, and it extracts the `ix.session` cookie's key value.    
@@ -174,7 +175,8 @@ You may be able to use an `auth-key` for REST API requests instead of the sessio
 Create this file:
 ```
 # extract_auth_key.sh
-curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KEY" | perl  -MJSON -n0777 -E '$r = decode_json($_); say $r->{key}'
+PORT="${PORT:-8081}"
+curl -s "http://localhost:$PORT/api/v1/whoami" -H "auth-username: admin" -H "Cookie: ix.session=${SESSION_KEY}" | perl  -MJSON -n0777 -E '$r = decode_json($_); say $r->{key}'
 ```
 
 This gets the `api/v1/whoami` endpoint, and it extracts the `key` value from the response JSON.
@@ -199,7 +201,8 @@ You may be able to use a token for REST API requests instead of the session id o
 Create this file:
 ```
 # extract_computed_token.sh
-curl -s 'http://localhost:8081/api/v1/whoami' -H "Cookie: ix.session=$SESSION_KEY" | perl  -MJSON -n0777 -E '$r = decode_json($_); say $r->{computedToken}'
+PORT="${PORT:-9081}"
+curl -s "http://localhost:$PORT/api/v1/whoami" -H "Cookie: ix.session=$SESSION_KEY" | perl  -MJSON -n0777 -E '$r = decode_json($_); say $r->{computedToken}'
 ```
 
 This gets the `api/v1/whoami` endpoint, and it extracts the `computedToken` value from the response JSON.
@@ -234,6 +237,19 @@ First `cd ./gsrs-main-deployment/substances`, then create these files:
 echo "select * from ix_core_session;" > list_sessions.sql 
 java -cp ~/.m2/repository/com/h2database/h2/1.4.200/h2-1.4.200.jar org.h2.tools.RunScript -url 'jdbc:h2:./ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE' -script 'list_sessions.sql'  -user '' -password '' -showResults
 rm list_sessions.sql 
+
+
+## 4. Helpful aliases 
+
+```
+alias do_extract_session_key="export SESSION_KEY="$(bash extract_session_key.sh)" && echo "\$SESSION_KEY"" 
+
+alias do_extract_auth_key="export AUTH_KEY="$(bash extract_auth_key.sh)" && echo "\$AUTH_KEY"" 
+
+alias do_extract_computed_token="export COMPUTED_TOKEN="$(bash extract_computed_token.sh)" && echo "\$COMPUTED_TOKEN"" 
+
+
+```
 
 # clear_sessions.sh
 echo "delete from ix_core_session;" > clear_sessions.sql 

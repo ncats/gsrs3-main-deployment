@@ -5,20 +5,20 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.4.5</version>
+        <version>2.7.18</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>gsrs.ncats</groupId>
     <artifactId>deployment-extras</artifactId>
-    <version>3.1.1-SNAPSHOT</version>
+    <version>3.1.2-SNAPSHOT</version>
     <name>deployment-extras</name>
     <description>Deployment specific resources</description>
     <properties>
         <java.version>8</java.version>
         <with.packaging>war</with.packaging>
         <with.fork>true</with.fork>
-        <spring-cloud.version>2020.0.2</spring-cloud.version>
-        <gsrs.starter.version>3.1.1</gsrs.starter.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <gsrs.starter.version>3.1.2</gsrs.starter.version>
         <log4j2.version>2.17.2</log4j2.version>
     </properties>
 
@@ -26,14 +26,15 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <id>central</id>
+            <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
+
     <dependencies>
 
         <dependency>
@@ -74,14 +75,29 @@
                     <fork>${with.fork}</fork>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.8.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <repositories>
         <repository>
-            <id>oss.sonatype.org-snapshot</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central-repo1-maven2</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
             <releases>
                 <enabled>false</enabled>
             </releases>

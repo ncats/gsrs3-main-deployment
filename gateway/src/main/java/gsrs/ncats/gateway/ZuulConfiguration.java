@@ -2,9 +2,14 @@ package gsrs.ncats.gateway;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.cglib.proxy.Callback;
@@ -14,14 +19,21 @@ import org.springframework.cglib.proxy.MethodInterceptor;
 import org.springframework.cglib.proxy.MethodProxy;
 import org.springframework.cglib.proxy.NoOp;
 import org.springframework.cloud.netflix.zuul.filters.RouteLocator;
+import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.web.ZuulController;
 import org.springframework.cloud.netflix.zuul.web.ZuulHandlerMapping;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /** Zuul configuration. */
+@Slf4j
 @Configuration
 public class ZuulConfiguration {
+
+    // Route order is not preserved with Hocon, so sorting alphabetically by route id controls order.
+    // With a Yaml configuration file, you may wish to use the order in which routes are listed in the configuration file.
+    @Value("${gsrs.config.gateway.sortRoutes:true}")
+    boolean sortRoutes;
 
     /** The path returned by ErrorContoller.getErrorPath() with Spring Boot < 2.5 (and no longer available on Spring Boot >= 2.5). */
     private static final String ERROR_PATH = "/error";
@@ -39,7 +51,19 @@ public class ZuulConfiguration {
      */
     @Bean
     public ZuulPostProcessor zuulPostProcessor(@Autowired RouteLocator routeLocator, @Autowired ZuulController zuulController,
-            @Autowired(required = false) ErrorController errorController) {
+                                               @Autowired ZuulProperties zuulProperties, @Autowired(required = false) ErrorController errorController) {
+
+        if (sortRoutes) {
+            log.info("Zuul gateway routes will be sorted by route key.");
+            zuulProperties.setRoutes(zuulProperties.getRoutes().entrySet().stream()
+            .sorted(Map.Entry.comparingByKey())
+            .collect(Collectors.toMap(
+            Map.Entry::getKey,
+            Map.Entry::getValue,
+            (oldValue, newValue) -> oldValue, LinkedHashMap::new)));
+        } else  {
+            log.info("Gateway routes will NOT be sorted by route key. If you are using Yaml configuration, route order will reflect the order in the Yaml file. Otherwise route processing order will be random.");
+        }
         return new ZuulPostProcessor(routeLocator, zuulController, errorController);
     }
 
@@ -69,7 +93,6 @@ public class ZuulConfiguration {
             }
             return bean;
         }
-
     }
 
     private static enum LookupHandlerCallbackFilter implements CallbackFilter {

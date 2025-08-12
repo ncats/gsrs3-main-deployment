@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
+import org.springframework.scheduling.annotation.EnableScheduling;
 import gov.hhs.gsrs.products.product.EnableProduct;
 import gov.hhs.gsrs.products.ProductDataSourceConfig;
 import gsrs.*;
@@ -21,7 +21,7 @@ import gsrs.*;
 //TODO: eventually remove?
 @EnableGsrsLegacySequenceSearch
 @EnableGsrsLegacyStructureSearch
-
+@EnableScheduling
 @SpringBootApplication
 @EntityScan(basePackages ={"ix","gsrs", "gov.nih.ncats", "gov.hhs.gsrs"} )
 @EnableGsrsApi(indexValueMakerDetector = EnableGsrsApi.IndexValueMakerDetector.CONF,

@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatConnectorCustomizer;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -14,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-@EnableEurekaClient
 @EnableZuulProxy
+
 public class GatewayApplication {
 
     public static void main(String[] args) {
@@ -50,6 +49,21 @@ public class GatewayApplication {
     public WebServerFactoryCustomizer<TomcatServletWebServerFactory>
     containerCustomizer(){
         return new EmbeddedTomcatCustomizer();
+    }
+
+    @Bean
+    public gsrs.config.GsrsServiceInfoEndpointPathConfiguration gsrsServiceInfoEndpointPathConfiguration(){
+        return new gsrs.config.GsrsServiceInfoEndpointPathConfiguration();
+    }
+
+    @Bean
+    public gsrs.config.GatewayConfigurationServiceInfoController gatewayConfigurationServiceInfoController(){
+        return new gsrs.config.GatewayConfigurationServiceInfoController();
+    }
+
+    @Bean
+    public gsrs.config.BasicServiceInfoController basicServiceInfoController(){
+        return new gsrs.config.BasicServiceInfoController();
     }
 
     private static class EmbeddedTomcatCustomizer implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {

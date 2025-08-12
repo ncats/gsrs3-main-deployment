@@ -1,14 +1,32 @@
 # GSRS 3 Clinical Trials Microservice
 
-This microservice is an entity service for storing, retrieving, searching and indexing US and European clinical trials. It especially focuses on mapping those trialtos to substances within a GSRS system.
+This microservice is an entity service for storing, retrieving, searching and indexing US and European clinical trials. It especially focuses on mapping those trials to substances within a GSRS system.
 
 ## Core Dependency Repos
 
-- https://github.com/ncats/gsrs-spring-starter
-- https://github.com/ncats/gsrs-spring-module-substances
-- https://github.com/ncats/gsrs-spring-module-clinical-trials
+- <https://github.com/ncats/gsrs-spring-starter>
+- <https://github.com/ncats/gsrs-spring-module-substances>
+- <https://github.com/ncats/gsrs-spring-module-clinical-trials>
 
-The three dependencies are Spring-boot "starters." This `gsrs-main-deployment/clinical-trials` service includes these starter libraries to actually create an executable runnable deployment.    
+The three dependencies are Spring-boot "starters." This `gsrs-main-deployment/clinical-trials` service includes these starter libraries to actually create an executable runnable deployment.
+
+## Requirements
+
+### Java
+
+We are targeting the Java 11 runtime for this project although the code can be built using Java 8, 11, 17.
+
+#### RAM
+
+This microservice will run fine with the default memory allocation.
+
+#### Disk Space
+
+This microservice requires little disk space.
+
+#### Database
+
+This microservice assumes two datasources. Use the same configuration as is used for substances for the "default" datasource.  This datasource has general non-clinical-trials specific data.  The clinical trials datasource is used to capture information specific to clinical trials.
 
 ## Build Instructions
 
@@ -18,9 +36,9 @@ This entity microservice can be built into a war file for deployment in a J2EE w
 ./mvnw clean package -DskipTests
 ```
 
-To include the tests, remove `-DskipTests` from the command. 
+To include the tests, remove `-DskipTests` from the command.
 
-This will create a file `target/clinical-trials.war` 
+This will create a file `target/clinical-trials.war`
 
 ## Running and Debugging
 
@@ -38,160 +56,116 @@ One quick way to load a small set of substances for testing in the Substances se
 
 ## Configuration
 
-Configuration will be affected by the default configurations included in the core dependencies. These will be supplemented by configuration in  [./src/main/resources/application.conf](./src/main/resources/application.conf).  
+The [./src/main/resources/application.conf](./src/main/resources/application.conf) file orchestrates configuration. Our hope is that you will not need to change it.
 
-Examine this file.  It contains example properties, but you may need to change several properties to run locally as an embedded instance during debugging and development, or to deploy for production
+If you find that GSRS cannot run without a change to application.conf, please let the GSRS team know!
 
-For local embedded Tomcat deployment, each microservice needs its own port. Here we use port 8089 but it could be another port unique port number not used by any other microservice.   
+Therefore, instead use environment variables and/or the top and/or bottom include files to influence the orchestration.
 
-```
-## Local embedded Tomcat Instance
-# Where indexes and other file resources are kept.
-ix.home="ginas.ix"
-# Should be the port the gateway runs on.
-application.host= "http://localhost:8081"
-# The port your microservice runs on.
-server.port=8089
-``` 
+- clinical-trials-env.conf (top)
+- clinical-trials-env-db.conf (top)
+- clinical-trials.conf (bottom)
 
-In production, you may be running the GSRS as a single Tomcat instance.  If so, the `application.host` will use the same port as your gateway port. Also, your `ix.home` folder needs to be unique to the clinical trials microservice.  For example, `ix.home="/path/to/tomcat/webapps/gsrs_clinical-trials.ix"`
+The default [./src/main/resources/clinical-trials-env.conf](./src/main/resources/clinical-trials-env.conf) file contains key:value pairs that make the service work for embedded Tomcat, which is what most developers and most admins evaluating GSRS will use locally.
+
+In single Tomcat, this file is more sparse since since `application.conf` assumes single Tomcat.
 
 ```
-## Production Single Tomcat Instance
-# Where indexes and other file resources are kept.
-ix.home="/path/to/tomcat/webapps/gsrs_clinical-trials.ix
-# Should be the port the gateway runs on.
-application.host= "http://localhost:8080"
-# Not needed, so comment out.
-# server.port=8080
-``` 
+# Single Tomcat: clinical-trials-env.conf
+
+# Application host url should have no trailing slash
+APPLICATION_HOST="https://my.server:8080"
+APPLICATION_HOST_PORT=8080
+MS_SERVER_PORT_CLINICAL_TRIALS=8080
+MS_LOOPBACK_PORT_CLINICAL_TRIALS=8080
+IX_HOME="/path/to/data/clinical-trials/ginas.ix"
+
+# Share same export and download folder with substances.
+MS_EXPORT_PATH_CLINICAL_TRIALS="/path/to/data/substances/exports"
+MS_ADMIN_PANEL_DOWNLOAD_PATH_CLINICAL_TRIALS="/path/to/data/substances"
 
 
-Configuration can be modifed before or after building or running the deployed microservice.  The main thing to note is that this configuration will be copied during packaging to a location in the war file, and the war file will be unzipped when placed in the Tomcat `webapps` folder.  Since different configurations are needed for development and production, one approach to take is to have an alternative copy of `application.conf` in a secure location on the server. This can then copied to the deployed location on the production server before run time.  Once tomcat unzips your war file, you will find the configuration here:    
+# API URLs have slash
+# Since both services are on same server, we can use localhost here without SSL.
+API_BASE_URL_SUBSTANCES="http://localhost:8080/substances/"
+
+# The default works on single Tomcat
+MS_SERVLET_CONTEXT_PATH_CLINICAL_TRIALS="clinical-trials/"
 
 ```
-path/to/webapps/clinical-trials/WEB-INF/classes/application.conf
-```
 
-Overwrite this file with your production version of your configuration.
+The bottom include, `clinical-trials.conf`, file can be used to override undesirable values that might be set in the `application.conf` or upstream. This file is blank/missing by default.
 
+Core configuration values for the clinical-trials service include:
+
+- `application.host`
+- `server.port=8089` (required for embedded Tomcat only)
+- `server.servlet.context-path` should be `/` for embedded; and `clinical-trials/` for single Tomcat
+
+If running as single Tomcat, the server.port is not used since all service are running under Tomcat's port, usually 8080.
 
 ## Database Configuration
 
-Database configuration also takes place in `application.conf`.  The default configuration for testing assumes H2 in a development context. Two datasources are used.  The **default** datasource points to the SAME datasource used by substances. The clinical trials application will use that datasource to store bookkeeping information such as a record of edits and backups.  The clinical trials microservice also uses its own datasource where clinical trials entities are stored directly.  Because two services (substances and clinical trials) are sharing the default datasource needs to be configured as sharable in both microservices' application.conf files.  AUTO_SERVER=TRUE means that multiple processes can access the same database without having to start the server manually.
+H2 testing databases are configured by default in `application.conf`.  The clinical trials H2 database is written to disk in the folder: `${ix.home}/h2`. As noted above, the configuration must also point the substances datasource. In local development, the default configuration points back to the substances service with a relative database path set in `${ix.home_substances}`.
+
+The easiest way to override the default H2 and set an alternative database such as Mariadb or Postgresql is to set quasi-environment variables in `substances-env-db.conf`.  For example, Mariadb would look something like this:
 
 ```
-# H2 Database Connections
+DB_URL_SUBSTANCES="jdbc:mysql://localhost:3306/substances"
+DB_USERNAME_SUBSTANCES="yourusername"
+DB_PASSWORD_SUBSTANCES="XXXXXX"
+DB_DRIVER_CLASS_NAME_SUBSTANCES="org.mariadb.jdbc.Driver"
+DB_CONNECTION_TIMEOUT_SUBSTANCES=12000
+DB_MAXIMUM_POOL_SIZE_SUBSTANCES=50
+DB_DIALECT_SUBSTANCES="org.hibernate.dialect.MariaDB103Dialect"
+DB_DDL_AUTO_SUBSTANCES=none
 
-spring.datasource.url="jdbc:h2:file:../substances/ginas.ix/h2/sprinxight;AUTO_SERVER=TRUE"
-spring.datasource.driverClassName="org.h2.Driver"
-spring.jpa.database-platform="org.hibernate.dialect.H2Dialect"
-spring.jpa.generate-ddl=false
-# Hibernate ddl auto (none, create, create-drop, validate, update)
-spring.jpa.hibernate.ddl-auto=update
-spring.hibernate.show-sql=false
-# Uncomment when NOT testing
-# spring.jpa.generate-ddl=false
-# spring.jpa.hibernate.ddl-auto=none
-# spring.hibernate.show-sql=false
+DB_URL_SRSCID="jdbc:mysql://localhost:3306/clinical_trials"
+DB_USERNAME_CLINICAL_TRIALS="drugs"
+DB_PASSWORD_CLINICAL_TRIALS="eeR1pood"
+DB_DRIVER_CLASS_NAME_CLINICAL_TRIALS="org.mariadb.jdbc.Driver"
+DB_CONNECTION_TIMEOUT_CLINICAL_TRIALS=12000
+DB_MAXIMUM_POOL_SIZE_CLINICAL_TRIALS=20
+DB_DIALECT_CLINICAL_TRIALS="org.hibernate.dialect.MariaDB103Dialect"
+DB_DDL_AUTO_CLINICAL_TRIALS=none
+```
 
-clinicaltrial.datasource.url="jdbc:h2:file:./ginas.ix/h2/ctdb;AUTO_SERVER=TRUE"
-clinicaltrial.datasource.driverClassName="org.h2.Driver"
-clinicaltrial.datasource.username="sa"
-clinicaltrial.datasource.password=""
-clinicaltrial.jpa.database-platform="org.hibernate.dialect.H2Dialect"
-clinicaltrial.jpa.generate-ddl=false
-# Hibernate ddl auto (none, create, create-drop, validate, update)
-clinicaltrial.jpa.hibernate.ddl-auto=update
-clinicaltrial.hibernate.show-sql=true
-# Uncomment when NOT testing
-# clinicaltrial.jpa.generate-ddl=false
-# clinicaltrial.jpa.hibernate.ddl-auto=none
-# clinicaltrial.hibernate.show-sql=false
+In the above, we set `DB_DDL_AUTO_CLINICAL_TRIALS=none` to avoid SpringBoot creating or changing the database. In production, you would want the "none" value. Change to "update" if you want SpringBoot to create or update the database schema.
 
+
+## Export the datasource schema
+
+It's worth looking at `application.conf` to see the Java properties that correspond to the above HOCON settings.  Note that the `PERSIST_UNIT` for the default (substances) database is "spring", whereas for clinical trials it is "clinicaltrial". That's helpful to know if you want to export the schema to SQL statements in a text file. Putting these lines in your configuration will result in the exported file: `clinical-trials.sql`.
+
+```
+clinicaltrial.jpa.properties.javax.persistence.schema-generation.create-source=metadata
+clinicaltrial.jpa.properties.javax.persistence.schema-generation.scripts.action=create
+clinicaltrial.jpa.properties.javax.persistence.schema-generation.scripts.create-target=clinical-trials.sql
 ```
 
 ## Configure the Gateway
 
-The gateway needs to know how to route traffic to and from the microservice.  As above, there are different configuration patterns depending on how the GSRS is deployed. 
-
-For the local embedded context, these properties should be added to other routes in the gateway `src/main/resources/application.yml`  Here we use port 8089 as we configured this `server.port` in `clincial-trials/src/java/main/resources/application.conf`
-
-```
-zuul:
-  routes:
-
-    ...
-  
-    #############################
-    #START clinical-trials section
-    #############################
-    clinical_trials_us:
-      path: /api/v1/clinicaltrialsus/**
-      url: http://localhost:8089/api/v1/clinicaltrialsus
-      serviceId: clinical_trials_us
-    clinical_trials_us_alt:
-      path: /api/v1/clinicaltrialsus(**)/**
-      url: http://localhost:8089/api/v1/clinicaltrialsus
-      serviceId: clinical_trials_us
-
-    clinical_trials_europe:
-      path: /api/v1/clinicaltrialseurope/**
-      url: http://localhost:8089/api/v1/clinicaltrialseurope
-      serviceId: clinical_trials_europe
-    clinical_trials_europe_alt:
-      path: /api/v1/clinicaltrialseurope(**)/**
-      url: http://localhost:8089/api/v1/clinicaltrialseurope
-      serviceId: clinical_trials_europe
-    #############################
-    #END clinical-trials section
-    #############################
-```
-
-For a single Tomcat instance approach, these properties below should be included with other routes.  In this case we use port 8080 because that is the port Tomcat is running on.    
-
-```
-zuul:
-  routes:
-    ...
-    
-    clinical_trials_us:
-      path: /api/v1/clinicaltrialsus/**
-      url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialsus
-      serviceId: clinical_trials_us
-    clinical_trials_us_alt:
-      path: /api/v1/clinicaltrialsus(**)/**
-      url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialsus
-      serviceId: clinical_trials_us
-    clinical_trials_europe:
-      path: /api/v1/clinicaltrialseurope/**
-      url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialseurope
-      serviceId: clinical_trials_europe
-    clinical_trials_europe_alt:
-      path: /api/v1/clinicaltrialseurope(**)/**
-      url: http://localhost:8080/clinical-trials/api/v1/clinicaltrialseurope
-      serviceId: clinical_trials_europe
-
-```
-
+See the Gateway service README.md file to see how that service forwards requests to the clinical-trials microservice.
 
 ## Indexing
 
 To index clinical trials during development, do the following via curl:
-```
-curl -X POST -H "auth-username: admin" -H "auth-password: admin"  http://localhost:8081/api/v1/clinicaltrialsus/@reindex&wipe=1  
-curl -X POST -H "auth-username: admin" -H "auth-password: admin" http://localhost:8081/api/v1/clinicaltrialseurope/@reindex&wipe=0
-```
-In GSRS, the entities within one microservice are considered an indexing group. Including the query key value parameter, `wipe=1`, will cause all indexes within the microservice to be erased. Therefore only use `wipe=1` on the first entity you reindex. On the following entities use `wipe=0`.
-
-## Cross Indexing 
-
-*Advanced Topic* Starting in GSRS 3.0.1, cross indexing between the substances microservice and the clinical trials microservice is possible.  That is, when browsing substances, there are some clinical trials facets that may be useful.  To include this functionality, one must add some entries to the gsrs substance microservice configuration and to the clinical trials microservice configuration. This feature depends on the `gsrs-fda-substance-extension` found in the `gsrs-spring-module-substances` repository.   
-
-In substances/src/main/resources/application.conf add the following: 
 
 ```
-# You many need this depending on your authentication scheme. 
+curl -X POST -H "auth-username: admin" -H "auth-password: admin"  http://localhost:8081/api/v1/clinicaltrialsus/@reindex&wipeIndex=true
+curl -X POST -H "auth-username: admin" -H "auth-password: admin" http://localhost:8081/api/v1/clinicaltrialseurope/@reindex&wipeIndex=false
+```
+
+In GSRS, the entities within one microservice are considered an indexing group. Including the query key value parameter, `wipeIndex=true`, will cause all indexes within the microservice to be erased. Therefore only use `wipeIndex=true` on the first entity you reindex. On the following entities use `wipeIndex=false`.
+
+## Cross Indexing
+
+*Advanced Topic* Starting in GSRS 3.0.1, cross indexing between the substances microservice and the clinical trials microservice is possible.  That is, when browsing substances, there are some clinical trials facets that may be useful.  To include this functionality, one must add some entries to the GSRS substance microservice configuration and to the clinical trials microservice configuration. This feature depends on the `gsrs-fda-substance-extension` found in the `gsrs-spring-module-substances` repository.
+
+In substances/src/main/resources/application.conf add the following:
+
+```
+# You many need this depending on your authentication scheme.
 # gsrs.microservice.clinicaltrialsus.api.headers= {
 #                        "auth-username" ="YOURAPIQUERYUSER",
 #                        "auth-key"="YOURAPIQUERYUSER's key"
@@ -204,62 +178,84 @@ In substances/src/main/resources/application.conf add the following:
 gsrs.microservice.clinicaltrialsus.api.baseURL="http://localhost:8081/"
 gsrs.microservice.clinicaltrialseurope.api.baseURL="http://localhost:8081/"
 
-gsrs.indexers.list += {
-  "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalUSTrialIndexValueMaker"
+gsrs.indexers.list.SubstanceClinicalUSTrialIndexValueMaker =
+{
+   "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalUSTrialIndexValueMaker",
+   "order" = 5200,
+   "disabled" = false
 }
-gsrs.indexers.list += {
-  "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalEuropeTrialIndexValueMaker"
+gsrs.indexers.list.SubstanceClinicalEuropeTrialIndexValueMaker =
+{
+   "indexer" = "fda.gsrs.substance.indexers.SubstanceClinicalEuropeTrialIndexValueMaker",
+   "order" = 5300,
+   "disabled" = false
 }
-
 ```
 
-In clinical-trials/src/main/resources/application.conf add the following: 
+In clinical-trials/src/main/resources/application.conf add the following:
+
+The cross indexers are added by default to the clinical-trial-core.conf file in the clinical trials starter module.
+
 ```
-gsrs.indexers.list += {
-  "indexer" = "gov.hhs.gsrs.clinicaltrial.us.indexers.ClinicalTrialUSEntityLinkIndexValueMaker"
-}
+gsrs.indexers.list.ClinicalTrialUSEntityLinkIndexValueMaker =
+  {
+    "indexer" = "gov.hhs.gsrs.clinicaltrial.us.indexers.ClinicalTrialUSEntityLinkIndexValueMaker",
+    "class" = "",
+    "order" = 300
+  }
+gsrs.indexers.list.ClinicalTrialEuropeEntityLinkIndexValueMaker =
+  {
+    "indexer" = "gov.hhs.gsrs.clinicaltrial.europe.indexers.ClinicalTrialEuropeEntityLinkIndexValueMaker",
+    "class" = "",
+    "order" = 400
+  }
+```
 
-gsrs.indexers.list += {
-  "indexer" = "gov.hhs.gsrs.clinicaltrial.europe.indexers.ClinicalTrialEuropeEntityLinkIndexValueMaker"
-}
-``` 
+if you wish to disable them, you could add these lines to your `clinical-trials.conf` (bottom include)
 
-For the above API resources to work, you may need to run the `installExtraJars.sh` file found in the root folder of the `gsrs-spring-module-substances` repository. This will install several jar files including API configurations for specific microservices.  This is not necessary if you have installed  the `gsrs-spring-module-clinical-trials` repository.  
+```
+gsrs.indexers.list.ClinicalTrialUSEntityLinkIndexValueMaker.disabled = true
+gsrs.indexers.list.ClinicalTrialEuropeEntityLinkIndexValueMaker.disabled  = true
+```
 
+For the above API resources to work, you may need to run the `installExtraJars.sh` file found in the root folder of the `gsrs-spring-module-substances` repository. This depends on how you installed the GSRS.
 
 ## Exports
 
-*Advanced Topic* Starting in GSRS 3.0.1, US Clinical Trial exports are  available when browsing substances or viewing an individual substance detail. To include this functionality, one must add some entries to the gsrs substance microservice configuration and to the clinical trials microservice configuration. This feature depends on the `gsrs-fda-substance-extension` found in the `gsrs-spring-module-substances` repository.   
+*Advanced Topic* Starting in GSRS 3.0.1, US Clinical Trial exports are  available when browsing substances or viewing an individual substance detail. To include this functionality, one must add some entries to the gsrs substance microservice configuration AND to the clinical trials microservice configuration.
 
-The following item is already included in `gsrs-main-deployment` substances/src/main/resources/fda-extension.conf. Therefore, this setting should be active when running an Embedded Tomcat instance. In other cases, you may need to add it to your substances application.conf file.
-     
-```
-ix.ginas.export.factories.substances = ${ix.ginas.export.factories.substances}[
-    # add this to bottom of list in addition to those there
-   "fda.gsrs.substance.exporters.ExcelSubstanceRelatedClinicalTrialsUSExporterFactory",
-   "fda.gsrs.substance.exporters.ExcelSubstanceRelatedClinicalTrialsEuropeExporterFactory"
-]
+In the substances service's `substances-env.conf`, set these key:value pairs to false. Also also examine the substancess service's `application.conf` file to check for special related notes.
 
 ```
-
-
-In clinical-trials/src/main/resources/application.conf add the following: 
-
+MS_DISABLE_EXCEL_SUBSTANCE_RELATED_CLINICAL_TRIALS_US_EXPORTER_FACTORY=false
+MS_DISABLE_EXCEL_SUBSTANCE_RELATED_CLINICAL_TRIALS_EUROPE_EXPORTER_FACTORY=false
 ```
 
-# This is needed for RestTemplate/Export things to work well
-gsrs.loopback.port=${server.port}
+These configurations are set by default in `clinical-trial-core.conf` in the Clinical trials starter module.
 
-# Should be same folder as substances' exports
-ix.ginas.export.path="../substances/exports"
+```
+ix.ginas.export.exporterfactories.clinicaltrialsus.list.ClinicalTrialUSExporterFactory =
+  {
+    "exporterFactoryClass" = "gov.hhs.gsrs.clinicaltrial.us.exporters.ClinicalTrialUSExporterFactory",
+    "order" =  100,
+    "parameters":{
+    }
+  }
 
+ix.ginas.export.exporterfactories.clinicaltrialseurope.list.ClinicalTrialEuropeExporterFactory =
+  {
+    "exporterFactoryClass" = "gov.hhs.gsrs.clinicaltrial.europe.exporters.ClinicalTrialEuropeExporterFactory",
+    "order" =  100,
+    "parameters":{
+    }
+  }
+```
 
-ix.ginas.export.factories.clinicaltrialsus = [
-	"gov.hhs.gsrs.clinicaltrial.us.exporters.ClinicalTrialUSExporterFactory"
-]
-ix.ginas.export.factories.clinicaltrialseurope=[
-	"gov.hhs.gsrs.clinicaltrial.europe.exporters.ClinicalTrialEuropeExporterFactory"
-]
+Other variables to check if things aren't working properly include these:
+
+```
+- gsrs.loopback.port
+- ix.ginas.export.path
 ```
 
 ## Controlled Vocabulary
@@ -267,7 +263,7 @@ ix.ginas.export.factories.clinicaltrialseurope=[
 In GSRS 3.1, a "substance roles" field was added to the Clinical Trials US model; and a select box was added to the front end. The select options are populated with controlled vocabulary for flexibility. You can add controlled vocabulary into a database via the `vocabuarlies` end point, as shown below. Currently, `vocabularies` is part of the substances service.
 
 ```
-curl -k -X POST -H 'Content-Type: application/json' -H 'auth-username: admin' -H 'auth-password: admin' -i http://localhost:8081/api/v1/vocabularies --data '
+curl -k -X POST -H 'Content-Type: application/json' -H 'auth-username: admin' -H 'auth-password: XXXXXX' -i http://localhost:8081/api/v1/vocabularies --data '
 {"id":null,"domain":"CTUS_SUBSTANCE_ROLES","vocabularyTermType":"ix.ginas.models.v1.ControlledVocabulary","editable":true,"filterable":false,"terms":[{"id":null,"value":"ADJUVANT","display":"ADJUVANT","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"BIOMARKER","display":"BIOMARKER","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"COMPARATOR","display":"COMPARATOR","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"CONTROL REGIMEN","display":"CONTROL REGIMEN","filters":[],"hidden":false,"selected":false},{"id":null,"value":"ENHANCER","display":"ENHANCER","filters":[],"hidden":false,"selected":false},{"id":null,"value":"PLACEBO","display":"PLACEBO","filters":[],"hidden":false,"selected":false}, {"id":null,"value":"TREATMENT REGIMEN","display":"TREATMENT REGIMEN","filters":[],"hidden":false,"selected":false}]}
 '
-```   
+```
