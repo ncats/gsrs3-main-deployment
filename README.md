@@ -51,6 +51,39 @@ If you're evaluating GSRS or want to take the simplest path toward installation 
 
 Developers who wish to peruse the code or make modifications to classes between releases can clone sources from the NCATS Github repository.  If you do this, use `mvn install` on starter modules that you clone from the NCATS Github site.
 
+If you are getting code from Git repositories, you may find it necessaries to edit your `~/.m2/settings.xml` before building jars or wars. Make sure that each id:url pair has a unique id.
+
+```
+<profiles>
+  <profile>
+    <repositories>
+      <repository>
+        <id>central-repo1-maven2</id>
+        <url>https://repo1.maven.org/maven2</url>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </repository>
+      <repository>
+        <id>central</id>
+        <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        <releases>
+          <enabled>false</enabled>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+        </snapshots>
+      </repository>
+      <repository>
+        <id>spring-milestones</id>
+        <name>Spring Milestones</name>
+        <url>https://repo.spring.io/milestone</url>
+      </repository>
+    </repositories>
+  </profile>
+</profiles>
+```
+
 ### Use `.mvnw` or `mvn`?
 
 If you have installed a fully functional maven program. You can use the `mvn` command.  Otherwise, each service comes with a maven wrapper in the service's folder. This allows you to issue maven commands without having to install the maven program. Consider references to either command in this text as equivalents.
