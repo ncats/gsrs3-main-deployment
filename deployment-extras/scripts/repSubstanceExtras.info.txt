@@ -1,0 +1,110 @@
+
+
+repSubstanceExtras.gsrs -- is meant to complement rep18.gsrs to provide appropriate substances that link to resources used to test other services. 
+
+
+rep18.gsrs -- already has substances
+
+1cf410f9-3eeb-41ed-ab69-eeb5076901e5	nucleicAcid	ALFERMINOGENE TADENOVEC DNA SEQUENCE
+18de6ee4-3005-4785-9d11-dd8ccc589eb4	structurallyDiverse	MURINE RESPIROVIRUS (Z)
+bd953285-a7a4-2965-cc7d-73bdceb7abd0	concept	CAVROTOLIMOD SODIUM
+b67893b0-68f0-4924-9ebb-3ebb932db965	specifiedSubstanceG1	PLASMALYTE A
+c3685a23-87a4-47de-8bb3-ab9a9cfe9606	mixture	THIOFLAVIN S
+159e7207-856c-4784-a95f-71dca27fbb68	polymer	HYPROMELLOSE 2906 (400 MPA.S)
+c1e0b643-92e9-41a8-9441-db5401b4242c	concept	ASPARAGINASE ERWINIA CHRYSANTHEMI (RECOMBINANT)
+ce75ac5a-d70e-4494-a88a-0b7883f8d87b	chemical
+ac776f92-b90f-48a0-a54e-7461a60c84b3	chemical	RTI-113
+0d1371fc-904f-45e9-b073-ba55dacc4f30	chemical	THIOFLAVIN S1
+e92bc4ad-250a-4eef-8cd7-0b0b1e3b6cf0	chemical	THIOFLAVIN S2
+044e6d9c-37c0-42ac-848e-2e41937216b1	protein	ACLERASTIDE
+302cedcc-895f-421c-acf4-1348bbdb31f4	chemical	MAGNESIUM CHLORIDE
+79dbcc59-e887-40d1-a0e3-074379b755e4	chemical	SODIUM ACETATE
+deb33005-e87e-4e7f-9704-d5b4c80d3023	protein	ASPARAGINASE ERWINIA CHRYSANTHEMI
+5b611b0d-b798-45ed-ba02-6f0a2f85986b	chemical	POTASSIUM CHLORIDE
+306d24b9-a6b8-4091-8024-02f9ec24b705	chemical	SODIUM CHLORIDE
+90e9191d-1a81-4a53-b7ee-560bf9e68109	chemical	SODIUM GLUCONATE
+
+
+repSubstanceExtras.gsrs -- this supplements rep18.gsrs so that other services can be tested efficiently. 
+
+
+1) 
+
+This set has substances matching the clinical-trials service resource repSomeClinicalTrialsUS.gsrs
+
+(Not added, even though the trials sample has these substances. They are already included in rep18.gsrs)
+
+044e6d9c-37c0-42ac-848e-2e41937216b1	protein	ACLERASTIDE
+302cedcc-895f-421c-acf4-1348bbdb31f4	chemical	MAGNESIUM CHLORIDE
+306d24b9-a6b8-4091-8024-02f9ec24b705	chemical	Sodium Chloride
+5b611b0d-b798-45ed-ba02-6f0a2f85986b	chemical	Potassium chloride
+79dbcc59-e887-40d1-a0e3-074379b755e4	chemical	SODIUM ACETATE
+90e9191d-1a81-4a53-b7ee-560bf9e68109	chemical	Sodium gluconate
+b67893b0-68f0-4924-9ebb-3ebb932db965	specifiedSubstanceG1	PLASMALYTE A
+c1e0b643-92e9-41a8-9441-db5401b4242c	concept	ASPARAGINASE ERWINIA CHRYSANTHEMI (RECOMBINANT)-RYWN
+deb33005-e87e-4e7f-9704-d5b4c80d3023	protein	ASPARAGINASE ERWINIA CHRYSANTHEMI
+
+(These were added to repSomeSubstancesInClinicalTrialsUS.gsrs because they are not in rep18.gsrs)	
+06f3b671-bbc9-4679-92df-7c9774e19464	chemical	Dexrazoxane
+09370865-4f05-4e9c-ae74-7d1f8c51efaa	chemical	MITOXANTRONE
+0b566e6b-659e-4d54-ad12-4c7ab5f1d77f	chemical	Potassium nitrate
+178792f3-bece-4478-b23a-d8d72606785e	chemical	Azacitidine
+1f379bda-9108-429e-a90b-e4f3bc6f7864	chemical	ETOPOSIDE
+2b258dc9-0ac3-44df-bc57-7712751e5cbe	chemical	CYTARABINE
+4f4e8925-7e47-404b-ae7d-7049c0ba5607	protein	FILGRASTIM
+596b4004-516e-4ac5-bd62-3236ed42cf20	chemical	Decitabine
+70a4ecce-76dc-4612-ac89-8c062faa64e4	protein	GEMTUZUMAB OZOGAMICIN
+950dc254-ca83-4fb2-b67c-bdefda7c79c8	chemical	CITRULLINE
+ad55279e-ddd5-42ad-8d99-0e655ab9d948	chemical	FLUDARABINE
+b077c8fe-78cf-4350-882f-af30dab0d37e	chemical	Empagliflozin
+b41b2c3b-b91f-473a-a09e-abeac31d69bf	chemical	SORAFENIB
+d0c92950-0bc8-481d-b8f5-ebc6a43522f8	chemical	IDARUBICIN
+d65c6187-4edf-4a52-9a1e-924357c76634	protein	ANAKINRA
+d7211797-c63e-4fb3-811f-c57b6a5e1146	chemical	DAUNORUBICIN
+
+
+2) Substances added to match the products service resource repSomeSubstancesInProducts.gsrs
+
+8250e29d-2992-4389-996f-2cfcbecfed8f	chemical	SODIUM LAURYL SULFATE
+c3207cc5-3231-44cd-a3f2-392ad295a57b	chemical	MANNITOL
+1730a448-7562-4c3a-bad7-c25333ac2a95	chemical	LACTOSE MONOHYDRATE
+f9c12f2f-ad99-4f1c-b96b-ac7ec1dc08df	chemical	CAFFEINE
+a05ec20c-8fe2-4e02-ba7f-df69e5e30248	chemical	ASPIRIN
+63e3a2fd-1881-44bb-8d8d-469f6400ec4f	chemical	RIBAVIRIN
+e7dcf4ed-d28a-4250-bd3e-dd3d2bfc2490	chemical	TITANIUM DIOXIDE
+11632cad-be2e-40d8-a3b9-7a88636e4971	chemical	FERRIC OXIDE YELLOW
+6928f88c-e959-483e-b845-74209d0eafb7	chemical	ABACAVIR SULFATE
+782a70f7-bf7f-473f-b7bb-a170a693ad53	chemical	Water
+53ec5eda-a69d-4eb6-996a-cc65be707c12	chemical	Magnesium stearate
+6abc4570-d918-4efa-9e89-4de2734d98e1	polymer	POLYSORBATE 80
+a2cc7bb4-0675-466d-841d-3f6d48d629bf	chemical	Silicon dioxide
+afae0b1a-7fa7-42cf-8d91-9bc40afcc517	chemical	Stearic acid
+6e0f1504-9686-489e-ba48-13d0a3c03d81	chemical	TALC
+57eb778f-dae9-427e-a1d9-e2396ba5961e	mixture	FD&C BLUE NO. 2
+ee372a78-e288-4a1c-b938-37710d07b8f1	chemical	FERROSOFERRIC OXIDE
+5d795444-a78c-4259-9a53-5f4b0f8e552c	mixture	Medium-Chain Triglycerides
+37414085-32f5-44e4-a489-99ea7aebfd37	mixture	SODIUM STARCH GLYCOLATE TYPE A POTATO
+87eaa5da-b278-454c-bbcd-02eee1556213	polymer	POVIDONE K30
+5dfef0c7-defa-464a-b480-abc3f632d685	mixture	POLYETHYLENE GLYCOL, UNSPECIFIED
+c0f33ca2-b01a-4448-89ae-130a91f52cf1	chemical	Isopropyl Alcohol
+6b18f94f-5870-449e-9575-f49d8ec95ae6	concept	STARCH, PREGELATINIZED CORN
+49c070a0-3b9f-4617-86ad-d5551a84fbab	protein	ADALIMUMAB
+75aef525-0768-4d1f-9548-6589da8cfdcb	chemical	Lamivudine
+53369896-40b3-484c-adfe-6f86783cff9d	polymer	HYPROMELLOSE, UNSPECIFIED
+c046a518-7419-42ae-b54a-4f24fe31241c	polymer	POLYDEXTROSE
+7d024d96-e7c3-45f6-a777-f67f31c80d84	polymer	MALTODEXTRIN
+562dbaa7-ee6f-4f58-b64e-41217678aee7	mixture	GELATIN, UNSPECIFIED
+7e9f4ffa-23a4-4575-948a-a58c8a97b190	polymer	MICROCRYSTALLINE CELLULOSE
+479f1396-4958-4f59-9d41-0bd0468c8da7	chemical	ZIDOVUDINE
+405063af-a864-4615-a28d-9aca37b0ec74	chemical	Acetaminophen
+c7d96f7b-c844-48b0-86a4-3c460347c29e	chemical	ABACAVIR
+
+
+
+
+ 
+
+
+
+
+
