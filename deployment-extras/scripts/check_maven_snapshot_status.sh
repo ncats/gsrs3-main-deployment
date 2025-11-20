@@ -7,7 +7,7 @@ gsrs-module-clinical-trials
 gsrs-module-impurities
 gsrs-module-products
 gsrs-module-invitro-pharmacology
-gsrs-module-ssg
+gsrs-module-ssg4
 " 
 version=3.1.2-SNAPSHOT
 echo "Modules:" 
