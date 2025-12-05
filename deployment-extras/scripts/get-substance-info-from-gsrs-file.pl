@@ -57,8 +57,8 @@ sub do_list_all() {
 
 sub dispatch {
     if ($has_stdin) {
-        do_list_all();
-    } else {
         do_list_piped();
+    } else {
+        do_list_all();
     }
 }
