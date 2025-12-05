@@ -37,7 +37,7 @@ sub get_display_name {
     }
 }
 
-sub do_list_piped() { 
+sub do_list_piped { 
     while (<$unzipped_gsrsfile>) {
         chomp;
         my $ps = decode_json($_);
@@ -47,7 +47,7 @@ sub do_list_piped() {
     }
 }
 
-sub do_list_all() { 
+sub do_list_all { 
     while (<$unzipped_gsrsfile>) {
         chomp;
         my $ps = decode_json($_);
