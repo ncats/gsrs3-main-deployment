@@ -1,6 +1,7 @@
 
 # GSRS 3 Main Deployment
 
+ **---- DRAFT prelease 3.2.0 DRAFT ---**
 
 GSRS 3.x is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. GSRS requires the use of an RDBMS database for data storage.  The supported database flavors are: H2, PostGreSQL, MariaDB and MySQL.
 

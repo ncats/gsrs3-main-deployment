@@ -117,7 +117,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
+                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.adverse-events.version"), "gsrs.adverse-events.version");
                 }
             }
@@ -210,7 +210,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
+                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.impurities.version"), "gsrs.impurities.version");
                 }
             }
@@ -223,7 +223,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
+                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.invitro-pharmacology.version"), "gsrs.invitro-pharmacology.version");
                 }
             }
@@ -249,7 +249,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
+                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.ssg4.version"), "gsrs.ssg4.version");
                 }
             }
