@@ -1,12 +1,9 @@
 package gsrs.ncats.deploymentextras;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gsrs.startertests.pomutilities.PomUtilities;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.Profile;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,19 +35,12 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
     String substancesMsVersion;
     String otherMsVersion;
     String otherModuleVersion;
-    String frontendConfigVersion;
 
     String rootDir;
     String propertiesFile;
     String installExtraJarsScriptText;
     boolean doPomCheck = false;
     List<String> skipServices = new ArrayList<String>();
-
-    class ArtifactItem {
-        String groupId;
-        String artifactId;
-        Boolean Checked = false;
-    }
 
     @BeforeEach
     public void setup() {
@@ -76,7 +66,6 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
         substancesMsVersion = properties.getProperty("gsrsci.ged.pomversiontest.substancesMsVersion");
         otherMsVersion = properties.getProperty("gsrsci.ged.pomversiontest.otherMsVersion");
         otherModuleVersion = properties.getProperty("gsrsci.ged.pomversiontest.otherModuleVersion");
-//            frontendConfigVersion = properties.getProperty("gsrsci.ged.pomversiontest.frontendConfigVersion");
 
         String s = properties.getProperty("gsrsci.ged.pomversiontest.skip");
         if (s != null) {
@@ -95,13 +84,10 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
         assertNotNull(substancesMsVersion);
         assertNotNull(otherMsVersion);
         assertNotNull(otherModuleVersion);
-//        assertNotNull(frontendConfigVersion);
-
     }
 
     @Test
     public void testPomCheck() {
-
 
         if (!doPomCheck && !turnOffPomParameterCheck) {
             System.out.println("Effectively skipping testPomCheck because -DdoPomCheck is not true.");
@@ -117,13 +103,11 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.adverse-events.version"), "gsrs.adverse-events.version");
                 }
             }
 
             {
-
                 String ms = "applications";
                 if (!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
@@ -161,34 +145,12 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
             }
 
             {
-                String ms = "discovery";
-                // if(!skipServices.contains(ms)) {
-                if (false) {
-                    Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
-                    Properties properties = msModel.getProperties();
-                    System.out.println("> " + ms);
-                    assertEquals(otherMsVersion, msModel.getVersion(), "version");
-                }
-            }
-
-
-            {
                 String ms = "frontend";
                 if (!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
-
-                    /*
-                    String configJsonPath = rootDir + "/frontend/src/main/resources/static/assets/data/config.json";
-                    System.out.println(">> " + configJsonPath);
-                    String json = PomUtilities.readTextFile(configJsonPath, StandardCharsets.UTF_8);
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    JsonNode jsonNode = objectMapper.readTree(json);
-                    String configVersion = jsonNode.get("version").asText();
-                    assertEquals(frontendConfigVersion, configVersion, "Frontend config version");
-                    */
                 }
             }
 
@@ -210,7 +172,6 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.impurities.version"), "gsrs.impurities.version");
                 }
             }
@@ -223,7 +184,6 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.invitro-pharmacology.version"), "gsrs.invitro-pharmacology.version");
                 }
             }
@@ -249,7 +209,6 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     System.out.println("> " + ms);
                     assertEquals(otherMsVersion, msModel.getVersion(), "version");
                     assertEquals(starterModuleVersion, properties.getProperty("gsrs.starter.version"), "gsrs.starter.version");
-                    // assertEquals(substanceModuleVersion, properties.getProperty("gsrs.substance.version"), "gsrs.substance.version");
                     assertEquals(otherModuleVersion, properties.getProperty("gsrs.ssg4.version"), "gsrs.ssg4.version");
                 }
             }
@@ -271,7 +230,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
                     for (Dependency dependency : dependencies) {
                         if (dependency.getGroupId().equals("gov.fda.gsrs") && dependency.getArtifactId().equals("Featureize-Nitrosamines")) {
                             {
-                                System.out.println(">> " + dependency.getGroupId() + "" + dependency.getArtifactId());
+                                System.out.println(">> " + dependency.getGroupId() + " " + dependency.getArtifactId());
                                 checkDependencyExtraJarExistsAndFindPathInScript(ms, dependency);
                                 featureizeNitrosaminesChecked = true;
                             }
@@ -288,18 +247,12 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
                     System.out.println(">> " + "products-api");
                     checkFileAsExtraJarExistsAndFindPathInScript("substances", "products-api", otherModuleVersion);
-
                 }
             }
-
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
-
 
     public void checkFileAsExtraJarExistsAndFindPathInScript(String ms, String artifactId, String version) {
         String jarPath = "extraJars/" + artifactId + "-" + version + ".jar";
@@ -307,7 +260,6 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
         assertTrue(file.exists());
         assertTrue(installExtraJarsScriptText.contains(jarPath));
     }
-
 
     public void checkDependencyExtraJarExistsAndFindPathInScript(String ms, Dependency dependency) {
         String jarPath = "extraJars/" + PomUtilities.makeJarFilename(dependency);
