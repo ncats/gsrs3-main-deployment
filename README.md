@@ -5,7 +5,9 @@
 
 ## SECTION -1: Prerlease 3.2.0 Notes
 
-- There is a big change involving user roles.  When you deploy in embedded Tomcat a [roles_config.json](./substances/roles_config.json) file will be loaded in each microservice that has entities (substances, products, etc.). The gateway and frontend do not have entities. By default in embedded Tomcat, each service will read this file found at the root of the substances service. When deploying on a server in single Tomcat, however, this won't work. See the the substances applications.conf for an explanation. There is one small difference in how users roles are stored in the database table `ix_core_userprof`, `ROLES_JSON` field. The 3.2.0 format is: `[{"role": "Admin" }, {"role": "Query" }, ...]`. The 3.1.2 format is: `[ "Admin", "Query", ...]`. The 3.2.0 code can read and translate the old format. However, if you backport a 3.2.0 database to a 3.1.2 instance, you will need to adust the ROLES_JSON field content to reflect the old format. 
+- The Frontend Angular UI now uses Angular version 20.  
+
+- There is a big change involving user roles in the backend.  When you deploy in embedded Tomcat a [roles_config.json](./substances/roles_config.json) file will be loaded by each microservice that has entities (substances, products, etc.). The gateway and frontend do not have entities. By default in embedded Tomcat, each service will read this file found at the root of the substances service. When deploying on a server in single Tomcat, however, the default behavior won't work. See the [substances application.conf](./substances/src/main/resources/application.conf) file for an explanation. There is one small difference in how users roles are stored in the database table `ix_core_userprof`, `ROLES_JSON` field. The 3.2.0 format is: `[{"role": "Admin" }, {"role": "Query" }, ...]`. The 3.1.2 format is: `[ "Admin", "Query", ...]`. The 3.2.0 code can read and translate the old format. However, if you backport a 3.2.0 database to a 3.1.2 instance, you will need to adust the ROLES_JSON field content to reflect the old format.
 
 ## SECTION O: Basics
 
