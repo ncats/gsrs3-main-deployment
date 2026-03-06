@@ -3,6 +3,24 @@
 
  **---- DRAFT prelease 3.2.0 DRAFT ---**
 
+## SECTION -1: Prerlease Notes
+
+- There is a big change involving user roles.  When you deploy in embedded Tomcat a roles_config.json file will be loaded in each microservice that has entities (substances, products, etc.). The gateway and frontend do not have entities. By default in embedded Tomcat, each service will read this file found at the root of ./substances/roles_config.json.  When deploying on a server in single Tomcat, however, this won't work. See the the substances applications.conf for an explanation.  There is one small difference in how users roles are stored in the database table `ix_core_userprof`, `ROLES_JSON` field.
+
+```
+# 3.2.0 format
+
+[{"role": "Admin" }, {"role": "Query" }, ...]`
+
+# 3.1.2 format:
+[ "Admin", "Query", ...]`
+```
+
+The 3.2.0 code can read and translate the old format. However, if you backport a 3.2.0 database to a 3.1.2 instance, you will need to adust the ROLES_JSON field content to reflect the old format. 
+
+
+## SECTION O: Basics
+
 GSRS 3.x is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. GSRS requires the use of an RDBMS database for data storage.  The supported database flavors are: H2, PostGreSQL, MariaDB and MySQL.
 
 GSRS 3.x works with Java 8, 11, 17; versions outside of these may result in build errors. Set `JAVA_HOME` to point to one of Java 8, 11, or 17 and verify with the terminal command: `mvn --show-version`. Note, however, that the `pom.xml` files still specify Java 8 or 11, and as of 3.1.2, the GSRS team writes code to conform with Java 8 or 11.
