@@ -5,7 +5,7 @@
 
 ## SECTION -1: Prerlease Notes
 
-- There is a big change involving user roles.  When you deploy in embedded Tomcat a (roles_config.json)[./ncats/gsrs3-main-deployment/blob/gsrs_3.2.0_prerelease/substances/roles_config.json] file will be loaded in each microservice that has entities (substances, products, etc.). The gateway and frontend do not have entities. By default in embedded Tomcat, each service will read this file found at the root of ./substances/roles_config.json.  When deploying on a server in single Tomcat, however, this won't work. See the the substances applications.conf for an explanation.  There is one small difference in how users roles are stored in the database table `ix_core_userprof`, `ROLES_JSON` field.
+- There is a big change involving user roles.  When you deploy in embedded Tomcat a [roles_config.json](./ncats/gsrs3-main-deployment/blob/gsrs_3.2.0_prerelease/substances/roles_config.json) file will be loaded in each microservice that has entities (substances, products, etc.). The gateway and frontend do not have entities. By default in embedded Tomcat, each service will read this file found at the root of ./substances/roles_config.json.  When deploying on a server in single Tomcat, however, this won't work. See the the substances applications.conf for an explanation.  There is one small difference in how users roles are stored in the database table `ix_core_userprof`, `ROLES_JSON` field.
 
 ```
 # 3.2.0 format
