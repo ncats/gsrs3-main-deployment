@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>gsrs-module-products-spring-boot-starter</module>
+        <module>gsrs-module-products-spring-boot-autoconfigure</module>
+        <module>products-api</module>
+        <module>gsrs-module-products-tests</module>
+    </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.18</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>gov.nih.ncats</groupId>
+    <artifactId>gsrs-module-products</artifactId>
+    <version>3.2.0</version>
+    <name>GSRS Product Module</name>
+    <description>GSRS Product Module for Spring Boot</description>
+
+    <scm>
+        <url>https://github.com/ncats/gsrs-spring-module-drug-products.git</url>
+    </scm>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <lucene.version>4.10.0</lucene.version>
+        <gsrs.version>3.2.0</gsrs.version>
+        <gsrs.product.version>3.2.0</gsrs.product.version>
+        <log4j2.version>2.17.1</log4j2.version>
+        <!-- TO BE REMOVE -->
+        <gsrs.substance.version>3.2.0</gsrs.substance.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>central-repo1-maven2</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>central</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>central</id>
+            <url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <profiles>
+        <profile>
+            <id>release-signing</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok-maven-plugin</artifactId>
+                        <version>1.18.20.0</version>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>delombok</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+                                    <outputDirectory>${project.build.directory}/generated-sources/delombok</outputDirectory>
+                                    <addOutputDirectory>false</addOutputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.8.0</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <publishingServerId>ossrh</publishingServerId>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <sourcepath>${project.build.directory}/generated-sources/delombok</sourcepath>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <additionalOptions>-Xdoclint:none</additionalOptions>
+                            <additionalJOption>-Xdoclint:none</additionalJOption>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.2.8</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>${gpg.keyname}</keyname>
+                                    <passphraseServerId>${gpg.keyname}</passphraseServerId>
+                                    <gpgArguments>
+                                        <arg>--batch</arg>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                        <arg>--no-tty</arg>
+                                    </gpgArguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>
+

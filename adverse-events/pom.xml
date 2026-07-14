@@ -10,7 +10,7 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>adverse-events</artifactId>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.2.0</version>
     <name>adverse-events</name>
     <description>GSRS Adverse Events Microservices Spring Boot</description>
     <properties>
@@ -18,8 +18,8 @@
         <with.packaging>war</with.packaging>
         <with.fork>true</with.fork>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <gsrs.adverse-events.version>3.2.0-SNAPSHOT</gsrs.adverse-events.version>
-        <gsrs.starter.version>3.2.0-SNAPSHOT</gsrs.starter.version>
+        <gsrs.adverse-events.version>3.2.0</gsrs.adverse-events.version>
+        <gsrs.starter.version>3.2.0</gsrs.starter.version>
         <log4j2.version>2.17.2</log4j2.version>
         <mariadb.version>1.5.7</mariadb.version>
         <mysql.version>8.0.26</mysql.version>
@@ -142,7 +142,7 @@
         <dependency>
             <groupId>gov.fda.gsrs</groupId>
             <artifactId>Featureize-Nitrosamines</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.4</version>
         </dependency>
 
         <dependency>
