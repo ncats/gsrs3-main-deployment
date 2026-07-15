@@ -27,6 +27,15 @@ repSomeExtraSubstances.gsrs	n/a	c9ae65a1-a34e-4457-a0c7-546781cb80aa	Nucleic aci
 repSomeExtraSubstances.gsrs	n/a	8d4a4847-5a62-4c91-8614-9038428429da	n/a	ETHYL MORINGATE	
 repSomeExtraSubstances.gsrs	n/a	af0f67a8-3dbb-48e3-9b51-09446aca1461	n/a	SILICIFIED MICROCRYSTALLINE CELLULOSE (125 .MICRO.M, HIGH-DENSITY)	
 repSomeExtraSubstances.gsrs	n/a	bea94a27-7fc2-443d-acde-0d647279df98	chemical	BETA CAROTENE	
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	00703a89-df04-4ad4-8d29-ffc8ac02b881	concept	MUSA X PARADISIACA FLOWER WATER
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	1958d266-df5c-4da5-b792-ca84564aa686	structurallyDiverse	Musa × paradisiaca whole
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	73cad4cc-ece2-4a49-8ca3-03f54ff0ba7f	concept	MUSA SAPIENTUM (BANANA) PEEL EXTRACT
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	7a451d23-0a05-4742-8a84-c4aff9f73b08	structurallyDiverse	BANANA
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	94647c92-3ca1-4189-83b1-3de4eb492200	structurallyDiverse	BANANA PEEL
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	9c813351-1f49-4d27-ab64-180809c863a7	concept	MUSA SAPIENTUM (BANANA) FLOWER EXTRACT
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	abcd4c2d-1aa4-447f-92f4-58c8594082d1	structurallyDiverse	BANANA LEAF
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	b84b26a8-7cc6-4ac0-8949-7af26320e394	structurallyDiverse	MUSA X PARADISIACA FLOWER
+repSomeSubstancesStructurallyDiverse.gsrs	n/a	dc12f13d-38dc-483d-a426-7f7f003b50e8	structurallyDiverse	MUSA X PARADISIACA FLOWER OIL
 repSomeSubstancesInAdverseEvents.gsrs	repSomeAdverseEvents.sql.txt	15b17649-a8ba-4984-893c-1e011b2b8424	chemical	MOXIDECTIN	
 repSomeSubstancesInAdverseEvents.gsrs	repSomeAdverseEvents.sql.txt	275c30be-1f17-480d-83fa-ade961a73973	chemical	NITENPYRAM	
 repSomeSubstancesInAdverseEvents.gsrs	repSomeAdverseEvents.sql.txt	2b022b36-8788-49b5-afe5-ddef395a7898	chemical	CEFOPERAZONE	

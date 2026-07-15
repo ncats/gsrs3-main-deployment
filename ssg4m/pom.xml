@@ -10,7 +10,7 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>ssg4m</artifactId>
-    <version>3.2.0-SNAPSHOT</version>
+    <version>3.2.0</version>
 
     <name>ssg4m</name>
     <description>GSRS Specified Substance Group 4 Manufacturing Microservices Spring Boot</description>
@@ -19,9 +19,9 @@
         <with.packaging>war</with.packaging>
         <with.fork>true</with.fork>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <gsrs.ssg4.version>3.2.0-SNAPSHOT</gsrs.ssg4.version>
-        <gsrs.starter.version>3.2.0-SNAPSHOT</gsrs.starter.version>
-        <gsrs-services-common.version>1.0-SNAPSHOT</gsrs-services-common.version>
+        <gsrs.ssg4.version>3.2.0</gsrs.ssg4.version>
+        <gsrs.starter.version>3.2.0</gsrs.starter.version>
+        <gsrs-services-common.version>1.0</gsrs-services-common.version>
         <mariadb.version>1.5.7</mariadb.version>
         <mysql.version>8.0.26</mysql.version>
         <oracle-database.version>19.8.0.0</oracle-database.version>

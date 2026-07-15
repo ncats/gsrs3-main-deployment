@@ -6,8 +6,6 @@ import org.apache.maven.model.Model;
 import org.apache.maven.model.Profile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
@@ -44,7 +43,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
     @BeforeEach
     public void setup() {
-        doPomCheck = Boolean.parseBoolean(System.getProperty("doPomCheck"));
+        doPomCheck=Boolean.parseBoolean(System.getProperty("doPomCheck"));
         String scriptFile = "installExtraJars.sh";
         propertiesFile = "pom-version.properties";
         rootDir = "..";
@@ -79,11 +78,13 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
         assertNotNull(starterModuleVersion);
         assertNotNull(substanceModuleVersion);
         assertNotNull(substancesMsVersion);
         assertNotNull(otherMsVersion);
         assertNotNull(otherModuleVersion);
+
     }
 
     @Test
@@ -97,7 +98,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
         try {
             {
                 String ms = "adverse-events";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -109,7 +110,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "applications";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -122,7 +123,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "clinical-trials";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -135,7 +136,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "deployment-extras";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -146,7 +147,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "frontend";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -156,7 +157,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "gateway";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -166,7 +167,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "impurities";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -178,7 +179,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "invitro-pharmacology";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -190,7 +191,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "products";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
@@ -203,7 +204,7 @@ public class GsrsCiGsrsExampleDeploymentPomsVersionTest {
 
             {
                 String ms = "ssg4m";
-                if (!skipServices.contains(ms)) {
+                if(!skipServices.contains(ms)) {
                     Model msModel = PomUtilities.readPomToModel(rootDir + "/" + ms + "/pom.xml");
                     Properties properties = msModel.getProperties();
                     System.out.println("> " + ms);
