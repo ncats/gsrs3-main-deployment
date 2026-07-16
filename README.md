@@ -1,6 +1,12 @@
 
 # GSRS 3 Main Deployment
 
+## IMPORTANT NOTES: 3.2.0 Release
+
+- The Frontend Angular UI now uses Angular version 20.  
+- There are significant changes to user roles. See [SECTION 5](#section-5-user-roles-in-gsrs) below.
+
+## SECTION O: Basics
 
 GSRS 3.x is based on a Spring Boot microservice infrastructure and is highly flexible and configurable. Both the core substance modules as well as the modules for additional entities (e.g. products, applications, impurities, clinical trials, adverse events, etc) can be deployed in a variety of flexible configurations to suit the needs of the user and use-case. GSRS requires the use of an RDBMS database for data storage.  The supported database flavors are: H2, PostGreSQL, MariaDB and MySQL.
 
@@ -744,7 +750,14 @@ http://my.server/ginas/app/ui/browse-clinical-trials
 # Check this logs at $webapps/../logs/catalina...log
 ```
 
-## Section 4: Making an additional microservice
+
+## SECTION 3D: Maintaining deployment at runtime 
+
+Logs are aviable to monitor performance.  The GSRS team recommends you watch for memory issues on your deployments, particularly in regards to the substances service. Consider restarting deployments on a regular schedule, such as once a week.  Alternatively, you can set up a script to restart unesponsive deployments automatically.  See this [document](./blob/main/docs/gsrs%20monitor%20and%20autorestarter.docx) for an example script.    
+
+
+
+## SECTION 4: Making an additional microservice
 
 ### Backend
 
@@ -866,3 +879,32 @@ set configName(configName: string) {
   <mat-divider></mat-divider>
   </span>
 ```
+
+## SECTION 5: User Roles in GSRS
+
+GSRS uses roles to configure what users are allowed to do within the application.
+
+For many years, user role configuration was the subject of confusion.  Being able to perform one set of tasks used to require a specific role and users who performed multiple tasks required several roles.  Also, application programmers would often check multiple roles before allowing a user to run one task or another.  
+Changing the role associated with a given task generally meant changing the GSRS server code, rebuilding and redeploying.
+
+The new role configuration architecture solves several of these issues:
+
+* Application behaviors are linked to specific privileges.
+    * For example, exporting data requires the ‘Export Data’ privilege.
+* These privileges are designed to remain the same.
+* Application privileges are assigned to roles.
+    * For example, the ‘Export Data’ privilege is assigned, by default, to the ‘Query’ role.
+* The assignment of a privilege to a role is controlled by a configuration file and is therefore easy to change.
+* One role may include/inherit the privileges of another role.
+    * For example, the ‘DataEntry’ role, designed for users who will be creating new records, includes the Query role.  Therefore, users with the DataEntry role can also export data without also getting the Query role explicitly assigned to them.
+* Privileges and roles are specified in a configuration file that is loaded when GSRS starts up.
+* We include a default role configuration file with GSRS but organizations are free to change role configuration.
+    * For example, importing multi-record data files into GSRS requires the ‘Import Data’ privilege, which is assigned, by default to the Admin role.  If your organization wants to enable certain users to import multi-record data files without assigning the Admin role to these users, you can create a new role, say, Importer, and assign the ‘Import Data’ privilege to Importer.
+* A privilege can be assigned to more than one role.
+    * Alternatively, a privilege can be assigned to one role and additional roles can be configured to inherit the privileges of that role.  
+
+
+Transtion issues from 3.1.2 to 3.2.0
+
+- When you deploy in embedded Tomcat a [roles_config.json](./substances/roles_config.json) file will be loaded by each microservice that has entities (substances, products, etc.). The gateway and frontend do not have entities. By default in embedded Tomcat, each service will read this file found at the root of the substances service. When deploying on a server in single Tomcat, however, the default behavior won't work. See the [substances application.conf](./substances/src/main/resources/application.conf#L338) file for an explanation. There is one small difference in how users roles are stored in the database table `ix_core_userprof`, `ROLES_JSON` field. The 3.2.0 format is: `[{"role": "Admin" }, {"role": "Query" }, ...]`. The 3.1.2 format is: `[ "Admin", "Query", ...]`. The 3.2.0 code can read and translate the old format. However, if you backport a 3.2.0 database to a 3.1.2 instance, you will need to adust the ROLES_JSON field content to reflect the old format.
+

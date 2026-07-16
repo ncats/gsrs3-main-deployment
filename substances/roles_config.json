@@ -1,0 +1,66 @@
+{
+        "roles": [
+                {
+                        "name": "Query",
+                        "privileges": [
+                                "Login",
+                                "Search",
+                                "Browse",
+                                "Save Record JSON",
+                                "Export Data"
+                        ],
+                        "include": []
+                },
+                {
+                        "name": "DataEntry",
+                        "privileges": [
+                                "Create",
+                                "Edit",
+                                "Export Relationships",
+                                "Modify Relationships",
+                                "Edit Approved Records",
+                                "Change Display Name",
+                                "Edit Public Data",
+                                "Make Records Public"
+                        ],
+                        "include": [
+                                "Query"
+                        ]
+                },
+                {
+                        "name": "Approver",
+                        "privileges": [
+                                "Approve Records",
+                                "Restore Previous Versions",
+                                "Delete Lower Level Items",
+                                "Change Definition Visibility",
+                                "Change Display Name for Approved"
+                        ],
+                        "include": [
+                                "DataEntry"
+                        ]
+                },
+                {
+                        "name": "Admin",
+                        "privileges": [
+                                "Manage Users",
+                                "Configure System",
+                                "Manage CVs",
+                                "Import Data",
+                                "Index Data",
+                                "Run Backup",
+                                "Run Tasks",
+                                "Override Duplicate Checks",
+                                "Modify Relationships",
+                                "Merge Subconcepts",
+                                "Edit Approval IDs",
+                                "Manage Others Lists",
+                                "View Files",
+                                "View Service Info"
+                        ],
+                        "include": [
+                                "Approver"
+                        ]
+                }
+        ]
+}

@@ -9,7 +9,7 @@
     {"codeSystem":"INN","url":"https://extranet.who.int/soinn/mod/page/view.php?id=137&inn_n=$CODE$"},
     {"codeSystem":"GRIN","url":"https://npgsweb.ars-grin.gov/gringlobal/taxon/taxonomydetail?id=$CODE$"},
     {"codeSystem":"DEA NO.","url":"http://forendex.southernforensic.org/index.php/detail/index/$CODE$"},
-    {"codeSystem":"DRUG BANK","url":"http://www.drugbank.ca/drugs/$CODE$"},
+    {"codeSystem":"DRUGBANK","url":"http://www.drugbank.ca/drugs/$CODE$"},
     {"codeSystem":"PHAROS","url":"https://pharos.nih.gov/idg/targets/$CODE$"},
     {"codeSystem":"STARI","url":"https://cfsanappsinternal.fda.gov/scripts/stari/?action=main.detail&id=$CODE$"},
     {"codeSystem":"PFAF","url":"http://www.pfaf.org/user/Plant.aspx?LatinName=$CODE$"},

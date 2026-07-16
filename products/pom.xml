@@ -10,7 +10,7 @@
     </parent>
     <groupId>gov.nih.ncats</groupId>
     <artifactId>products</artifactId>
-    <version>3.1.2-SNAPSHOT</version>
+    <version>3.2.0</version>
 
     <name>products</name>
     <description>GSRS Product Microservies Spring Boot</description>
@@ -19,9 +19,9 @@
         <with.packaging>war</with.packaging>
         <with.fork>true</with.fork>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <gsrs.product.version>3.1.2-SNAPSHOT</gsrs.product.version>
-        <gsrs.starter.version>3.1.2</gsrs.starter.version>
-        <gsrs.substance.version>3.1.2</gsrs.substance.version>
+        <gsrs.product.version>3.2.0</gsrs.product.version>
+        <gsrs.starter.version>3.2.0</gsrs.starter.version>
+        <gsrs.substance.version>3.2.0</gsrs.substance.version>
         <log4j2.version>2.17.2</log4j2.version>
         <mariadb.version>1.5.7</mariadb.version>
         <mysql.version>8.0.26</mysql.version>
@@ -137,12 +137,13 @@
             <groupId>gov.nih.ncats</groupId>
             <artifactId>gsrs-module-products-spring-boot-starter</artifactId>
             <version>${gsrs.product.version}</version>
+            <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>gov.fda.gsrs</groupId>
             <artifactId>Featureize-Nitrosamines</artifactId>
-            <version>0.0.4-SNAPSHOT</version>
+            <version>0.0.4</version>
         </dependency>
 
         <dependency>

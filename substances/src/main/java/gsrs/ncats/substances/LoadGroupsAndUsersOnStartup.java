@@ -6,6 +6,7 @@ import gsrs.module.substance.repository.SubstanceRepository;
 import gsrs.repository.DBGSRSVersionRepository;
 import gsrs.repository.GroupRepository;
 import gsrs.repository.UserProfileRepository;
+import gsrs.services.PrivilegeService;
 import ix.core.models.DBGSRSVersion;
 import ix.core.models.Group;
 import ix.core.models.Principal;
@@ -32,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
@@ -108,7 +110,7 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
                     up.setPassword("admin");
                     up.active = true;
                     up.deprecated = false;
-                    up.setRoles(Arrays.asList(Role.values()));
+                    up.setRoles(PrivilegeService.instance().getAllRoleNames().stream().map(rName->Role.of(rName)).collect(Collectors.toList()));
 
                     userProfileRepository.saveAndFlush(up);
 
@@ -117,7 +119,7 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
                     up2.setPassword("user1");
                     up2.active = true;
                     up2.deprecated = false;
-                    up2.setRoles(Arrays.asList(Role.Query));
+                    up2.setRoles(Collections.singletonList(Role.of("Query")));
 
                     userProfileRepository.saveAndFlush(up2);
 
@@ -126,12 +128,12 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
                     guest.setPassword("GUEST");
                     guest.active = false;
                     guest.deprecated = false;
-                    guest.setRoles(Arrays.asList(Role.Query));
+                    guest.setRoles(Collections.singletonList(Role.of("Query")));
 
                     userProfileRepository.saveAndFlush(guest);
 
                     Authentication auth = new UsernamePasswordAuthenticationToken(up.user.username, null,
-                            up.getRoles().stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.name())).collect(Collectors.toList()));
+                            up.getRoles().stream().map(r -> new SimpleGrantedAuthority("ROLE_" + r.getRole())).collect(Collectors.toList()));
 
                     SecurityContextHolder.getContext().setAuthentication(auth);                  
                     
@@ -146,7 +148,6 @@ public class LoadGroupsAndUsersOnStartup implements ApplicationRunner {
                 int i=0;
                 while( (line = reader.readLine())!=null){
                     String[] cols = sep.split(line);
-//                System.out.println(cols[2]);
                     try {
                         transactionTemplate.executeWithoutResult(status -> {
                             try {
