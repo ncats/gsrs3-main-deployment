@@ -30,7 +30,6 @@
         <frontend.tag>GSRSv${project.version}PUB</frontend.tag>
         <without.visualizer>false</without.visualizer>
         <without.static>false</without.static>
-        <node.disable>false</node.disable>
     </properties>
 
     <packaging>${with.packaging}</packaging>
@@ -159,7 +158,7 @@
                 <executions>
                     <execution>
                         <id>install node and npm</id>
-                        <phase>generate-sources</phase>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>install-node-and-npm</goal>
                         </goals>
@@ -204,9 +203,33 @@
                 <version>3.1.0</version>
                 <executions>
                     <execution>
+                        <id>set build properties</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <exportAntProperties>true</exportAntProperties>
+                            <target>
+                                <condition property="node.disable" value="true">
+                                    <istrue value="${without.static}"/>
+                                </condition>
+                                <condition property="without.visualizer.value" value="true" else="false">
+                                    <or>
+                                        <istrue value="${without.visualizer}"/>
+                                        <istrue value="${without.static}"/>
+                                    </or>
+                                </condition>
+                                <echo level="info">without.static:${without.static}</echo>
+                                <echo level="info">without.visualizer:${without.visualizer.value}</echo>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>get frontend sources</id>
                         <phase>generate-sources</phase>
                         <configuration>
+                            <exportAntProperties>true</exportAntProperties>
                             <skip>${without.static}</skip>
                             <target>
                                 <macrodef name="getfrontend">
@@ -220,6 +243,20 @@
                                         <get src="@{src}" dest="${project.build.directory}/frontend.zip" skipexisting="true" ignoreerrors="true" quiet="true"/>
                                     </sequential>
                                 </macrodef>
+                                <macrodef name="zipfrontendbin">
+                                    <sequential>
+                                        <pathconvert property="frontend.repo.path">
+                                            <map from="${basedir}/file:" to=""/>
+                                            <path location="${frontend.repo}"/>
+                                        </pathconvert>
+                                        <echo level="info">Frontend Repo Path: ${frontend.repo.path}</echo>
+                                        <mkdir dir="${project.build.directory}/frontend-bin"/>
+                                        <copy todir="${project.build.directory}/frontend-bin" failonerror="false" quiet="true"><fileset dir="${frontend.repo.path}"/></copy>
+                                        <zip destfile="${project.build.directory}/frontend.zip" filesonly="true"><zipfileset dir="${project.build.directory}/frontend-bin" prefix="GSRSFrontend"/></zip>
+                                        <delete dir="${project.build.directory}/frontend-bin" quiet="true"/>
+                                    </sequential>
+                                </macrodef>
+                                <zipfrontendbin/>
                                 <getfrontend src="${frontend.repo}/releases/download/${frontend.tag}/${frontend.tag}.zip"/>
                                 <getfrontend src="${frontend.repo}/releases/download/${frontend.tag}/deployable_binaries.zip"/>
                                 <getfrontend src="${frontend.repo}/archive/refs/tags/${frontend.tag}.zip"/>
@@ -232,6 +269,10 @@
                                 <move file="${project.build.directory}/GSRSFrontend-${frontend.tag}" tofile="${project.build.directory}/GSRSFrontend" failonerror="false" quiet="true"/>
                                 <move file="${project.build.directory}/GSRSFrontend-development_3.0" tofile="${project.build.directory}/GSRSFrontend" failonerror="false" quiet="true"/>
                                 <delete file="${project.build.directory}/GSRSFrontend/package-lock.json"/>
+                                <condition property="node.disable" value="true" else="false">
+                                    <available file="${project.build.directory}/GSRSFrontend/dist/browser" type="dir" property="node.disable"/>
+                                </condition>
+                                <echo level="info">Use deployable binaries: ${node.disable}</echo>
                             </target>
                         </configuration>
                         <goals>
@@ -245,7 +286,8 @@
                             <skip>${without.static}</skip>
                             <target>
                                 <copy todir="${project.build.directory}/classes/static"><fileset dir="${project.build.directory}/GSRSFrontend/dist/browser"/></copy>
-                                <replaceregexp file="${project.build.directory}/classes/static/assets/data/config.json" match="version&quot;: &quot;[^&quot;]*" replace="apiBaseUrl&quot;: &quot;/&quot;,&#xA;  &quot;version&quot;: &quot;${project.version}"/>
+                                <replaceregexp file="${project.build.directory}/classes/static/assets/data/config.json" match="version&quot;: &quot;[^&quot;]*" replace="version&quot;: &quot;${project.version}"/>
+                                <replaceregexp file="${project.build.directory}/classes/static/assets/data/config.json" match="http:..localhost:8081" replace="" flags="g"/>
                             </target>
                         </configuration>
                         <goals>
@@ -256,7 +298,7 @@
                         <id>copy visualizer</id>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <skip>${without.visualizer}</skip>
+                            <skip>${without.visualizer.value}</skip>
                             <target>
                                 <get src="https://github.com/ncats/gsrs3-main-deployment/archive/refs/tags/GSRSv3.1PUB.zip" dest="${project.build.directory}/visualizer.zip"/>
                                 <unzip src="${project.build.directory}/visualizer.zip" dest="${project.build.directory}"/>
