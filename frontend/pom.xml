@@ -231,7 +231,7 @@
                         <configuration>
                             <exportAntProperties>true</exportAntProperties>
                             <skip>${without.static}</skip>
-                            <target>
+                            <target xmlns:if="ant:if" xmlns:unless="ant:unless">
                                 <macrodef name="getfrontend">
                                     <attribute name="src"/>
                                     <sequential>
@@ -245,10 +245,6 @@
                                 </macrodef>
                                 <macrodef name="zipfrontendbin">
                                     <sequential>
-                                        <pathconvert property="frontend.repo.path">
-                                            <map from="${basedir}/file:" to=""/>
-                                            <path location="${frontend.repo}"/>
-                                        </pathconvert>
                                         <echo level="info">Frontend Repo Path: ${frontend.repo.path}</echo>
                                         <mkdir dir="${project.build.directory}/frontend-bin"/>
                                         <copy todir="${project.build.directory}/frontend-bin" failonerror="false" quiet="true"><fileset dir="${frontend.repo.path}"/></copy>
@@ -256,12 +252,22 @@
                                         <delete dir="${project.build.directory}/frontend-bin" quiet="true"/>
                                     </sequential>
                                 </macrodef>
-                                <zipfrontendbin/>
+                                <pathconvert property="frontend.repo.path">
+                                    <map from="${basedir}/file:" to=""/>
+                                    <path location="${frontend.repo}"/>
+                                </pathconvert>
                                 <getfrontend src="${frontend.repo}/releases/download/${frontend.tag}/${frontend.tag}.zip"/>
                                 <getfrontend src="${frontend.repo}/releases/download/${frontend.tag}/deployable_binaries.zip"/>
                                 <getfrontend src="${frontend.repo}/archive/refs/tags/${frontend.tag}.zip"/>
                                 <getfrontend src="${frontend.repo}/archive/${frontend.tag}.zip"/>
                                 <getfrontend src="${frontend.repo}/archive/refs/heads/development_3.0.zip"/>
+                                <condition property="frontend.zip.exists">
+                                    <available file="${project.build.directory}/frontend.zip" type="file"/>
+                                </condition>
+                                <condition property="frontend.repo.path.exists">
+                                    <available file="${frontend.repo.path}" type="dir"/>
+                                </condition>
+                                <zipfrontendbin if:set="frontend.repo.path.exists" unless:set="frontend.zip.exists"/>
                                 <unzip src="${project.build.directory}/frontend.zip" dest="${project.build.directory}"/>
                                 <delete file="${project.build.directory}/frontend.zip"/>
                                 <move file="${project.build.directory}/dist" tofile="${project.build.directory}/GSRSFrontend" failonerror="false" quiet="true"/>
