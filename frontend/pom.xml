@@ -231,7 +231,7 @@
                         <configuration>
                             <exportAntProperties>true</exportAntProperties>
                             <skip>${without.static}</skip>
-                            <target>
+                            <target xmlns:unless="ant:unless">
                                 <macrodef name="getfrontend">
                                     <attribute name="src"/>
                                     <sequential>
@@ -256,9 +256,10 @@
                                         <delete dir="${project.build.directory}/frontend-bin" quiet="true"/>
                                     </sequential>
                                 </macrodef>
-                                <zipfrontendbin/>
                                 <getfrontend src="${frontend.repo}/releases/download/${frontend.tag}/${frontend.tag}.zip"/>
                                 <getfrontend src="${frontend.repo}/releases/download/${frontend.tag}/deployable_binaries.zip"/>
+                                <available file="${project.build.directory}/frontend.zip" type="file" property="frontend.zip.exists"/>
+                                <zipfrontendbin unless:set="frontend.zip.exists"/>
                                 <getfrontend src="${frontend.repo}/archive/refs/tags/${frontend.tag}.zip"/>
                                 <getfrontend src="${frontend.repo}/archive/${frontend.tag}.zip"/>
                                 <getfrontend src="${frontend.repo}/archive/refs/heads/development_3.0.zip"/>
