@@ -1,8 +1,8 @@
 # How the Frontend microservice auto-build works and options
 
-Last updated: 2024-10-01
+Last updated: 2026-08-18
 
-GSRS Version at last update: 3.1.1
+GSRS Version at last update: 3.2.0
 
 [Quick version](#section-a----quick-version)
 
