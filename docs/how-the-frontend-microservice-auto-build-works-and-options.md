@@ -88,8 +88,6 @@ Logic set in the `pom.xml` file will try to find a reference to an archive, depl
 The search is based on the following priorities; once a match is found, the rest are skipped. 
 
 ```
-(Precompiled client from specific GIT release)
-https://github.com/ncats/GSRSFrontend/releases/download/${frontend.tag}/${frontend.tag}.zip 
 
 (Precompiled client from specific GIT release, but with fixed file name)
 https://github.com/ncats/GSRSFrontend/releases/download/${frontend.tag}/deployable_binaries.zip 
