@@ -197,27 +197,63 @@ cp -r /path/to/GSRSFrontend/dist/browser  /path/to/my/classes/static
 ```
 
 
-### Using a local deployable distribution binaries zip file
+### Using a local deployable distribution binaries zip file (updated for 3.2.0) 
 
 In situations where you don't wish to install node and to build an Angular distribution at each run/package time, you can skip these steps and place a distribution file in local folder. For example:
 
 ```
-mkdir -p /path/to/my/dist/archive # you must have use  `archive` as the last folder name here. 
+export FRONTEND_TAG=mytag # this needn't be a real tag; probably better if it's not.
 
-# Assuming you name for zip file local_deployable_binaries.zip 
-cp /some/folder/local_deployable_binaries.zip /path/to/my/dist/archive/local_deployable_binaries.zip  
+mkdir -p /path/to/my/directory/releases/download/$FRONTEND_TAG
+
+cp /some/folder/deployable_binaries.zip /path/to/my/directory/releases/download/$FRONTEND_TAG/deployable_binaries.zip  
 
 # Then run or package the frontend service like this:  
 
 ./mvnw clean -U package \
--Dfrontend.repo=file:///path/to/my/dist \ 
--Dfrontend.tag=local_deployable_binaries \
+-Dfrontend.repo=file:///path/to/my/directory \ 
+-Dfrontend.tag=$FRONTEND_TAG \
+-Dwithout.visualizer \
+-DskipTests
+
+
+# This also works:
+
+export FRONTEND_TAG=mytag # this needn't be a real tag; probably better if it's not.
+mkdir -p /path/to/my/directory/releases/download/$FRONTEND_TAG
+cp /some/folder/deployable_binaries.zip /path/to/my/directory/releases/download/$FRONTEND_TAG/$FRONTEND_TAG.zip  
+
+# Then run or package the frontend service like this:  
+
+./mvnw clean -U package \
+-Dfrontend.repo=file:///path/to/my/directory \ 
+-Dfrontend.tag=$FRONTEND_TAG \
 -Dwithout.visualizer \
 -DskipTests
 
 ```
- 
+
 As a side note, a `deployable_binaries.zip` is a zip file having a folder `dist/browser`. This is the folder structure that is generated when building a distribution of the GSRSFrontend repository with the command `npm run build:fda:prod`. See the README for the Frontend service for more information on how to build such a distribution. 
+
+### Using an uncompressed binaries folder (updated for 3.2.0) 
+
+In this case the pom.xml Ant script looks for a folder `dist` in `/path/to/my/directory`
+```
+export FRONTEND_TAG=xxxxx # dummy tag
+
+mkdir -p /path/to/my/directory/dist/browser 
+
+cp /some/folder/dist/browser/* /path/to/my/directory/dist/browser/ 
+
+# Then run or package the frontend service like this:  
+
+./mvnw clean -U package \
+-Dfrontend.repo=file:///path/to/my/directory \ 
+-Dfrontend.tag=$FRONTEND_TAG \
+-Dwithout.visualizer \
+-DskipTests
+
+```
 
 ### Package the service without generating a static folder containing the Angular frontend 
 
