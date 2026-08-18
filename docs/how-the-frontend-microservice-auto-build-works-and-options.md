@@ -1,8 +1,8 @@
 # How the Frontend microservice auto-build works and options
 
-Last updated: 2024-10-01
+Last updated: 2026-08-18
 
-GSRS Version at last update: 3.1.1
+GSRS Version at last update: 3.2.0
 
 [Quick version](#section-a----quick-version)
 
@@ -61,6 +61,8 @@ java -cp "target/frontend.war:/path/to/custom" -Dserver.port=8082 org.springfram
 
 Starting in 3.1.1 The frontend is built automatically when running or packaging the frontend service. This is implemented by using Maven plugin code in the service's `pom.xml` file.  
 
+Starting in 3.2.0, the automatic build no longer takes the `-Dnode.disable` option. Instead, the Ant build script checks whether the command line options provided effectively point to a precompiled build; or effectively require no build. In these cases, `node` is disabled automatically.  
+
 ```
 mvn clean -U spring-boot:run 
 mvn clean -U package 
@@ -86,8 +88,6 @@ Logic set in the `pom.xml` file will try to find a reference to an archive, depl
 The search is based on the following priorities; once a match is found, the rest are skipped. 
 
 ```
-(Precompiled client from specific GIT release)
-https://github.com/ncats/GSRSFrontend/releases/download/${frontend.tag}/${frontend.tag}.zip 
 
 (Precompiled client from specific GIT release, but with fixed file name)
 https://github.com/ncats/GSRSFrontend/releases/download/${frontend.tag}/deployable_binaries.zip 
@@ -112,7 +112,6 @@ frontend.repo - Path to the GSRSFrontend repository (default: https://github.com
 frontend.tag - Git Tag or Commit (default: GSRSv${project.version}PUB)
 without.visualizer - do not include visualizer files (default: false)
 without.static - do not download frontend code and do not include browser static files (default: false)
-node.disable - do not install node. Use only with precompiled client (default: false)
 ```
 
 ### Packaging or Running the service 
@@ -123,7 +122,7 @@ node.disable - do not install node. Use only with precompiled client (default: f
 
 ```
 # Example, with Git reference pointing to a pre-built binaries
-./mvnw clean package -Dfrontend.tag=buildRelease -Dnode.disable -Dwithout.visualizer -DskipTests
+./mvnw clean package -Dfrontend.tag=buildRelease -Dwithout.visualizer -DskipTests
 ```
 
 If you want to force #5 above, you could set -Dfrontend.tag=development_3.0 
@@ -190,35 +189,69 @@ cp -r /path/to/GSRSFrontend/dist/browser  /path/to/my/classes/static
 # Then run the frontend service like this:
 ./mvnw clean -U spring-boot:run  \
 -Dspring-boot.run.folders=/path/to/my/classes \
--Dnode.disable \
 -Dwithout.visualizer \
 -Dwithout.static \
 -DskipTests  
 ```
 
 
-### Using a local deployable distribution binaries zip file
+### Using a local deployable distribution binaries zip file (updated for 3.2.0) 
 
 In situations where you don't wish to install node and to build an Angular distribution at each run/package time, you can skip these steps and place a distribution file in local folder. For example:
 
 ```
-mkdir -p /path/to/my/dist/archive # you must have use  `archive` as the last folder name here. 
+export FRONTEND_TAG=mytag # this needn't be a real tag; probably better if it's not.
 
-# Assuming you name for zip file local_deployable_binaries.zip 
-cp /some/folder/local_deployable_binaries.zip /path/to/my/dist/archive/local_deployable_binaries.zip  
+mkdir -p /path/to/my/directory/releases/download/$FRONTEND_TAG
+
+cp /some/folder/deployable_binaries.zip /path/to/my/directory/releases/download/$FRONTEND_TAG/deployable_binaries.zip  
 
 # Then run or package the frontend service like this:  
 
 ./mvnw clean -U package \
--Dfrontend.repo=file:///path/to/my/dist \ 
--Dfrontend.tag=local_deployable_binaries \
--Dnode.disable \
+-Dfrontend.repo=file:///path/to/my/directory \ 
+-Dfrontend.tag=$FRONTEND_TAG \
+-Dwithout.visualizer \
+-DskipTests
+
+
+# This also works:
+
+export FRONTEND_TAG=mytag # this needn't be a real tag; probably better if it's not.
+mkdir -p /path/to/my/directory/releases/download/$FRONTEND_TAG
+cp /some/folder/deployable_binaries.zip /path/to/my/directory/releases/download/$FRONTEND_TAG/$FRONTEND_TAG.zip  
+
+# Then run or package the frontend service like this:  
+
+./mvnw clean -U package \
+-Dfrontend.repo=file:///path/to/my/directory \ 
+-Dfrontend.tag=$FRONTEND_TAG \
 -Dwithout.visualizer \
 -DskipTests
 
 ```
- 
+
 As a side note, a `deployable_binaries.zip` is a zip file having a folder `dist/browser`. This is the folder structure that is generated when building a distribution of the GSRSFrontend repository with the command `npm run build:fda:prod`. See the README for the Frontend service for more information on how to build such a distribution. 
+
+### Using an uncompressed binaries folder (updated for 3.2.0) 
+
+In this case the pom.xml Ant script looks for a folder `dist` in `/path/to/my/directory`
+```
+export FRONTEND_TAG=xxxxx # dummy tag
+
+mkdir -p /path/to/my/directory/dist/browser 
+
+cp /some/folder/dist/browser/* /path/to/my/directory/dist/browser/ 
+
+# Then run or package the frontend service like this:  
+
+./mvnw clean -U package \
+-Dfrontend.repo=file:///path/to/my/directory \ 
+-Dfrontend.tag=$FRONTEND_TAG \
+-Dwithout.visualizer \
+-DskipTests
+
+```
 
 ### Package the service without generating a static folder containing the Angular frontend 
 
@@ -226,7 +259,6 @@ This can be accomplished with options like this:
 
 ```
 ./mvnw clean -U package \
--Dnode.disable \
 -Dwithout.visualizer \
 -Dwithout.static 
 -DskipTests
@@ -240,7 +272,6 @@ This can be accomplished with options like this:
 ./mvnw clean -U package \
 -Dfrontend.repo=http://github.com/myuser/myreponame \ 
 -Dfrontend.tag=myreference
--Dnode.disable \
 -DskipTests
 ```
 
@@ -258,7 +289,6 @@ Some people or organizations may choose to continue this approach for local deve
 
 mvn clean -U spring-boot:run \
 -Dspring-boot.run.folders=../../my/frontend/classes  \
--Dnode.disable \
 -Dwithout.static \
 -Dwithout.visualizer \
 -DskipTests
