@@ -1,11 +1,11 @@
 
 # Index to common GSRS repositories and branches
 
-People just wanting to install and run GSRS should use the [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment).  This deployment will automatically pull dependencies from Maven.  
+People just wanting to install and run GSRS should use the [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment).  When you run the services in the deployment, the Maven program will automatically download dependencies from Maven Central.   
 
 Those wanting to tinker with the code should clone or pull code from Github.
 
-If you want code that corresponds to a specific version use a TAG to accomplish that. For example, use GSRSv3.2.0PUB as a branch/tag when you clone the repository.  
+If you want code that corresponds to a specific version, use a TAG to accomplish that. For example, use GSRSv3.2.0PUB as a branch/tag when you clone a component or module repository.  
 
 If you want the latest code that developers are using to make the next upcoming version, then the current procedure is to pull from the default branch. 
 
