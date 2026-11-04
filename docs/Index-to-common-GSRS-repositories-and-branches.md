@@ -1,5 +1,5 @@
 
-# Index to common GSRS repositories and branches
+# Common GSRS repositories and branches
 
 People just wanting to install and run GSRS should use the [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment).  When you run the services in the deployment, the Maven program will automatically download dependencies from Maven Central.   
 
@@ -13,7 +13,7 @@ git checkout GSRSv3.2.0PUB
 
 If you want the latest code that developers are using to make the next upcoming version, then the current procedure is to pull from the default branch. 
 
-This index provides a list of branches and their banch defaults.
+This table provides a list of repositories and their banch defaults.
 
 | Repository | Default branch | Access | Layer | Type |
 |---|---|---|---|---|
