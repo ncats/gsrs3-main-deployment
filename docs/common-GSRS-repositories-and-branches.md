@@ -11,7 +11,7 @@ If you want code that corresponds to a specific version, use a TAG to accomplish
 git checkout GSRSv3.2.0PUB
 ```
 
-If you want the latest code that developers are using to make the next upcoming version, then the current procedure is to pull from the default branch. 
+If you want the latest code that developers are using to make the upcoming version, then the current procedure is to pull from the default branch. 
 
 This table provides a list of repositories and their banch defaults.
 
