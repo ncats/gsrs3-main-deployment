@@ -15,7 +15,7 @@ If you want the latest code that developers are using to make the next upcoming 
 
 This index provides a list of branches and their banch defaults.
 
-| Repo | Default branch | Access | Layer | Type |
+| Repository | Default branch | Access | Layer | Type |
 |---|---|---|---|---|
 | [GSRSFrontend](https://github.com/ncats/GSRSFrontend) | `development_3.0` | public | frontend | Angular |
 | [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment) | `main` | public | backend | deployment |
