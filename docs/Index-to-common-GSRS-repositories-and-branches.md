@@ -5,7 +5,7 @@ People just wanting to install and run GSRS should use the [gsrs3-main-deploymen
 
 Those wanting to tinker with the code should clone or pull code from Github.
 
-If you want code that corresponds to a specific version, use a TAG to accomplish that. For example, use GSRSv3.2.0PUB as a branch/tag when you clone a component or module repository.  
+If you want code that corresponds to a specific version, use a TAG to accomplish that. For example, clone the default branch but then do`git checkout GSRSv3.2.0PUB`.  
 
 If you want the latest code that developers are using to make the next upcoming version, then the current procedure is to pull from the default branch. 
 
