@@ -8,10 +8,16 @@ Those wanting to tinker with the code should clone or pull code from Github.
 If you want code that corresponds to a specific version, use a TAG to accomplish that. For example, clone the default branch but then do:
 
 ```
+# In this case the default branch is master
+git clone --branch master https://github.com/ncats/gsrs-spring-starter
+cd gsrs-spring-starter
+git fetch --tags
 git checkout GSRSv3.2.0PUB
+# And then, make a feature branch
+git checkout -b my_feature 
 ```
 
-If you want the latest code that developers are using to make the upcoming version, then the current procedure is to pull from the default branch. 
+If you want the latest code that developers are using to make the upcoming version, then the current procedure is to pull/clone from the default branch. 
 
 This table provides a list of repositories and their banch defaults.
 
