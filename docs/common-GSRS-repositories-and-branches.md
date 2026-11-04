@@ -21,7 +21,7 @@ If you want the latest code that developers are using to make the upcoming versi
 
 This table provides a list of repositories and their banch defaults.
 
-| Repository | Default branch | Access | Layer | Type |
+| Repository | Default branch | Read Access | Layer | Type |
 |---|---|---|---|---|
 | [GSRSFrontend](https://github.com/ncats/GSRSFrontend) | `development_3.0` | public | frontend | Angular |
 | [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment) | `main` | public | backend | deployment |
