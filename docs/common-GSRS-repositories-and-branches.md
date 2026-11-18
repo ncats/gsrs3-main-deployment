@@ -19,7 +19,7 @@ git checkout GSRSv3.2.0PUB
 git checkout -b my_feature 
 ```
 
-If you were using a branch whose name has change on your local machine, you should run some commands to adjust. For example in the repository, GSRSFrontend, `development_3.0` is now `master`. So run these commands **once** locally in the root folder of your cloned GSRSFrontend repository.    
+If you were using a branch whose name has changed on your local machine, you should run some commands to adjust. For example in the repository, GSRSFrontend, `development_3.0` is now `master`. So run these commands **once** locally in the root folder of your cloned GSRSFrontend repository.    
 
 ```
 git branch -m development_3.0 master
@@ -32,7 +32,7 @@ If you want the latest code that developers are using to make the upcoming versi
 
 Here is a list of common repositories with the default and development branch names.
 
-| Repository | Default branch | Lastest/test branch | Read access | Layer | Type |
+| Repository | Default branch | Test/Latest branch | Read access | Layer | Type |
 |---|---|---|---|---|---|
 | [GSRSFrontend](https://github.com/ncats/GSRSFrontend) | `master` | `development` | public | frontend | Angular |
 | [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment) | `main` | not applicable | public | backend | deployment |
