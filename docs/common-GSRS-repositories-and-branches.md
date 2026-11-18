@@ -1,7 +1,7 @@
 
 # Common GSRS repositories and branches
 
-(**IMPORTANT NOTE**: As we create GSRS 3.3.0 we are changing our workflow. The short version is that we are transitioning so that most all of our branches have a `master` branch where release-ready code will reside and a `development` branch where we will push new feature branches for the upcoming version. Some of this is already taking place which may conflict with the list below.) 
+**IMPORTANT NOTE**: As we create GSRS 3.3.0 we are changing our workflow. The short version is that we transitioned so that most all of our branches have a `master` branch where release-ready code will reside and a `development` branch where we will push new feature branches for the upcoming version. 
 
 People just wanting to install and run GSRS should use the [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment).  When you run the services in the deployment, the Maven program will automatically download dependencies from Maven Central.   
 
