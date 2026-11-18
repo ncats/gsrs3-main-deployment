@@ -19,7 +19,7 @@ git checkout GSRSv3.2.0PUB
 git checkout -b my_feature 
 ```
 
-If you were using a branch whose name has change on your local machine, you should run these commands. For example in the repo, GSRSFrontend. `development_3.0` is now `master` so run these commands locally in the root folder of your cloned repository.   
+If you were using a branch whose name has change on your local machine, you should run some commands to adjust. For example in the repository, GSRSFrontend. `development_3.0` is now `master` so run these commands locally in the root folder of your cloned repository.   
 
 ```
 git branch -m development_3.0 master
