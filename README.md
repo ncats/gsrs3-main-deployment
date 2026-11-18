@@ -3,7 +3,7 @@
 
 ## IMPORTANT NOTES: Recent changes
 
-- See this [document](https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/common-GSRS-repositories-and-branches.md) for detail on how we have changed default branch names and procedures. 
+- we have changed default Github repository branch names and procedures. See this [document](https://github.com/ncats/gsrs3-main-deployment/blob/main/docs/common-GSRS-repositories-and-branches.md) for details. 
 - In the upcoming version (3.3.0) the Angular UI will use version 21  
 
 ## IMPORTANT NOTES: 3.2.0 Release
