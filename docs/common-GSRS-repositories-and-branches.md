@@ -19,6 +19,15 @@ git checkout GSRSv3.2.0PUB
 git checkout -b my_feature 
 ```
 
+If you were using a branch whose name has change on your local machine, you should run these commands. For example in the repo, GSRSFrontend. `development_3.0` is now `master` so run these commands locally in the root folder of your cloned repository.   
+
+```
+git branch -m development_3.0 master
+git fetch origin
+git branch -u origin/master master
+git remote set-head origin -a
+```
+
 If you want the latest code that developers are using to make the upcoming version, then the current procedure is to pull/clone from the `development` branch.
 
 Here is a list of common repositories with the default and development branch names.
