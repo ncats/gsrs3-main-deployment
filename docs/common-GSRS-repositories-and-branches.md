@@ -35,7 +35,7 @@ Here is a list of common repositories with the default and development branch na
 | Repository | Default branch | Lastest/test branch | Read access | Layer | Type |
 |---|---|---|---|---|---|
 | [GSRSFrontend](https://github.com/ncats/GSRSFrontend) | `master` | `development` | public | frontend | Angular |
-| [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment) | `main` | NA | public | backend | deployment |
+| [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment) | `main` | not applicable | public | backend | deployment |
 | [gsrs-ci](https://github.com/ncats/gsrs-ci) | `master` | `development` | internal | backend | deployment |
 | [gsrs-spring-starter](https://github.com/ncats/gsrs-spring-starter) | `master` | `development` | public | backend | starter module |
 | [gsrs-spring-module-substances](https://github.com/ncats/gsrs-spring-module-substances) | `master` | `development` | public | backend | starter module |
