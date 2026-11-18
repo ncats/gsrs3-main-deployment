@@ -47,8 +47,8 @@ Here is a list of common repositories with the default and development branch na
 | [gsrs-spring-module-drug-products](https://github.com/ncats/gsrs-spring-module-drug-products) | `master` | `development` | public | backend | starter module |
 | [gsrs-spring-module-ssg4](https://github.com/ncats/gsrs-spring-module-ssg4) | `master` | `development` | public | backend | starter module |
 | [molwitch](https://github.com/ncats/molwitch) | `master` | `development` | public | backend | other |
-| [molwitch-cdk](https://github.com/ncats/molwitch-cdk) | `master` | `development` | none yet | backend | other |
-| [ncats-common](https://github.com/ncats/ncats-common) | `master` | `development` | none yet | backend | other |
+| [molwitch-cdk](https://github.com/ncats/molwitch-cdk) | `master` | none yet | public | backend | other |
+| [ncats-common](https://github.com/ncats/ncats-common) | `master` | none yet | public | backend | other |
 | [gsrs-services-common](https://github.com/ncats/gsrs-services-common) | `master` | none yet | public | backend | other |
 
 
