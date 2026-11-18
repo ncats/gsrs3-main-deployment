@@ -47,9 +47,9 @@ Here is a list of common repositories with the default and development branch na
 | [gsrs-spring-module-drug-products](https://github.com/ncats/gsrs-spring-module-drug-products) | `master` | `development` | public | backend | starter module |
 | [gsrs-spring-module-ssg4](https://github.com/ncats/gsrs-spring-module-ssg4) | `master` | `development` | public | backend | starter module |
 | [molwitch](https://github.com/ncats/molwitch) | `master` | `development` | public | backend | other |
-| [molwitch-cdk](https://github.com/ncats/molwitch-cdk) | `master` | `development` | public | backend | other |
-| [ncats-common](https://github.com/ncats/ncats-common) | `master` | `development` | public | backend | other |
-| [gsrs-services-common](https://github.com/ncats/gsrs-services-common) | `master` | `development` | public | backend | other |
+| [molwitch-cdk](https://github.com/ncats/molwitch-cdk) | `master` | `development` | none yet | backend | other |
+| [ncats-common](https://github.com/ncats/ncats-common) | `master` | `development` | none yet | backend | other |
+| [gsrs-services-common](https://github.com/ncats/gsrs-services-common) | `master` | none yet | public | backend | other |
 
 
 For **REFERERENCE ONLY**, this table provides an **OLD VERSION** of the list of repositories and  their banch defaults.
