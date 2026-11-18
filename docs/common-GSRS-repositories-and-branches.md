@@ -1,7 +1,7 @@
 
 # Common GSRS repositories and branches
 
-(**NOTE**: As we create GSRS 3.3.0 we are changing our workflow. The short version is that we are transitioning so that most all of our branches have a `master` branch where release-ready code will reside and a `development` where will push feature branches for the upcoming version. Some of this is already taking place which may conflict with the list below.) 
+(**IMPORTANT NOTE**: As we create GSRS 3.3.0 we are changing our workflow. The short version is that we are transitioning so that most all of our branches have a `master` branch where release-ready code will reside and a `development` branch where we will push new feature branches for the upcoming version. Some of this is already taking place which may conflict with the list below.) 
 
 People just wanting to install and run GSRS should use the [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment).  When you run the services in the deployment, the Maven program will automatically download dependencies from Maven Central.   
 
@@ -19,12 +19,40 @@ git checkout GSRSv3.2.0PUB
 git checkout -b my_feature 
 ```
 
+If you were using a branch whose name has change on your local machine, you should run some commands to adjust. For example in the repository, GSRSFrontend. `development_3.0` is now `master` so run these commands locally in the root folder of your cloned repository.   
+
+```
+git branch -m development_3.0 master
+git fetch origin
+git branch -u origin/master master
+git remote set-head origin -a
+```
+
+If you want the latest code that developers are using to make the upcoming version, then the current procedure is to pull/clone from the `development` branch.
+
+Here is a list of common repositories with the default and development branch names.
+
+| Repository | Default branch | Lastest/test branch | Read access | Layer | Type |
+|---|---|---|---|---|---|
+| [GSRSFrontend](https://github.com/ncats/GSRSFrontend) | `master` | `development` | public | frontend | Angular |
+| [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment) | `main` | not applicable | public | backend | deployment |
+| [gsrs-ci](https://github.com/ncats/gsrs-ci) | `master` | `development` | internal | backend | deployment |
+| [gsrs-spring-starter](https://github.com/ncats/gsrs-spring-starter) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-substances](https://github.com/ncats/gsrs-spring-module-substances) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-adverse-events](https://github.com/ncats/gsrs-spring-module-adverse-events) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-drug-applications](https://github.com/ncats/gsrs-spring-module-drug-applications) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-clinical-trials](https://github.com/ncats/gsrs-spring-module-clinical-trials) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-impurities](https://github.com/ncats/gsrs-spring-module-impurities) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-invitro-pharmacology](https://github.com/ncats/gsrs-spring-module-invitro-pharmacology) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-drug-products](https://github.com/ncats/gsrs-spring-module-drug-products) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-ssg4](https://github.com/ncats/gsrs-spring-module-ssg4) | `master` | `development` | public | backend | starter module |
+| [molwitch](https://github.com/ncats/molwitch) | `master` | `development` | public | backend | other |
+| [molwitch-cdk](https://github.com/ncats/molwitch-cdk) | `master` | none yet | public | backend | other |
+| [ncats-common](https://github.com/ncats/ncats-common) | `master` | none yet | public | backend | other |
+| [gsrs-services-common](https://github.com/ncats/gsrs-services-common) | `master` | none yet | public | backend | other |
 
 
-
-If you want the latest code that developers are using to make the upcoming version, then the current procedure is to pull/clone from the default branch. 
-
-This table provides a list of repositories and their banch defaults.
+For **REFERERENCE ONLY**, this table provides an **OLD VERSION** of the list of repositories and  their banch defaults.
 
 | Repository | Default branch | Read access | Layer | Type |
 |---|---|---|---|---|
