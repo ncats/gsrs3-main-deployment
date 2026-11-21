@@ -46,7 +46,13 @@ Here is a list of common repositories with the default and development branch na
 | [gsrs-spring-module-invitro-pharmacology](https://github.com/ncats/gsrs-spring-module-invitro-pharmacology) | `master` | `development` | public | backend | starter module |
 | [gsrs-spring-module-drug-products](https://github.com/ncats/gsrs-spring-module-drug-products) | `starter` | `development` | public | backend | starter module |
 | [gsrs-spring-module-ssg4](https://github.com/ncats/gsrs-spring-module-ssg4) | `master` | `development` | public | backend | starter module |
-| [molwitch](https://github.com/ncats/molwitch) | `master` | `development` | public | backend | other |
+
+These will follow a similar pattern, but in practice, most people should not need to clone and install manually.  Even during development, we take steps to either publish new versions on Maven or include them in an `extraJars` folder read by a `installExtraJars.sh` script.
+
+
+| Repository | Default branch | Test/Latest branch | Read access | Layer | Type |
+|---|---|---|---|---|---|
+| [molwitch](https://github.com/ncats/molwitch) | `master` | none yet | public | backend | other |
 | [molwitch-cdk](https://github.com/ncats/molwitch-cdk) | `master` | none yet | public | backend | other |
 | [ncats-common](https://github.com/ncats/ncats-common) | `master` | none yet | public | backend | other |
 | [gsrs-services-common](https://github.com/ncats/gsrs-services-common) | `master` | none yet | public | backend | other |
