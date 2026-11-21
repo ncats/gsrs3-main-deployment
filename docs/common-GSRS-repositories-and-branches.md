@@ -1,7 +1,7 @@
 
 # Common GSRS repositories and branches
 
-**IMPORTANT NOTE**: As we create GSRS 3.3.0 we are changing our workflow. The short version is that we transitioned so that most all of our branches have a `master` branch where release-ready code will reside and a `development` branch where we will push new feature branches for the upcoming version. 
+**IMPORTANT NOTE**: As we create GSRS 3.3.0 we are changing our workflow. The short version is that we transitioned so that most all of our branches have a `master` branch where release-ready code will reside and a `development` branch where we will push new feature branches for the upcoming version.  Currently several modules still use name `starter` as the default branch.  In the near future those will be changed to `master`.
 
 People just wanting to install and run GSRS should use the [gsrs3-main-deployment](https://github.com/ncats/gsrs3-main-deployment).  When you run the services in the deployment, the Maven program will automatically download dependencies from Maven Central.   
 
@@ -39,12 +39,12 @@ Here is a list of common repositories with the default and development branch na
 | [gsrs-ci](https://github.com/ncats/gsrs-ci) | `master` | `development` | internal | backend | deployment |
 | [gsrs-spring-starter](https://github.com/ncats/gsrs-spring-starter) | `master` | `development` | public | backend | starter module |
 | [gsrs-spring-module-substances](https://github.com/ncats/gsrs-spring-module-substances) | `master` | `development` | public | backend | starter module |
-| [gsrs-spring-module-adverse-events](https://github.com/ncats/gsrs-spring-module-adverse-events) | `master` | `development` | public | backend | starter module |
-| [gsrs-spring-module-drug-applications](https://github.com/ncats/gsrs-spring-module-drug-applications) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-adverse-events](https://github.com/ncats/gsrs-spring-module-adverse-events) | `starter` | `development` | public | backend | starter module |
+| [gsrs-spring-module-drug-applications](https://github.com/ncats/gsrs-spring-module-drug-applications) | `starter` | `development` | public | backend | starter module |
 | [gsrs-spring-module-clinical-trials](https://github.com/ncats/gsrs-spring-module-clinical-trials) | `master` | `development` | public | backend | starter module |
-| [gsrs-spring-module-impurities](https://github.com/ncats/gsrs-spring-module-impurities) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-impurities](https://github.com/ncats/gsrs-spring-module-impurities) | `starter` | `development` | public | backend | starter module |
 | [gsrs-spring-module-invitro-pharmacology](https://github.com/ncats/gsrs-spring-module-invitro-pharmacology) | `master` | `development` | public | backend | starter module |
-| [gsrs-spring-module-drug-products](https://github.com/ncats/gsrs-spring-module-drug-products) | `master` | `development` | public | backend | starter module |
+| [gsrs-spring-module-drug-products](https://github.com/ncats/gsrs-spring-module-drug-products) | `starter` | `development` | public | backend | starter module |
 | [gsrs-spring-module-ssg4](https://github.com/ncats/gsrs-spring-module-ssg4) | `master` | `development` | public | backend | starter module |
 | [molwitch](https://github.com/ncats/molwitch) | `master` | `development` | public | backend | other |
 | [molwitch-cdk](https://github.com/ncats/molwitch-cdk) | `master` | none yet | public | backend | other |
